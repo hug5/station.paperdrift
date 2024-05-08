@@ -6,7 +6,7 @@ def start():
 
   @flap.route("/")
   def index():
-      return "<p>Hello2</p>"
+      return "<p>Hello3</p>"
 
   #@flap.route("/<arg>")
   #def subpath(arg):
