@@ -42,7 +42,7 @@ class Controller:
 
         self.jug = Flask(
             __name__,
-            template_folder="jug/html"
+            template_folder="html"
         )
 
 
@@ -54,6 +54,8 @@ class Controller:
             # from jug.control import domHtml
             # return domHtml.result
 
+
+            # from html import domHtml
             from ..html import domHtml
             result = domHtml.DomHtml().doHtml("Home")
             return result
