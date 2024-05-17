@@ -28,18 +28,20 @@
 #     return jug
 # jug = start()
 
-# from jug import init
+# from control import controller
 
 # # jug = controller.Controller().doRoute()
-# jug = init.doInit()
+# c = controller.Controller()
 
+# jug = c.doRoute()
 
 # from jug.html import domHtml
 
 # jug = domHtml.DomHtml.doHtml()
 
 
-
+# def doInit():
+#     return "init"
 
 
 #@jug.route("/<arg>")
@@ -49,23 +51,13 @@
 #@jug.route('/', defaults={'path1': ''})
 # if you also want to catch root; see URL Route Registrations
 
-# import os cwd = os.getcwd() to pwd within python
-
-
-
 from flask import Flask
 
 
 jug = Flask(
     __name__,
-    template_folder="html",
-    root_path="/home/h5/DATA/zData/Coding/Projects/webdev/paperdrift"
+    template_folder="html"
 )
-
-# root_path
-# template_folder
-# instance_path='/path/to/instance/folder'
-
 
 @jug.route("/")
 def home():
@@ -83,7 +75,4 @@ def home():
 @jug.route('/<path:url>')
 def pathUrl(url):
     return "<b>%s</b>" %url
-
-
-
 

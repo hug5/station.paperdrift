@@ -55,10 +55,10 @@ class Controller:
             # return domHtml.result
 
 
-            # from html import domHtml
-            from ..html import domHtml
-            result = domHtml.DomHtml().doHtml("Home")
-            return result
+            from html import domHtml
+            return "hello"
+            # result = domHtml.DomHtml().doHtml("Home")
+            # return result
 
 
         @self.jug.route('/<path:url>')
