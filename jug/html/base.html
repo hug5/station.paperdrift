@@ -1,3 +1,7 @@
+<!doctype html>
+<head></head>
+<html>
+<body>
 {#
 ##     <p>hello {{msg[0]}}</p>
 ##    <p>The weather is {{msg[1]}}</p>
@@ -6,10 +10,10 @@
 ##    <p>Who: {{ dog.name, dog.age, ##dog.location }}</p>
 ##    <p>Today is: {{dog.dayName}}, ##{{dog.now}}</p>
 ##    <p>My calculation: {{dog.mult(2)}}</p>
+{% include 'path_to_template_file' %}
 #}
-{% extends "base.html" %}
-{% block article %}
-<article>
-    <h3>Hello, World!</h3>
-</article>
-{% endblock %}
+      {% block article %}
+      {% endblock %}
+</body>
+      {%include "footer.html" %}
+</html>

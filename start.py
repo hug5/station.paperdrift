@@ -27,8 +27,12 @@
 
 #     return jug
 # jug = start()
+import sys
+sys.path.append("jug/html")
+sys.path.append("jug/control")
 
-from  jug.control import controller
+# from jug.control import controller
+import controller
 
 # jug = controller.Controller().doRoute()
 c = controller.Controller()

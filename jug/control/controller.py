@@ -33,6 +33,9 @@
 # if you also want to catch root; see URL Route Registrations
 
 from flask import Flask, render_template
+# from ..control import home
+# from ..control import gg
+import gf
 
 class Controller:
 
@@ -59,7 +62,9 @@ class Controller:
             # return render_template(result)
             #   # Doesn't work
 
-            return render_template("home.html")
+            return (gf.hesc("<p>helloss</p>"))
+
+            # return render_template("home.html")
 
 
         @self.jug.route('/<path:url>')
