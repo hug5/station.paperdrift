@@ -1,14 +1,20 @@
-{% extends "schemaHtml.j2" %}
-
+{% extends "baseHtml.j2" %}
+{% block header %}
+{{ header }}
+{% endblock %}
 {% block article %}
 <article>
-  <h3>Traversing to <u>{{path}}</u>.</h3>
+
+    <h3>Welcome to the beautiful city of {{path}}.</h3>
+    <h4>Population: {{population}} est.</h4>
+
 </article>
 {% endblock %}
 
 
 
 {# ------------------------------------------------------
+  <p>Rewind to <a href="/">Paperdrift.</a></p>
   <p>hello {{msg[0]}}</p>
   <p>The weather is {{msg[1]}}</p>
   <p>The mood today is {{msg[2]}}</p>

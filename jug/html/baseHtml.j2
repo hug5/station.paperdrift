@@ -2,9 +2,11 @@
 <head></head>
 <html>
 <body>
-  {%include "headerHtml.j2" %}
-
   <div id="pageDiv">
+
+    {# {% include "headerHtml.j2" %} #}
+    {% block header %}{% endblock %}
+
     <div id="mainDiv">
       <section id="contentSection">
         {% block article %}{% endblock %}
@@ -12,7 +14,7 @@
     </div>
   </div>
 
-  {%include "footerHtml.j2" %}
+  {% include "footerHtml.j2" %}
 
 </body>
 </html>
@@ -21,8 +23,10 @@
 
 
 
-
 {# --------------------------------------------
+
+  {% import "headerHtml.j2" as header %}
+  {{ header }}
   <p>hello {{msg[0]}}</p>
   <p>The weather is {{msg[1]}}</p>
   <p>The mood today is {{msg[2]}}</p>

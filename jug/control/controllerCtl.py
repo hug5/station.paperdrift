@@ -33,7 +33,7 @@
 # if you also want to catch root; see URL Route Registrations
 
 # from flask import Flask, render_template
-from flask import Flask
+from flask import Flask, redirect
 # from ..control import home
 # from ..control import gg
 # import gf
@@ -47,10 +47,17 @@ class ControllerCtl:
             template_folder="../html"
         )
 
+        self.article = ''
+        self.header = ''
+        self.footer = ''
 
-    def doStart(self):
-        self.doRoute()
-        return self.jug
+    def doHome(self):
+
+        pass
+
+    def doPath(self):
+        pass
+
 
     def doRoute(self):
 
@@ -87,7 +94,15 @@ class ControllerCtl:
             #     "path.j2",
             #     path=url
             # )
+            url2 = url.rstrip('/')
+            if url2 != url:
+                # 301 /url2
+                return redirect('/' + url2)
 
             from ..control import pathCtl
             obj = pathCtl.PathCtl(url)
             return obj.doStart()
+
+    def doStart(self):
+        self.doRoute()
+        return self.jug
