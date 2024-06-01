@@ -17,3 +17,8 @@ def hesc(str):
     return result
 
 
+def cd():
+    import os
+
+    cwd = os.getcwd()
+    print(cwd)
