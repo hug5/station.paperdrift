@@ -10,13 +10,12 @@ class HomeCtl:
 
         pop = gLib.getPop()
         # moon = gLib.getMoon()
-
-        headerHtml = render_template("headerHtml.j2")
+        # headerHtml = render_template("headerHtml.j2")
 
         return render_template(
             "homeHtml.j2",
             population=pop,
-            header = headerHtml
+            # header = headerHtml
             # code=moon
         )
         # return "<b>hello</b>"

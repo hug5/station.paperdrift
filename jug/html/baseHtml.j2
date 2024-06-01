@@ -3,19 +3,14 @@
 <html>
 <body>
   <div id="pageDiv">
-
-    {# {% include "headerHtml.j2" %} #}
     {% block header %}{% endblock %}
-
     <div id="mainDiv">
       <section id="contentSection">
         {% block article %}{% endblock %}
       </section>
     </div>
   </div>
-
-  {% include "footerHtml.j2" %}
-
+  {% block footer %}{% endblock %}
 </body>
 </html>
 
