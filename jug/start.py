@@ -73,20 +73,19 @@ obj = router.Router()
 
 
 jug = obj.doStart()
-# jug = c.doRoute()
 
 
 # Examples of starting flask:
-  # --app src/hello
   #
+  # --app src/hello
   #     Sets the current working directory to src then imports hello.
   # --app hello.web
-  #
   #     Imports the path hello.web.
+
   # --app hello:app2
-  #
   #     Uses the app2 Flask instance in hello.
+
   # --app 'hello:create_app("dev")'
-  #
   #     The create_app factory in hello is called with the string 'dev' as the argument.
   #
+

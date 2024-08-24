@@ -56,6 +56,9 @@ class Router():
         self.header = ''
         self.footer = ''
 
+        # self.doStart()
+        # return self.jug
+
     def doCommon(self):
         self.header = "header"
         self.footer = "footer"
@@ -144,3 +147,14 @@ class Router():
     def doStart(self):
         self.doRoute()
         return self.jug
+
+
+
+# from jug import router
+# obj = Router()
+# jug = obj.doStart()
+
+# jug = Router()
+
+jug = Router().doStart()
+
