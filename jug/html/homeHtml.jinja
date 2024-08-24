@@ -1,20 +1,25 @@
-{% extends "baseHtml.j2" %}
+{# {% extends "baseHtml.jinja" %}
+
 {% block header %}
 {{ header }}
 {% endblock %}
-{% block article %}
+
+{% block article %} #}
+
 <article>
-
-    <h3>Welcome to the beautiful city of {{path}}.</h3>
+    <h3>Welcome to Paperdrift.</h3>
     <h4>Population: {{population}} est.</h4>
-
+    <p><a href="/Sleepy City">Yawn to Sleepy City</a></p>
+    <p><a href="/Anchorage">Sled to Anchorage</a></p>
+    <p><a href="/Phoenix">Fly to Phoenix</a></p>
+    <p><a href="/Goleta">Surf to Goleta</a></p>
 </article>
-{% endblock %}
+
+{# {% endblock %} #}
 
 
 
 {# ------------------------------------------------------
-  <p>Rewind to <a href="/">Paperdrift.</a></p>
   <p>hello {{msg[0]}}</p>
   <p>The weather is {{msg[1]}}</p>
   <p>The mood today is {{msg[2]}}</p>

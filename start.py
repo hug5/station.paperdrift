@@ -41,23 +41,31 @@
   #@jug.route('/', defaults={'path1': ''})
   # if you also want to catch root; see URL Route Registrations
 
+  # -------------------------------------
 
+  # import sys
+  # sys.path.append("jug/html")
+  # sys.path.append("jug/control")
+  # import controller
+  # c = controller.Controller()
+    # This works
 
 #---------------------------------------------------
-
-# import sys
-# sys.path.append("jug/html")
-# sys.path.append("jug/control")
-# import controller
-# c = controller.Controller()
-  # This works
 
 
 # from jug.control.controller import Controller
 # c = Controller()
-from jug.control import controllerCtl
-obj = controllerCtl.ControllerCtl()
+
+#1
+# from jug.control import mainCtl
+# obj = mainCtl.MainCtl()
   # This works
+
+#2
+from jug import router
+obj = router.Router()
+
+
 
 # from jug.control import controller
 # c = controller.Controller()
@@ -66,3 +74,19 @@ obj = controllerCtl.ControllerCtl()
 
 jug = obj.doStart()
 # jug = c.doRoute()
+
+
+# Examples of starting flask:
+  # --app src/hello
+  #
+  #     Sets the current working directory to src then imports hello.
+  # --app hello.web
+  #
+  #     Imports the path hello.web.
+  # --app hello:app2
+  #
+  #     Uses the app2 Flask instance in hello.
+  # --app 'hello:create_app("dev")'
+  #
+  #     The create_app factory in hello is called with the string 'dev' as the argument.
+  #

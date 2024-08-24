@@ -1,5 +1,5 @@
 from flask import render_template
-from ..lib import gLib
+from jug.lib import gLib
 
 class HomeCtl:
 
@@ -10,10 +10,10 @@ class HomeCtl:
 
         pop = gLib.getPop()
         # moon = gLib.getMoon()
-        # headerHtml = render_template("headerHtml.j2")
+        # headerHtml = render_template("headerHtml.jinja")
 
         return render_template(
-            "homeHtml.j2",
+            "homeHtml.jinja",
             population=pop,
             # header = headerHtml
             # code=moon

@@ -1,36 +1,38 @@
+###
+  # def Controller():
 
-# def Controller():
-
-#     jug = Flask(
-#         __name__,
-#         template_folder="jug/html"
-#     )
-
-
-#     @jug.route("/")
-#     def home():
-#         # return "<p>Hello3</p>"
-#         from jug.control import home
-#         return home.result
+  #     jug = Flask(
+  #         __name__,
+  #         template_folder="jug/html"
+  #     )
 
 
-#     @jug.route('/<path:url>')
-#     def pathUrl(url):
-#         return "<b>%s</b>" %url
+  #     @jug.route("/")
+  #     def home():
+  #         # return "<p>Hello3</p>"
+  #         from jug.control import home
+  #         return home.result
 
 
-#     return jug
+  #     @jug.route('/<path:url>')
+  #     def pathUrl(url):
+  #         return "<b>%s</b>" %url
 
 
-# jug = Controller()
+  #     return jug
 
 
-# @jug.route("/<arg>")
-# def subpath(arg):
-#    return "<p>yahoo2 " + arg + "</p>"
+  # jug = Controller()
 
-# @jug.route('/', defaults={'path1': ''})
-# if you also want to catch root; see URL Route Registrations
+
+  # @jug.route("/<arg>")
+  # def subpath(arg):
+  #    return "<p>yahoo2 " + arg + "</p>"
+
+  # @jug.route('/', defaults={'path1': ''})
+  # if you also want to catch root; see URL Route Registrations
+
+#------------------------------------------------------
 
 # from flask import Flask, render_template
 from flask import Flask, render_template, redirect
@@ -38,7 +40,7 @@ from flask import Flask, render_template, redirect
 # from ..control import gg
 # import gf
 
-class ControllerCtl:
+class MainCtl:
 
     def __init__(self):
 
@@ -59,18 +61,19 @@ class ControllerCtl:
 
         self.doCommon()
 
-        from ..control import homeCtl
+        # from ..control import homeCtl
+        from jug.control import homeCtl
 
-        obj = homeCtl.HomeCtl()
-        # article_raw = obj.doStart()
-        self.article = obj.doStart()
+        O = homeCtl.HomeCtl()
+        # article_raw = O.doStart()
+        self.article = O.doStart()
 
         # article_raw = article_raw.replace('\n', '')
         # self.article = article_raw.replace('    ', '')
         # self.article = article_raw
 
         pageHtml = render_template(
-            "combineHtml.j2",
+            "combineHtml.jinja",
             header = self.header,
             footer = self.footer,
             article = self.article
@@ -102,7 +105,7 @@ class ControllerCtl:
             # return (gf.hesc("<p>hello xss</p>"))  # escape the string;
             # return ("<b>hello xss</b>")  # not escaped;
 
-            # return render_template("home.j2") # Calling jinja directly
+            # return render_template("home.jinja") # Calling jinja directly
 
             # from ..control.home import HomeController
             # c = HomeController()
@@ -113,7 +116,7 @@ class ControllerCtl:
         def pathUrl(url):
             # return "<b>%s</b>" %url
             # return render_template(
-            #     "path.j2",
+            #     "path.jinja",
             #     path=url
             # )
             url2 = url.rstrip('/')
@@ -122,8 +125,8 @@ class ControllerCtl:
                 return redirect('/' + url2)
 
             from ..control import pathCtl
-            obj = pathCtl.PathCtl(url)
-            return obj.doStart()
+            O = pathCtl.PathCtl(url)
+            return O.doStart()
 
     def doStart(self):
         self.doRoute()
