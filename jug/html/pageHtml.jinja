@@ -1,0 +1,9 @@
+{# Dynamic content here #}
+{#% block header %}{{ header }}{% endblock %#}
+{# {% block header %} {% include 'headerHtml.jinja' %} {% endblock %} #}
+
+
+{% extends "baseHtml.jinja" %}
+{% block footer %} {{ footer }} {% endblock %}
+{% block header %} {{ header }} {% endblock %}
+{% block article %} {{ article }} {% endblock %}

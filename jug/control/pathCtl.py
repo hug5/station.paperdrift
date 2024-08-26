@@ -11,12 +11,23 @@ class PathCtl:
 
         pop = gLib.getPop()
         # moon = gLib.getMoon()
-        headerHtml = render_template("headerHtml.jinja")
+
+        # headerHtml = render_template("headerHtml.jinja")
+
+        # return render_template(
+        #     "pathHtml.jinja",
+        #     path = self.url,
+        #     population = pop,
+        #     header = headerHtml
+        #     # code = moon
+        # )
+
+        # headerHtml = render_template("headerHtml.jinja")
 
         return render_template(
             "pathHtml.jinja",
             path = self.url,
             population = pop,
-            header = headerHtml
+            # header = headerHtml
             # code = moon
         )
