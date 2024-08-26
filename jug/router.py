@@ -40,11 +40,7 @@ from flask import Flask, \
                   redirect
 
 from jug.lib import gLib
-from jug.control import pathCtl
 
-# from ..control import home
-# from ..control import gg
-# import gf
 
 class Router():
 
@@ -59,33 +55,40 @@ class Router():
         self.header = ''
         self.footer = ''
 
-        # self.pageHtml = ''
+        self.logo = ''
+
+
+    def _start(self):
+        self.doRoute()
+        return self.jug
 
 
     def doCommon(self):
-        # self.header = "░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░"
-
         from jug.control import headerCtl
+        from jug.control import footerCtl
 
-        obj = headerCtl.HeaderCtl()
-        self.header = obj.doStart()
+        def doHeader():
+            obj = headerCtl.HeaderCtl()
+            self.header = obj.doStart()
 
+        def doFooter():
+            obj = footerCtl.FooterCtl()
+            self.footer = obj.doStart()
 
-        # self.header = "░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░"
-        self.footer = "░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░"
+        def doLogo():
+            self.logo = render_template(
+                "logo.jinja"
+            )
 
+        doHeader()
+        doFooter()
+        doLogo()
 
 
     def doHome(self):
-
-        # from jug.control import headerCtl
-
-        # obj = headerCtl.HeaderCtl()
-        # self.header = obj.doStart()
+        from jug.control import homeCtl
 
         self.doCommon()
-
-        from jug.control import homeCtl
 
         obj = homeCtl.HomeCtl()
         self.article = obj.doStart()
@@ -97,10 +100,11 @@ class Router():
             footer = self.footer,
         )
 
-        return gLib.stripJinjaWhiteSpace(pageHtml)
+        return gLib.stripJinjaWhiteSpace(pageHtml) + self.logo
 
 
     def doSomePathUrl(self, url):
+        from jug.control import pathCtl
 
         self.doCommon()
 
@@ -114,8 +118,7 @@ class Router():
             footer = self.footer,
         )
 
-
-        return gLib.stripJinjaWhiteSpace(pageHtml)
+        return gLib.stripJinjaWhiteSpace(pageHtml) + self.logo
 
 
     def doRoute(self):
@@ -134,34 +137,14 @@ class Router():
             return self.doSomePathUrl(url)
 
 
-    def doStart(self):
-        self.doRoute()
-        return self.jug
 
 
-
-
-# from jug import router
+# method 1
 # obj = Router()
-# jug = obj.doStart()
+# jug = obj._start()
 
-# jug = Router()
-
-jug = Router().doStart()
+# method 2
+jug = Router()._start()
   # Can just shorten to 1 line like this;
 
-
-# <style>
-# @import url('https://fonts.googleapis.com/css2?family=Moderustic:wght@300..800&display=swap');
-# </style>
-
-# // <uniquifier>: Use a unique and descriptive class name
-# // <weight>: Use a value from 300 to 800
-
-# .moderustic-<uniquifier> {
-#   font-family: "Moderustic", sans-serif;
-#   font-optical-sizing: auto;
-#   font-weight: <weight>;
-#   font-style: normal;
-# }
 

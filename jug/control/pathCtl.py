@@ -9,25 +9,58 @@ class PathCtl:
 
     def doStart(self):
 
-        pop = gLib.getPop()
-        # moon = gLib.getMoon()
+        import random
 
-        # headerHtml = render_template("headerHtml.jinja")
+        def getPop():
+            return gLib.getPop()
 
-        # return render_template(
-        #     "pathHtml.jinja",
-        #     path = self.url,
-        #     population = pop,
-        #     header = headerHtml
-        #     # code = moon
-        # )
+        def getAdj():
+            adjectives_list = [
+                "beautiful",
+                "bucolic",
+                "decrepit",
+                "dilapidated",
+                "perilous",
+                "friendly",
+                "tax-free",
+                "high-crime",
+                "sinking",
+                "modern",
+                "floating",
+                "youthful",
+                "abandoned",
+                "windy",
+                "rainy",
+                "snowy",
+                "humid",
+                "putrid",
+                "hilly"
+            ]
 
-        # headerHtml = render_template("headerHtml.jinja")
+            rnum = random.randint(0, len(adjectives_list)-1)
+            return adjectives_list[rnum]
+
+        def getPronoun():
+            pronouns_list = [
+                "hamlet",
+                "village",
+                "city",
+                "town",
+                "metropolis",
+                "settlement",
+                "borough",
+                "colony",
+                "district",
+                "community"
+            ]
+
+            return pronouns_list[random.randint(0, len(pronouns_list)-1)]
+
 
         return render_template(
             "pathHtml.jinja",
-            path = self.url,
-            population = pop,
-            # header = headerHtml
-            # code = moon
+            city = self.url,
+            population = getPop(),
+            adj = getAdj(),
+            pronoun = getPronoun(),
         )
