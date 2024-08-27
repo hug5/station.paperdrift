@@ -10,6 +10,7 @@ class HomeCtl():
     def doHome(self):
 
         pop = gLib.getPop()
+
         # moon = gLib.getMoon()
         # headerHtml = render_template("headerHtml.jinja")
 

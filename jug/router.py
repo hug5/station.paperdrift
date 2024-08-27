@@ -120,6 +120,23 @@ class Router():
 
         return gLib.stripJinjaWhiteSpace(pageHtml) + self.logo
 
+    def doCheckPath(self, url):
+
+        # If url path is any of these, then go home;
+        home_list = ["home", "paperdrift", "station paperdrift"]
+
+        url = url.lower()
+
+        # check for home or paperdrift in url; if so, go to root url;
+        url2 = url.rstrip('/')
+        if url2 in home_list: return "/"
+
+        # check that url ends in /
+        checkPath = gLib.checkPathSlash(url)
+        if checkPath != True: return checkPath
+
+        return True
+
 
     def doRoute(self):
 
@@ -132,8 +149,12 @@ class Router():
 
         @self.jug.route('/<path:url>')
         def somePathUrl(url):
-            result = gLib.checkPathSlash(url)
-            if result != True: return redirect(result, code=301)
+            # checkPath = gLib.checkPathSlash(url)
+            # if checkPath != True: return redirect(checkPath, code=301)
+              # Check for slash; If no ending / in url, then redirect to path with / suffix;
+            checkPath = self.doCheckPath(url)
+            if checkPath != True: return redirect(checkPath, code=301)
+
             return self.doSomePathUrl(url)
 
 
