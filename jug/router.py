@@ -58,11 +58,6 @@ class Router():
         self.logo = ''
 
 
-    def _start(self):
-        self.doRoute()
-        return self.jug
-
-
     def doCommon(self):
         from jug.control import headerCtl
         from jug.control import footerCtl
@@ -158,6 +153,9 @@ class Router():
             return self.doSomePathUrl(url)
 
 
+    def _start(self):
+        self.doRoute()
+        return self.jug
 
 
 # method 1

@@ -25,6 +25,7 @@ header h3{
   padding-left: 12px;
   padding-right: 12px;
   width: fit-content;
+  border:1px solid #BF6B17;
 }
 
 /* header h3 a{ */
@@ -93,6 +94,10 @@ footer{
     width: 200px;
     /* top-left | top-right | bottom-right | bottom-left */
     border-radius: 5px 0 0px 5px;
+}
+
+#destination_input:focus {
+    background-color:#FFF;
 }
 
 #submit_btn{
