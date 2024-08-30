@@ -46,9 +46,20 @@ class Router():
 
     def __init__(self):
 
+        # import os
+
+        # os.chdir("../html")
+        # print("xxxxxxxxxxxxxxxxxxxxxxxxxx")
+        # print(os.getcwd())
+        # os.chdir("/home/h5/DATA/zData/Coding/Projects/webdev/station.paperdrift/jug")
+        # print(os.getcwd())
+        # dir_html = os.getcwd() + "/jug/html"
+        dir_html = "../html"
+
         self.jug = Flask(
             __name__,
-            template_folder="html"
+            # template_folder="jug/html"
+            template_folder=dir_html
         )
 
         self.article = ''
@@ -59,25 +70,27 @@ class Router():
 
 
     def doCommon(self):
-        from jug.control import headerCtl
-        from jug.control import footerCtl
+        # from jug.control import headerCtl
+        # from jug.control import footerCtl
 
-        def doHeader():
-            obj = headerCtl.HeaderCtl()
-            self.header = obj.doStart()
+        # def doHeader():
+        #     obj = headerCtl.HeaderCtl()
+        #     self.header = obj.doStart()
 
-        def doFooter():
-            obj = footerCtl.FooterCtl()
-            self.footer = obj.doStart()
+        # def doFooter():
+        #     obj = footerCtl.FooterCtl()
+        #     self.footer = obj.doStart()
 
-        def doLogo():
-            self.logo = render_template(
-                "logo.jinja"
-            )
+        # def doLogo():
+        #     self.logo = render_template(
+        #         "logo.jinja"
+        #     )
 
-        doHeader()
-        doFooter()
-        doLogo()
+        # doHeader()
+        # doFooter()
+        # doLogo()
+
+        pass
 
 
     def doHome(self):
@@ -158,12 +171,14 @@ class Router():
         return self.jug
 
 
+
+## These below don't work even when it appears to!
 # method 1
 # obj = Router()
 # jug = obj._start()
 
 # method 2
-jug = Router()._start()
+# jug = Router()._start()
   # Can just shorten to 1 line like this;
 
 
