@@ -70,27 +70,26 @@ class Router():
 
 
     def doCommon(self):
-        # from jug.control import headerCtl
-        # from jug.control import footerCtl
+        from jug.control import headerCtl
+        from jug.control import footerCtl
 
-        # def doHeader():
-        #     obj = headerCtl.HeaderCtl()
-        #     self.header = obj.doStart()
+        def doHeader():
+            obj = headerCtl.HeaderCtl()
+            self.header = obj.doStart()
 
-        # def doFooter():
-        #     obj = footerCtl.FooterCtl()
-        #     self.footer = obj.doStart()
+        def doFooter():
+            obj = footerCtl.FooterCtl()
+            self.footer = obj.doStart()
 
-        # def doLogo():
-        #     self.logo = render_template(
-        #         "logo.jinja"
-        #     )
+        def doLogo():
+            self.logo = render_template(
+                "logo.jinja"
+            )
 
-        # doHeader()
-        # doFooter()
-        # doLogo()
-
-        pass
+        doHeader()
+        doFooter()
+        doLogo()
+        # pass
 
 
     def doHome(self):
