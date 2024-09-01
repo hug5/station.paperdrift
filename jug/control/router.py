@@ -91,9 +91,24 @@ class Router():
         doLogo()
         # pass
 
+    def doDb(self):
+        from jug.dbo import dbc
+
+        # dbc = False
+        obj = dbc.Dbc()
+        obj.doConnect()
+        result = obj.doQuery()
+
+        # print(dbc)
+
+        return result
+
+        # return gLib.hesc(dbc)
 
     def doHome(self):
         from jug.control import homeCtl
+
+        dbc = self.doDb()
 
         self.doCommon()
 
@@ -105,6 +120,7 @@ class Router():
             header = self.header,
             article = self.article,
             footer = self.footer,
+            db = dbc
         )
 
         return gLib.stripJinjaWhiteSpace(pageHtml) + self.logo
@@ -165,7 +181,9 @@ class Router():
             return self.doSomePathUrl(url)
 
 
+
     def _start(self):
+
         self.doRoute()
         return self.jug
 
