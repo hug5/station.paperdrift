@@ -56,7 +56,9 @@ class Dbc():
         self.doConnect()
 
         # query  = "SELECT * FROM ARTICLES $status_date ORDER BY DATETIME DESC LIMIT $start, $rows";
-        query  = "SELECT * FROM ARTICLES LIMIT 1"
+        # query  = "SELECT * FROM ARTICLES LIMIT 1"
+        # query  = "SELECT * FROM ARTICLES"
+        query  = "SELECT ARTICLENO, HEADLINE, BLURB FROM ARTICLES"
 
         curs = self.db.cursor()
 

@@ -1,5 +1,5 @@
 {# Scaffold content here #}
-{#
+{#-----------------------------------------------
   <style>
     body{
       font-family: "Moderustic", sans-serif;
@@ -16,13 +16,10 @@
   <title>{% block title %}{% endblock %}</title>
 
   <base href="https://station.paperdrift.com" />
-
-#}
+-------------------------------------------------#}
 
 <!doctype html>
 <head>
-
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=2"/>
   <meta name="keywords" content="Travel, leisure" />
@@ -35,26 +32,23 @@
   <link href="https://fonts.googleapis.com/css2?family=Moderustic:wght@300..800&display=swap" rel="stylesheet">
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
   <script src="/static/js/script.js"></script>
 
   <link rel="stylesheet" href="/static/css/style.css" type="text/css" />
 
-
 </head>
 <html>
 <body>
-
   <div id="pageDiv">
     {% block header %}{% endblock %}
     <div id="mainDiv">
       <section id="contentSection">
         {% block article %}{% endblock %}
       </section>
-      <section id="dbSection">
-        {% block db %}{% endblock %}
-      </section>
     </div>
     {% block footer %}{% endblock %}
+    {% block misc %}{% endblock %}
   </div>
 </body>
 </html>
@@ -63,7 +57,7 @@
 
 
 
-{# --------------------------------------------
+{# --------------------------------
 
   {% import "headerHtml.jinja" as header %}
   {{ header }}
@@ -76,4 +70,4 @@
   <p>My calculation: {{dog.mult(2)}}</p>
   {% include 'path_to_template_file' %}
 
------------------------------------------------ #}
+--------------------------------- #}

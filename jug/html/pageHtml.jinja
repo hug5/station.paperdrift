@@ -1,16 +1,56 @@
-{#
-# Dynamic content here
--------------------
+{#----------------------------------
+  # Dynamic content here
+  -------------------
 
-{% block header %}{{ header }}{% endblock %}
-{% block header %} {% include 'headerHtml.jinja' %} {% endblock %}
-{% block db %} {{ db }} {% endblock %}
+  {% block header %}{{ header }}{% endblock %}
+  {% block header %} {% include 'headerHtml.jinja' %} {% endblock %}
+  {% block db %} {{ db }} {% endblock %}
 
-#}
+  Use the unescape filter:
+  {{ user_input|unescape }}
+  <p>{{ db }}</p>
 
-<p>{{ db }}</p>
+  {% set x = 0 %}
+    <p>{{ x }}</p>
+    {% set x = x + 1 %}
+    <p>{{ i }}</p>
+
+
+  {% set x = [0] %}
+
+  {% for i in range(10) %}
+    {% set x[0] = 2 %}
+    <p>{{ x }}</p>
+
+  {% endfor %}
+
+  {% set x = 0 %}
+      {% set x = x + 1 %}
+      <p>{{ x }}</p>
+
+  {% include 'header.html' %}
+
+  {% include 'headHtml.jinja' %}
+
+------------------------------------#}
+
+
 {% extends "baseHtml.jinja" %}
+
 {% block header %} {{ header }} {% endblock %}
 {% block article %} {{ article }} {% endblock %}
 {% block footer %} {{ footer }} {% endblock %}
 
+{% block misc %}
+
+  {% for row in db %}
+      <span>{{  loop.index }} </span>
+      {% for field in row %}
+          <span>{{ field }} </span>
+      {% endfor %}
+      <br />
+  {% endfor %}
+
+{% endblock %}
+
+<p>something something</p>

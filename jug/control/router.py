@@ -92,18 +92,29 @@ class Router():
         # pass
 
     def doDb(self):
-        from jug.dbo import dbc
 
-        # dbc = False
-        obj = dbc.Dbc()
-        obj.doConnect()
-        result = obj.doQuery()
+        try:
+            from jug.dbo import dbc
 
-        # print(dbc)
+            # dbc = False
+            obj = dbc.Dbc()
+            obj.doConnect()
+            # result = obj.doQuery()[0][4]
+            result = obj.doQuery()
 
-        return result
+            # print(dbc)
 
-        # return gLib.hesc(dbc)
+            # result = ["there's something here", "and something there"]
+
+            # return "hello there's something here"
+
+            return result
+
+            # return gLib.hesc(dbc)
+        except Exception as e:
+            # print(f"Error committing transaction: {e}")
+            return [["bad connection", "No Database"]]
+
 
     def doHome(self):
         from jug.control import homeCtl
