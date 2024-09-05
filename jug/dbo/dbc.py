@@ -61,8 +61,12 @@ class Dbc():
         query  = "SELECT ARTICLENO, HEADLINE, BLURB FROM ARTICLES"
 
         curs = self.db.cursor()
+        curs.prepared = True
 
         result = curs.execute(query)
+        # The result itself doesn't seem to be iterable; have to put into list??
+
+        # return result
 
         arr = []
 

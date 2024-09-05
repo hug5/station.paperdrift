@@ -62,6 +62,8 @@ class Router():
             template_folder=dir_html
         )
 
+        # self.jug.debug = True
+
         self.article = ''
         self.header = ''
         self.footer = ''
