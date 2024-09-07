@@ -6,7 +6,6 @@ class Dbc():
     def __init__(self):
         # self.db
         self.pool = None
-        self.pool2 = None
         pass
 
 
@@ -33,7 +32,7 @@ class Dbc():
     def doQuery(self):
 
         # https://mariadb.com/docs/server/connect/programming-languages/python/example/
-        # gLib.uwsgi_log("---doQuery")
+        gLib.uwsgi_log("---doQuery")
         # self.doConnect()
           # Create connection pool;
 
@@ -43,39 +42,9 @@ class Dbc():
         # query = "SELECT * FROM ARTICLES"
         # query = "'SELECT first_name,last_name FROM employees WHERE first_name=?', (some_name,)"
 
-        # gLib.uwsgi_log("---get pool connection")
+        gLib.uwsgi_log("---get pool connection")
 
-        # pool = self.doConnect()
-
-
-        un = "inkon"
-        pw = "J##Dd*(r9TZYKh$%"
-        host = "localhost"   # default
-        port = 3306
-        database = "inkonDb"
-        autocommit = False
-
-        pool_name = "pool3"
-        pool_size = 20
-        pool_reset_connect = False
-        pool_valid_int = 250
-
-        pool = mariadb.ConnectionPool(
-            user = un,
-            password = pw,
-            # host = host,
-            port = port,
-            database = database,
-            # protocol = "SOCKET",
-            autocommit = autocommit,
-
-            pool_name=pool_name,
-            pool_size=pool_size,
-            pool_reset_connection = pool_reset_connect,
-            pool_validation_interval = pool_valid_int
-
-        )
-
+        self.doConnect()
 
         # if self.pool is None:
         #     gLib.uwsgi_log("---New Connect")
@@ -86,27 +55,26 @@ class Dbc():
         #     pool_connect = self.pool.get_connection()
 
 
-        # gLib.uwsgi_log("---here 1")
+        gLib.uwsgi_log("---here 1")
         try:
             # self.pool.connect()
-            # gLib.uwsgi_log("---here 2")
+            gLib.uwsgi_log("---here 2")
 
-            # pool_connect = self.pool.get_connection() ###
-            pool_connect = pool.get_connection() ###
+            pool_connect = self.pool.get_connection() ###
 
-            # gLib.uwsgi_log("---here 3")
+            gLib.uwsgi_log("---here 3")
 
         except mariadb.PoolError as e:
            gLib.uwsgi_log(f"---Error opening connection from pool: {e}")
 
         except Exception as e:
             gLib.uwsgi_log(f"---Error {e}")
-            # self.doConnect2()
-            # pool_connect = self.pool2.get_connection()
+            self.doConnect()
+            pool_connect = self.pool.get_connection()
 
 
 
-        # gLib.uwsgi_log("---here 4")
+        gLib.uwsgi_log("---here 4")
 
 
         # try:
@@ -136,7 +104,7 @@ class Dbc():
         curs = pool_connect.cursor()
 
         # https://mariadb-corporation.github.io/mariadb-connector-python/cursor.html
-        # curs.prepared = True
+        curs.prepared = True
           # Not sure if you really need this?
 
         # result = curs.execute(query)
@@ -172,65 +140,13 @@ class Dbc():
 
 
         # self.doDisconnect()
-        # pool_connect.close()
-        pool.close()
+        pool_connect.close()
         return resultList
 
 
 
     #def static function doConnect($sphinx = false) {
     def doConnect(self):
-
-        gLib.uwsgi_log("---Begin Connect")
-
-        # if self.pool:
-        #     gLib.uwsgi_log("---already connected")
-        #     return;
-
-
-        gLib.uwsgi_log("---Connecting")
-
-        un = "inkon"
-        pw = "J##Dd*(r9TZYKh$%"
-        host = "localhost"   # default
-        port = 3306
-        database = "inkonDb"
-        autocommit = False
-
-        pool_name = "pool_1"
-        pool_size = 20
-        pool_reset_connect = False
-        pool_valid_int = 250
-
-        try:
-
-            pool = mariadb.ConnectionPool(
-                user = un,
-                password = pw,
-                # host = host,
-                port = port,
-                database = database,
-                # protocol = "SOCKET",
-                autocommit = autocommit,
-
-                pool_name=pool_name,
-                pool_size=pool_size,
-                pool_reset_connection = pool_reset_connect,
-                pool_validation_interval = pool_valid_int
-
-            )
-
-
-        except mariadb.Error as e:
-            # print(f"Error connecting to mariadb: {e}")
-            return e
-
-        return pool
-        # finally:
-        #     gLib.uwsgi_log("---Connected")
-
-
-    def doConnect1(self):
 
         gLib.uwsgi_log("---Begin Connect")
 
@@ -278,44 +194,6 @@ class Dbc():
         finally:
             gLib.uwsgi_log("---Connected")
 
-    def doConnect2(self):
-
-        un = "inkon"
-        pw = "J##Dd*(r9TZYKh$%"
-        host = "localhost"   # default
-        port = 3306
-        database = "inkonDb"
-        autocommit = False
-
-        pool_name = "pool_2"
-        pool_size = 20
-        pool_reset_connect = False
-        pool_valid_int = 250
-
-        try:
-
-            self.pool2 = mariadb.ConnectionPool(
-                user = un,
-                password = pw,
-                # host = host,
-                port = port,
-                database = database,
-                # protocol = "SOCKET",
-                autocommit = autocommit,
-
-                pool_name=pool_name,
-                pool_size=pool_size,
-                pool_reset_connection = pool_reset_connect,
-                pool_validation_interval = pool_valid_int
-
-            )
-
-        except mariadb.Error as e:
-            # print(f"Error connecting to mariadb: {e}")
-            return e
-
-        finally:
-            gLib.uwsgi_log("---Connected")
 
 
 

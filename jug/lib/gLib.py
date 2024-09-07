@@ -4,6 +4,15 @@
 # from flask import redirect
 from markupsafe import Markup, escape
 import random
+import os
+
+
+def uwsgi_log(msg):
+
+    log_path = os.getcwd() + "/etc/log/uwsgi.log"
+    # os.system("echo " + msg + " >> " + log_path)
+    os.system(f"echo {msg} >> {log_path}")
+
 
 # escape("<script>alert(document.cookie);</script>")
 # Markup(u'&lt;script&gt;alert(document.cookie);&lt;/script&gt;')

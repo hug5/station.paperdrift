@@ -99,10 +99,16 @@ class Router():
             from jug.dbo import dbc
 
             # dbc = False
-            obj = dbc.Dbc()
-            obj.doConnect()
-            # result = obj.doQuery()[0][4]
-            result = obj.doQuery()
+            dbc_obj = dbc.Dbc()
+
+            # result = dbc_obj.doQuery()[0][4]
+            gLib.uwsgi_log("---#1 query")
+            result = dbc_obj.doQuery()
+            # gLib.uwsgi_log("---#2 query")
+            # result = dbc_obj.doQuery()
+            # gLib.uwsgi_log("---#3 query")
+            # result = dbc_obj.doQuery()
+
 
             # print(dbc)
 
@@ -115,13 +121,21 @@ class Router():
             # return gLib.hesc(dbc)
         except Exception as e:
             # print(f"Error committing transaction: {e}")
-            return [["bad connection", "No Database"]]
+            return [["bad db connection", e]]
+        finally:
+            # dbc_obj.doDisconnect()
+            pass
+
 
 
     def doHome(self):
         from jug.control import homeCtl
 
+        gLib.uwsgi_log("---doHome")
+
         dbc = self.doDb()
+
+        gLib.uwsgi_log("---post-dbc")
 
         self.doCommon()
 
