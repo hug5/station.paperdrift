@@ -104,10 +104,13 @@ class Router():
             # result = dbc_obj.doQuery()[0][4]
             gLib.uwsgi_log("---#1 query")
             result = dbc_obj.doQuery()
-            # gLib.uwsgi_log("---#2 query")
-            # result = dbc_obj.doQuery()
-            # gLib.uwsgi_log("---#3 query")
-            # result = dbc_obj.doQuery()
+            gLib.uwsgi_log("---#2 query")
+            result = dbc_obj.doQuery()
+            gLib.uwsgi_log("---#3 query")
+            result = dbc_obj.doQuery()
+
+            dbc_obj.doDisconnect()
+
 
 
             # print(dbc)
