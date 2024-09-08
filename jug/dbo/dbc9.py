@@ -38,42 +38,33 @@ class Dbc():
 
         gLib.uwsgi_log("---get pool connection")
         # Create connection pool;
-        # self.doConnect()
+        self.doConnect()
 
         gLib.uwsgi_log("---here 1")
         try:
             # self.pool.connect()
             gLib.uwsgi_log("---here 2")
 
-            # self.pool.add_connection()
             pool_connect = self.pool.get_connection() ###
 
 
         except mariadb.PoolError as e:
             gLib.uwsgi_log(f"---Error opening connection from pool: {e}")
-            self.pool.add_connection()
-            pool_connect = self.pool.get_connection() ###
-
-            # self.doDisconnect()
-            # self.doConnect()
-            # self.pool.add_connection()
-            # pool_connect = self.pool.get_connection()
+            self.doDisconnect()
+            self.doConnect()
+            pool_connect = self.pool.get_connection()
 
         except Exception as e:
             gLib.uwsgi_log(f"---Error {e}")
             self.doDisconnect()
             self.doConnect()
-            self.pool.add_connection()
             pool_connect = self.pool.get_connection()
-
 
 
         gLib.uwsgi_log("---here 3")
         # instantiate the cursor
         # curs = self.db.cursor()
         curs = pool_connect.cursor()
-
-        # pool_connect.begin()
 
         # https://mariadb-corporation.github.io/mariadb-connector-python/cursor.html
         # curs.prepared = True
@@ -88,9 +79,6 @@ class Dbc():
         # Run the query;
         query  = "SELECT ARTICLENO, HEADLINE, BLURB FROM ARTICLES"
         curs.execute(query)
-
-        # pool_connect.commit()
-        # pool_connect.rollback()
 
 
         resultList = []
@@ -118,38 +106,12 @@ class Dbc():
         gLib.uwsgi_log(f"---connection count: {cc}")
         gLib.uwsgi_log(f"---pool size: {ps}")
 
-
-        pool_connect.close()
-
-
-        cc = self.pool.connection_count
-        ps = self.pool.pool_size
-        gLib.uwsgi_log(f"---connection count2: {cc}")
-        gLib.uwsgi_log(f"---pool size2: {ps}")
-
         # for x in range(10000000):
         #     y = "hello"
 
         # self.doDisconnect()
         return resultList
 
-
-    def getConfig(self):
-
-        return {
-            "un" : "inkon",
-            "pw" : "J##Dd*(r9TZYKh$%",
-            "host" : "localhost",         # localhost is default
-            "port" : 3306,
-            "database" : "inkonDb",
-            "autocommit" : True,
-            "pool_name" : "pool_1",
-            "pool_size" : 64,             # The max should be 64
-            "pool_reset_connect" : False,
-            "pool_valid_int" : 500,       # 500 is default
-        }
-
-        # return config_dict
 
     def doConnect(self):
 
@@ -159,33 +121,39 @@ class Dbc():
         #     gLib.uwsgi_log("---Already Connected")
         #     return;
 
-        pool_conf = self.getConfig()
 
         gLib.uwsgi_log("---Connecting")
+            
+        un = "inkon"
+        pw = "J##Dd*(r9TZYKh$%"
+        host = "localhost"   # default
+        port = 3306
+        database = "inkonDb"
+        autocommit = True
+        
+        pool_name = "pool_1"
+        pool_size = 50
+        pool_reset_connect = False
+        pool_valid_int = 250
         
         try:
             gLib.uwsgi_log("---begin trying connect")
                 
             self.pool = mariadb.ConnectionPool(
-                pool_name = pool_conf["pool_name"],
-                pool_size = pool_conf["pool_size"],
-                pool_reset_connection = pool_conf["pool_reset_connect"],
-                pool_validation_interval = pool_conf["pool_valid_int"]
-            )
-            self.pool.set_config(
-                user = pool_conf["un"],
-                password = pool_conf["pw"],
+                user = un,
+                password = pw,
                 # host = host,
-                port = pool_conf["port"],
-                database = pool_conf["database"],
+                port = port,
+                database = database,
                 # protocol = "SOCKET",
-                autocommit = pool_conf["autocommit"],
-            )
+                autocommit = autocommit,
 
-            # Create an initial connection pool slot
-            # If we free up after every query, should be able to reuset his repeatedly and never exceed connection_count=1
-            # Might need more if there are simultaneous connections?
-            self.pool.add_connection()
+                pool_name=pool_name,
+                pool_size=pool_size,
+                pool_reset_connection = pool_reset_connect,
+                pool_validation_interval = pool_valid_int
+
+            )
 
             gLib.uwsgi_log("---end trying connect")
 

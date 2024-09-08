@@ -99,17 +99,25 @@ class Router():
             from jug.dbo import dbc
 
             # dbc = False
-            dbc_obj = dbc.Dbc()
+            dbo = dbc.Dbc()
+            dbo.doConnect()
 
-            # result = dbc_obj.doQuery()[0][4]
+            # result = dbo.doQuery()[0][4]
             gLib.uwsgi_log("---#1 query")
-            result = dbc_obj.doQuery()
+            result = dbo.doQuery()
             gLib.uwsgi_log("---#2 query")
-            result = dbc_obj.doQuery()
+            result = dbo.doQuery()
             gLib.uwsgi_log("---#3 query")
-            result = dbc_obj.doQuery()
+            result = dbo.doQuery()
+            gLib.uwsgi_log("---#4 query")
+            result = dbo.doQuery()
+            gLib.uwsgi_log("---#5 query")
+            result = dbo.doQuery()
+            gLib.uwsgi_log("---#6 query")
+            result = dbo.doQuery()
 
-            dbc_obj.doDisconnect()
+
+            dbo.doDisconnect()
 
 
 
