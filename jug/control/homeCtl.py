@@ -1,5 +1,6 @@
 from flask import render_template
 from jug.lib import gLib
+from jug.dbo import homeDb
 
 class HomeCtl():
 
@@ -10,17 +11,21 @@ class HomeCtl():
     def doHome(self):
 
         pop = gLib.getPop()
+        moon_phase = gLib.getMoon()  # returns list
 
-        # moon = gLib.getMoon()
-        # headerHtml = render_template("headerHtml.jinja")
+
+        obj = homeDb.HomeDb()
+        db_result = obj.doStart()
+
 
         return render_template(
             "homeHtml.jinja",
-            population=pop,
+            population = pop,
+            moon_phase = moon_phase,
+            db_result = db_result
             # header = headerHtml
             # code=moon
         )
-        # return "<b>hello</b>"
 
 
     def doStart(self):

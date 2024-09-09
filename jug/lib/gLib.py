@@ -88,7 +88,20 @@ def getPop():
 
 
 def getMoon():
-    moonArr = ['◐', '◑', '◒', '◓', '◔', '◕']
+    # moonArr = ['◐', '◑', '◒', '◓', '◔', '◕']
     # return moonArr[random.randrange(0, 6)]
-    return random.choice(moonArr)
+    # return random.choice(moonArr)
       # Return a random element from the non-empty sequence seq. If seq is empty, raises IndexError.
+
+    # random.randInt(0, 5)  # This returns from 0 to 5, including 5
+    # random.randrange(0,6) # This returns from 0 to 5, excludes 6
+
+    moonList_emoji = ['🌑', '🌒', '🌓', '🌔', '🌕', '🌖', '🌗']
+    moonList_str = ["New Moon", "Waxing Crescent Moon", "First Quarter Moon", "Waxing Gibbous Moon", "Full Moon", "Waning Gibbous Moon", "Last Quarter Moon"]
+    max = len(moonList_emoji)
+    rn = random.randrange(0, max)
+
+    # Return the emoji and text
+    return [moonList_emoji[rn], moonList_str[rn]]
+
+

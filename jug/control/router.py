@@ -39,6 +39,7 @@ from flask import Flask, \
                   render_template, \
                   redirect
 
+from jug.dbo import dbc
 from jug.lib import gLib
 
 
@@ -96,7 +97,6 @@ class Router():
     def doDb(self):
 
         try:
-            from jug.dbo import dbc
 
             # dbc = False
             dbo = dbc.Dbc()
@@ -117,16 +117,6 @@ class Router():
             result = dbo.doQuery()
 
 
-            dbo.doDisconnect()
-
-
-
-            # print(dbc)
-
-            # result = ["there's something here", "and something there"]
-
-            # return "hello there's something here"
-
             return result
 
             # return gLib.hesc(dbc)
@@ -134,7 +124,7 @@ class Router():
             # print(f"Error committing transaction: {e}")
             return [["bad db connection", e]]
         finally:
-            # dbc_obj.doDisconnect()
+            dbo.doDisconnect()
             pass
 
 
@@ -144,9 +134,8 @@ class Router():
 
         gLib.uwsgi_log("---doHome")
 
-        dbc = self.doDb()
-
-        gLib.uwsgi_log("---post-dbc")
+        # dbc = self.doDb()
+        # gLib.uwsgi_log("---post-dbc")
 
         self.doCommon()
 
@@ -158,7 +147,7 @@ class Router():
             header = self.header,
             article = self.article,
             footer = self.footer,
-            db = dbc
+            # db = dbc
         )
 
         return gLib.stripJinjaWhiteSpace(pageHtml) + self.logo

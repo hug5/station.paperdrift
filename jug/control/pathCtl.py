@@ -12,6 +12,10 @@ class PathCtl:
     def getPop(self):
         return gLib.getPop()
 
+
+    def getMoon(self):
+        return gLib.getMoon()
+
     def getAdjective(self):
         adjectives_list = [
             "beautiful",
@@ -101,6 +105,7 @@ class PathCtl:
             "pathHtml.jinja",
             city = self.url,
             population = self.getPop(),
+            moon_phase = self.getMoon(),
             adj = self.getAdjective(),
             famous = self.getFamousFor(),
             pronoun = self.getPronoun(),

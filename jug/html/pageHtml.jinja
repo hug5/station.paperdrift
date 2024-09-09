@@ -41,16 +41,21 @@
 {% block article %} {{ article }} {% endblock %}
 {% block footer %} {{ footer }} {% endblock %}
 
-{% block misc %}
 
-  {% for row in db %}
-      <span>{{  loop.index }} </span>
-      {% for field in row %}
-          <span>{{ field }} </span>
-      {% endfor %}
-      <br />
-  {% endfor %}
 
-{% endblock %}
 
-<p>something something</p>
+{#------------------------------
+
+  {% block misc %}
+
+    {% for row in db %}
+        <span>{{  loop.index }} </span>
+        {% for field in row %}
+            <span>{{ field }} </span>
+        {% endfor %}
+        <br />
+    {% endfor %}
+
+  {% endblock %}
+
+----------------------------------#}

@@ -24,10 +24,7 @@ class Dbc():
             self.pool.close()
             self.pool = None
             gLib.uwsgi_log("---Disconnected")
-
-
         # When to close connection??
-
 
 
     def doQuery(self):
@@ -65,7 +62,6 @@ class Dbc():
             self.doConnect()
             self.pool.add_connection()
             pool_connect = self.pool.get_connection()
-
 
 
         gLib.uwsgi_log("---here 3")
@@ -164,7 +160,7 @@ class Dbc():
         gLib.uwsgi_log("---Connecting")
         
         try:
-            gLib.uwsgi_log("---begin trying connect")
+            gLib.uwsgi_log("---begin try connect")
                 
             self.pool = mariadb.ConnectionPool(
                 pool_name = pool_conf["pool_name"],
@@ -187,7 +183,7 @@ class Dbc():
             # Might need more if there are simultaneous connections?
             self.pool.add_connection()
 
-            gLib.uwsgi_log("---end trying connect")
+            gLib.uwsgi_log("---end try connect")
 
         except mariadb.Error as e:
             # print(f"Error connecting to mariadb: {e}")
