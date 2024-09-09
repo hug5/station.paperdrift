@@ -3,7 +3,7 @@ logger = logging.getLogger(__name__)
 # logging.basicConfig(filename='etc/log/debug.log', level=logging.DEBUG)
 logging.basicConfig(
     filename='etc/log/debug.log',
-    encoding="utf-8",
+    encoding="utf-8",        # I'm getting a warning message?
     filemode="a",            # a is default
     level=logging.DEBUG,
     format="[{levelname}] {message} {module}:{lineno} ({asctime})",
