@@ -1,40 +1,18 @@
-###
-  # def Controller():
+import logging
+logger = logging.getLogger(__name__)
+# logging.basicConfig(filename='etc/log/debug.log', level=logging.DEBUG)
+logging.basicConfig(
+    filename='etc/log/debug.log',
+    encoding="utf-8",
+    filemode="a",            # a is default
+    level=logging.DEBUG,
+    format="[{levelname}] {message} {module}:{lineno} ({asctime})",
+    style="{",
+    datefmt="%Y-%m-%d %H:%M",
+)
 
-  #     jug = Flask(
-  #         __name__,
-  #         template_folder="jug/html"
-  #     )
+logger.info('Started')
 
-
-  #     @jug.route("/")
-  #     def home():
-  #         # return "<p>Hello3</p>"
-  #         from jug.control import home
-  #         return home.result
-
-
-  #     @jug.route('/<path:url>')
-  #     def pathUrl(url):
-  #         return "<b>%s</b>" %url
-
-
-  #     return jug
-
-
-  # jug = Controller()
-
-
-  # @jug.route("/<arg>")
-  # def subpath(arg):
-  #    return "<p>yahoo2 " + arg + "</p>"
-
-  # @jug.route('/', defaults={'path1': ''})
-  # if you also want to catch root; see URL Route Registrations
-
-#------------------------------------------------------
-
-# from flask import Flask, render_template
 from flask import Flask, \
                   render_template, \
                   redirect
@@ -46,6 +24,8 @@ from jug.lib import gLib
 class Router():
 
     def __init__(self):
+
+
 
         # import os
 
@@ -94,48 +74,50 @@ class Router():
         doLogo()
         # pass
 
-    def doDb(self):
+    # def doDb(self):
 
-        try:
+        # try:
 
-            # dbc = False
-            dbo = dbc.Dbc()
-            dbo.doConnect()
+        #     # dbc = False
+        #     dbo = dbc.Dbc()
+        #     dbo.doConnect()
 
-            # result = dbo.doQuery()[0][4]
-            gLib.uwsgi_log("---#1 query")
-            result = dbo.doQuery()
-            gLib.uwsgi_log("---#2 query")
-            result = dbo.doQuery()
-            gLib.uwsgi_log("---#3 query")
-            result = dbo.doQuery()
-            gLib.uwsgi_log("---#4 query")
-            result = dbo.doQuery()
-            gLib.uwsgi_log("---#5 query")
-            result = dbo.doQuery()
-            gLib.uwsgi_log("---#6 query")
-            result = dbo.doQuery()
+        #     # result = dbo.doQuery()[0][4]
+        #     gLib.uwsgi_log("#1 query")
+        #     result = dbo.doQuery()
+        #     gLib.uwsgi_log("#2 query")
+        #     result = dbo.doQuery()
+        #     gLib.uwsgi_log("#3 query")
+        #     result = dbo.doQuery()
+        #     gLib.uwsgi_log("#4 query")
+        #     result = dbo.doQuery()
+        #     gLib.uwsgi_log("#5 query")
+        #     result = dbo.doQuery()
+        #     gLib.uwsgi_log("#6 query")
+        #     result = dbo.doQuery()
 
 
-            return result
+        #     return result
 
-            # return gLib.hesc(dbc)
-        except Exception as e:
-            # print(f"Error committing transaction: {e}")
-            return [["bad db connection", e]]
-        finally:
-            dbo.doDisconnect()
-            pass
+        #     # return gLib.hesc(dbc)
+        # except Exception as e:
+        #     # print(f"Error committing transaction: {e}")
+        #     return [["bad db connection", e]]
+        # finally:
+        #     dbo.doDisconnect()
+        #     pass
 
 
 
     def doHome(self):
         from jug.control import homeCtl
 
-        gLib.uwsgi_log("---doHome")
+        logger.info('DoHome')
+
+        gLib.uwsgi_log("doHome")
 
         # dbc = self.doDb()
-        # gLib.uwsgi_log("---post-dbc")
+        # gLib.uwsgi_log("post-dbc")
 
         self.doCommon()
 
@@ -155,6 +137,8 @@ class Router():
 
     def doSomePathUrl(self, url):
         from jug.control import pathCtl
+
+        logger.info('DoSomePathUrl')
 
         self.doCommon()
 

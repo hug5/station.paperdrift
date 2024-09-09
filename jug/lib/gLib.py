@@ -9,9 +9,10 @@ import os
 
 def uwsgi_log(msg):
 
-    log_path = os.getcwd() + "/etc/log/uwsgi.log"
+    # log_path = os.getcwd() + "/etc/log/uwsgi.log"
+    log_path = os.getcwd() + "/etc/log/debug.log"
     # os.system("echo " + msg + " >> " + log_path)
-    os.system(f"echo {msg} >> {log_path}")
+    os.system(f"echo '--- {msg}' >> {log_path}")
 
 
 # escape("<script>alert(document.cookie);</script>")
@@ -98,10 +99,28 @@ def getMoon():
 
     moonList_emoji = ['🌑', '🌒', '🌓', '🌔', '🌕', '🌖', '🌗']
     moonList_str = ["New Moon", "Waxing Crescent Moon", "First Quarter Moon", "Waxing Gibbous Moon", "Full Moon", "Waning Gibbous Moon", "Last Quarter Moon"]
+
     max = len(moonList_emoji)
     rn = random.randrange(0, max)
 
     # Return the emoji and text
-    return [moonList_emoji[rn], moonList_str[rn]]
+    return [moonList_str[rn], moonList_emoji[rn]]
+
+
+    # moonDict = {
+    #     "New Moon": '🌑',
+    #     "Waxing Crescent Moon":'🌒',
+    #     "First Quarter Moon":'🌓',
+    #     "Waxing Gibbous Moon":'🌔',
+    #     "Full Moon":'🌕',
+    #     "Waning Gibbous Moon":'🌖',
+    #     "Last Quarter Moon":'🌗'
+    # }
+    # # randomly pop item from dictionary as a list;
+    # # Should return as: ["New Moon", "🌑"]
+
+    # moonList = moonDict.popitem()
+    # return moonList
+
 
 

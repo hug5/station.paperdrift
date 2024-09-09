@@ -1,5 +1,8 @@
-from jug.dbo import dbc
+import logging
+logger = logging.getLogger(__name__)
+
 import random
+from jug.dbo import dbc
 from jug.lib import gLib
 
 
@@ -12,34 +15,31 @@ class HomeDb():
     def doHomeDb(self):
 
         try:
-
-            # dbc = False
             dbo = dbc.Dbc()
             dbo.doConnect()
 
+            query  = "SELECT ARTICLENO, HEADLINE, BLURB FROM ARTICLES"
+
             # result = dbo.doQuery()[0][4]
-            gLib.uwsgi_log("---#1 query")
-            result = dbo.doQuery()
-            gLib.uwsgi_log("---#2 query")
-            result = dbo.doQuery()
-            gLib.uwsgi_log("---#3 query")
-            result = dbo.doQuery()
-            gLib.uwsgi_log("---#4 query")
-            result = dbo.doQuery()
-            gLib.uwsgi_log("---#5 query")
-            result = dbo.doQuery()
-            gLib.uwsgi_log("---#6 query")
+            logger.info('#1 query')
+            gLib.uwsgi_log("#1 query")
+            # print("---#1 query")
 
-            db_result = dbo.doQuery()
+            db_result = dbo.doQuery(query)
+            # gLib.uwsgi_log("---#2 query")
+            # db_result = dbo.doQuery(query)
+            # gLib.uwsgi_log("---#3 query")
+            # db_result = dbo.doQuery(query)
+            # gLib.uwsgi_log("---#4 query")
+            # db_result = dbo.doQuery(query)
+            # gLib.uwsgi_log("---#5 query")
+            # db_result = dbo.doQuery(query)
+            # gLib.uwsgi_log("---#6 query")
+            # db_result = dbo.doQuery(query)
 
-            max = len(db_result)
-            r_index = random.randrange(0, max)
-            result = db_result[r_index]
+            # r_index = random.randrange(len(db_result))
+            result = db_result[ random.randrange( len(db_result) ) ]
 
-            # result = db_result
-
-
-            # return gLib.hesc(dbc)
         except Exception as e:
             # print(f"Error committing transaction: {e}")
             return [["bad db connection", e]]
@@ -47,7 +47,7 @@ class HomeDb():
             dbo.doDisconnect()
             pass
 
-
+        logger.info('return result')
         return result
 
 

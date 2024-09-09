@@ -52,9 +52,9 @@ article h3 {
 
 article h4 {
   margin: 2px;
-/*   padding-bottom: 8px; */
-  /*   border-bottom: 1px dotted #6B6262; */
-  /*   width: fit-content; */
+}
+article h4:nth-child(3) {
+  color:#833232;
 }
 
 article section{
@@ -84,6 +84,9 @@ article p:hover{
   margin-top: 10px;
   margin-bottom: 15px;
   font-size: 16px;
+}
+#db_result b{
+  color: #464646;
 }
 
 footer{

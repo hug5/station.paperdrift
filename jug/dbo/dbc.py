@@ -18,36 +18,36 @@ class Dbc():
         # if self.db:
         #     self.db.close
             # self.db = False
-        gLib.uwsgi_log("---Disconnecting")
+        gLib.uwsgi_log("Disconnecting")
 
         if self.pool is not None:
             self.pool.close()
             self.pool = None
-            gLib.uwsgi_log("---Disconnected")
+            gLib.uwsgi_log("Disconnected")
         # When to close connection??
 
 
-    def doQuery(self):
+    def doQuery(self, query):
 
         # https://mariadb.com/docs/server/connect/programming-languages/python/example/
-        gLib.uwsgi_log("---Begin Query")
+        gLib.uwsgi_log("Begin Query")
 
 
-        gLib.uwsgi_log("---get pool connection")
+        gLib.uwsgi_log("get pool connection")
         # Create connection pool;
         # self.doConnect()
 
-        gLib.uwsgi_log("---here 1")
+        gLib.uwsgi_log("here 1")
         try:
             # self.pool.connect()
-            gLib.uwsgi_log("---here 2")
+            gLib.uwsgi_log("here 2")
 
             # self.pool.add_connection()
             pool_connect = self.pool.get_connection() ###
 
 
         except mariadb.PoolError as e:
-            gLib.uwsgi_log(f"---Error opening connection from pool: {e}")
+            gLib.uwsgi_log(f"Error opening connection from pool: {e}")
             self.pool.add_connection()
             pool_connect = self.pool.get_connection() ###
 
@@ -57,14 +57,14 @@ class Dbc():
             # pool_connect = self.pool.get_connection()
 
         except Exception as e:
-            gLib.uwsgi_log(f"---Error {e}")
+            gLib.uwsgi_log(f"Error {e}")
             self.doDisconnect()
             self.doConnect()
             self.pool.add_connection()
             pool_connect = self.pool.get_connection()
 
 
-        gLib.uwsgi_log("---here 3")
+        gLib.uwsgi_log("here 3")
         # instantiate the cursor
         # curs = self.db.cursor()
         curs = pool_connect.cursor()
@@ -79,10 +79,10 @@ class Dbc():
         # The result itself doesn't seem to be iterable; have to put into list??
         # I guess it doesn't really return anything??
 
-        gLib.uwsgi_log("---run query")
+        gLib.uwsgi_log("run query")
 
         # Run the query;
-        query  = "SELECT ARTICLENO, HEADLINE, BLURB FROM ARTICLES"
+        # query  = "SELECT ARTICLENO, HEADLINE, BLURB FROM ARTICLES"
         curs.execute(query)
 
         # pool_connect.commit()
@@ -111,17 +111,15 @@ class Dbc():
 
         cc = self.pool.connection_count
         ps = self.pool.pool_size
-        gLib.uwsgi_log(f"---connection count: {cc}")
-        gLib.uwsgi_log(f"---pool size: {ps}")
-
+        gLib.uwsgi_log(f"connection count: {cc}")
+        gLib.uwsgi_log(f"pool size: {ps}")
 
         pool_connect.close()
 
-
-        cc = self.pool.connection_count
-        ps = self.pool.pool_size
-        gLib.uwsgi_log(f"---connection count2: {cc}")
-        gLib.uwsgi_log(f"---pool size2: {ps}")
+        # cc = self.pool.connection_count
+        # ps = self.pool.pool_size
+        # gLib.uwsgi_log(f"connection count2: {cc}")
+        # gLib.uwsgi_log(f"pool size2: {ps}")
 
         # for x in range(10000000):
         #     y = "hello"
@@ -149,18 +147,18 @@ class Dbc():
 
     def doConnect(self):
 
-        gLib.uwsgi_log("---Begin Connect")
+        gLib.uwsgi_log("Begin Connect")
 
         # if self.pool is not None:
-        #     gLib.uwsgi_log("---Already Connected")
+        #     gLib.uwsgi_log("Already Connected")
         #     return;
 
         pool_conf = self.getConfig()
 
-        gLib.uwsgi_log("---Connecting")
+        gLib.uwsgi_log("Connecting")
         
         try:
-            gLib.uwsgi_log("---begin try connect")
+            gLib.uwsgi_log("begin try connect")
                 
             self.pool = mariadb.ConnectionPool(
                 pool_name = pool_conf["pool_name"],
@@ -183,12 +181,12 @@ class Dbc():
             # Might need more if there are simultaneous connections?
             self.pool.add_connection()
 
-            gLib.uwsgi_log("---end try connect")
+            gLib.uwsgi_log("end try connect")
 
         except mariadb.Error as e:
             # print(f"Error connecting to mariadb: {e}")
             return e
 
         finally:
-            gLib.uwsgi_log("---Connected")
+            gLib.uwsgi_log("Connected")
 
