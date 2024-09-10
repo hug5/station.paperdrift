@@ -22,7 +22,7 @@ class HomeDb():
 
             # result = dbo.doQuery()[0][4]
             logger.info('#1 query')
-            gLib.uwsgi_log("#1 query")
+            # gLib.uwsgi_log("#1 query")
             # print("---#1 query")
 
             db_result = dbo.doQuery(query)

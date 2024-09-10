@@ -1,17 +1,5 @@
-import logging
-logger = logging.getLogger(__name__)
-# logging.basicConfig(filename='etc/log/debug.log', level=logging.DEBUG)
-logging.basicConfig(
-    filename='etc/log/debug.log',
-    encoding="utf-8",        # I'm getting a warning message?
-    filemode="a",            # a is default
-    level=logging.DEBUG,
-    format="[{levelname}] {message} {module}:{lineno} ({asctime})",
-    style="{",
-    datefmt="%Y-%m-%d %H:%M",
-)
-
-logger.info('Started')
+from jug.lib.logger import logger
+  # need to import the logger variable;
 
 from flask import Flask, \
                   render_template, \
@@ -25,16 +13,6 @@ class Router():
 
     def __init__(self):
 
-
-
-        # import os
-
-        # os.chdir("../html")
-        # print("xxxxxxxxxxxxxxxxxxxxxxxxxx")
-        # print(os.getcwd())
-        # os.chdir("/home/h5/DATA/zData/Coding/Projects/webdev/station.paperdrift/jug")
-        # print(os.getcwd())
-        # dir_html = os.getcwd() + "/jug/html"
         dir_html = "../html"
 
         self.jug = Flask(
@@ -55,6 +33,8 @@ class Router():
     def doCommon(self):
         from jug.control import headerCtl
         from jug.control import footerCtl
+
+        logger.info('DoCommon')
 
         def doHeader():
             obj = headerCtl.HeaderCtl()
@@ -113,8 +93,7 @@ class Router():
         from jug.control import homeCtl
 
         logger.info('DoHome')
-
-        gLib.uwsgi_log("doHome")
+        # gLib.uwsgi_log("doHome")
 
         # dbc = self.doDb()
         # gLib.uwsgi_log("post-dbc")

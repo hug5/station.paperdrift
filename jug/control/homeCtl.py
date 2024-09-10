@@ -18,10 +18,12 @@ class HomeCtl():
         moon_phase = gLib.getMoon()  # returns list
 
         logger.info('Call HomeDb')
-        gLib.uwsgi_log("Call HomeDb")
+        # gLib.uwsgi_log("Call HomeDb")
 
         obj = homeDb.HomeDb()
         db_result = obj.doStart()
+
+
 
 
         return render_template(
