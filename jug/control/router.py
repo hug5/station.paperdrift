@@ -3,7 +3,8 @@ from jug.lib.logger import logger
 
 from flask import Flask, \
                   render_template, \
-                  redirect
+                  redirect, \
+                  request
 
 from jug.dbo import dbc
 from jug.lib import gLib
@@ -18,10 +19,10 @@ class Router():
         self.jug = Flask(
             __name__,
             # template_folder="jug/html"
-            template_folder=dir_html
+            template_folder=dir_html,
         )
 
-        # self.jug.debug = True
+        self.jug.debug = True
 
         self.article = ''
         self.header = ''
@@ -157,11 +158,29 @@ class Router():
 
         @self.jug.route("/")
         def home():
+
+            # ip_addr = request.remote_addr
+
+            # rpath = request.base_url
+            # rpath = request.full_path
+              # /foo/page.html?x=y
+            rpath = request.url
+              # http://www.example.com/myapplication/foo/page.html?x=y
+
+            logger.info("URL " + rpath)
+
             return self.doHome()
 
 
         @self.jug.route('/<path:url>')
         def somePathUrl(url):
+
+            # rpath = request.base_url
+
+            # rpath = request.full_path
+            rpath = request.url
+            logger.info("URL " + rpath)
+
             # checkPath = gLib.checkPathSlash(url)
             # if checkPath != True: return redirect(checkPath, code=301)
               # Check for slash; If no ending / in url, then redirect to path with / suffix;
@@ -170,6 +189,13 @@ class Router():
 
             return self.doSomePathUrl(url)
 
+      # path             /foo/page.html
+      # full_path        /foo/page.html?x=y
+      # script_root      /myapplication
+
+      # url_root         http://www.example.com/myapplication/
+      # base_url         http://www.example.com/myapplication/foo/page.html
+      # url              http://www.example.com/myapplication/foo/page.html?x=y
 
 
     def _start(self):
@@ -188,4 +214,8 @@ class Router():
 # jug = Router()._start()
   # Can just shorten to 1 line like this;
 
+# These 2 may be equivalent and allows for debug mode
+# $ flask --app hello run --debug
+# app.run(debug=True)
 
+# But how to do this on a running remote server running uwsgi?

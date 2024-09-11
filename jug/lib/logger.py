@@ -8,11 +8,12 @@ logging.basicConfig(
     level=logging.DEBUG,
     format="{levelname} : {message} | {module}:{lineno} | {asctime}",
     style="{",
-    datefmt="%Y-%m-%d %H:%M",
+    datefmt="%Y.%m.%d %H:%M:%S %p",
 )
 
 # init the logger variable
 logger = logging.getLogger(__name__)
+# In the router.py script, we import logger variable;
 
 # First logger print
 logger.info('======== logger started ========')
