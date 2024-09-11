@@ -1,5 +1,6 @@
-import logging
-logger = logging.getLogger(__name__)
+from jug.lib.logger import logger
+# import logging
+# logger = logging.getLogger(__name__)
 
 import random
 from jug.dbo import dbc
@@ -21,7 +22,7 @@ class HomeDb():
             query  = "SELECT ARTICLENO, HEADLINE, BLURB FROM ARTICLES"
 
             # result = dbo.doQuery()[0][4]
-            logger.info('#1 query')
+            # logger.info('#1 query')
             # gLib.uwsgi_log("#1 query")
             # print("---#1 query")
 
@@ -47,7 +48,7 @@ class HomeDb():
             dbo.doDisconnect()
             pass
 
-        logger.info('return result')
+        # logger.info('return result')
         return result
 
 

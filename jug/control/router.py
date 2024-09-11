@@ -1,4 +1,4 @@
-from jug.lib.logger import logger
+# from jug.lib.logger import logger
   # need to import the logger variable;
 
 from flask import Flask, \
@@ -8,6 +8,10 @@ from flask import Flask, \
 
 from jug.dbo import dbc
 from jug.lib import gLib
+
+# from json import dumps
+# from werkzeug.routing import Request
+
 
 
 class Router():
@@ -35,7 +39,7 @@ class Router():
         from jug.control import headerCtl
         from jug.control import footerCtl
 
-        logger.info('DoCommon')
+        self.jug.logger.info('DoCommon')
 
         def doHeader():
             obj = headerCtl.HeaderCtl()
@@ -93,7 +97,7 @@ class Router():
     def doHome(self):
         from jug.control import homeCtl
 
-        logger.info('DoHome')
+        self.jug.logger.info('DoHome')
         # gLib.uwsgi_log("doHome")
 
         # dbc = self.doDb()
@@ -118,7 +122,7 @@ class Router():
     def doSomePathUrl(self, url):
         from jug.control import pathCtl
 
-        logger.info('DoSomePathUrl')
+        self.jug.logger.info('DoSomePathUrl')
 
         self.doCommon()
 
@@ -136,50 +140,110 @@ class Router():
 
     def doCheckPath(self, url):
 
-        # If url path is any of these, then go home;
-        home_list = ["home", "paperdrift", "station paperdrift"]
+        # Doing this for aesthetic; don't want a path that is /home, /paperdrift or /station paperdrift
+        # Also check that all paths end with trailing slash;
 
-        url = url.lower()
+        checkPath = ''
+          # Dilemma: don't want to make this variable global;
+          # But also want to be able to use within local functions below;
+          # So declare here; and assign as nonlocal within local functions?
 
-        # check for home or paperdrift in url; if so, go to root url;
-        url2 = url.rstrip('/')
-        if url2 in home_list: return "/"
+        def check_path_url():
+            # Check for certain paths we ant to avoid; assign to home if so;
 
-        # check that url ends in /
-        checkPath = gLib.checkPathSlash(url)
-        if checkPath != True: return checkPath
+            nonlocal url  # avoid unbound variable error;
+
+            # If url path is any of these, then go home;
+            home_list = ["home", "paperdrift", "station paperdrift"]
+            url = url.lower()
+
+            # check for home or paperdrift in url; if so, go to root url;
+            url2 = url.rstrip('/')
+            # if url2 in home_list: return "/"
+            if url2 in home_list: return True
+            # Otherwise should return false implicitly
+
+
+        def check_trailing_slash():
+            # Check there is trailing slash in paths;
+            nonlocal url
+            nonlocal checkPath
+
+            # check that url ends in /
+            checkPath = gLib.checkPathSlash(url)
+            if checkPath != True: return checkPath
+            # Otherwise should return false implicitly
+
+
+        if check_path_url(): return "/"
+        if check_trailing_slash(): return checkPath
 
         return True
+
+    def doRequestUrl(self):
+
+        # rpath = request.environ['PATH_INFO']
+        # self.jug.logger.info("---URL PATH_INFO: " + rpath)
+        rpath = request.environ['QUERY_STRING']
+        self.jug.logger.info("---URL QUERY_STRING: " + rpath)
+
+        rpath = request.url_root
+        self.jug.logger.info("---URL url_root: " + rpath)
+          # root/host url only
+
+        # ip_addr = request.remote_addr
+        rpath = request.base_url
+        self.jug.logger.info("---URL base_url: " + rpath)
+            # result: http://www.example.com/myapplication/foo/page.html
+            # Excludes after ? query
+        rpath = request.url
+        self.jug.logger.info("---URL url: " + rpath)
+          # http://www.example.com/myapplication/foo/page.html?x=y
+          # Full url, including ? and arguments
+
+        rpath = request.full_path
+        self.jug.logger.info("---URL full_path: " + rpath)
+          # /foo/page.html?x=y
+          # full path excluding url root;
+
+        # Also:
+        # logger.debug, self.jug.logger.info, logger.warning, logger.error, logger.critical
+
+
+    def checkTrailingQuestion(self):
+
+        # check for /?/ and /??+ path (2 or more question marks);
+        ch_qmark = request.full_path
+        if ch_qmark == "/?/" or ch_qmark.find("/??") >= 0 :
+            return False # Not okay; redirect
+
+        return True # okay
 
 
     def doRoute(self):
 
         # self.doCommon()
+        @self.jug.before_request
+        def before_request_route():
+            # Shared logic to log the request before processing
+            # print(f"Request received: {request.method} {request.url}")
+            self.jug.logger.info("---route_common Yay!")
+            self.doRequestUrl()
+            if self.checkTrailingQuestion() == False:
+                rpath = request.base_url
+                return redirect(rpath, code=301)
+
 
         @self.jug.route("/")
         def home():
-
-            # ip_addr = request.remote_addr
-
-            # rpath = request.base_url
-            # rpath = request.full_path
-              # /foo/page.html?x=y
-            rpath = request.url
-              # http://www.example.com/myapplication/foo/page.html?x=y
-
-            logger.info("URL " + rpath)
-
             return self.doHome()
 
 
         @self.jug.route('/<path:url>')
         def somePathUrl(url):
 
-            # rpath = request.base_url
-
-            # rpath = request.full_path
-            rpath = request.url
-            logger.info("URL " + rpath)
+            # self.doRequestUrl()
+            # self.checkTrailingQuestion()
 
             # checkPath = gLib.checkPathSlash(url)
             # if checkPath != True: return redirect(checkPath, code=301)

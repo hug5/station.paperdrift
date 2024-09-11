@@ -1,4 +1,5 @@
 from jug.lib.logger import logger
+
 import mariadb
 from jug.lib import gLib
 
@@ -26,7 +27,7 @@ class Dbc():
             self.pool.close()
             self.pool = None
             # gLib.uwsgi_log("Disconnected")
-            logger.info('Disconnected')
+            # logger.info('Disconnected')
         # When to close connection??
 
 
@@ -34,7 +35,7 @@ class Dbc():
 
         # https://mariadb.com/docs/server/connect/programming-languages/python/example/
         # gLib.uwsgi_log("Begin Query")
-        logger.info('Begin Query')
+        logger.info('Begin Query + get pool connection')
 
 
         # gLib.uwsgi_log("get pool connection")
@@ -42,10 +43,10 @@ class Dbc():
         # Create connection pool;
         # self.doConnect()
 
-        logger.info("here 1")
+        # logger.info("here 1")
         try:
             # self.pool.connect()
-            logger.info("here 2")
+            # logger.info("here 2")
 
             # self.pool.add_connection()
             pool_connect = self.pool.get_connection() ###
@@ -62,7 +63,7 @@ class Dbc():
             # pool_connect = self.pool.get_connection()
 
         except Exception as e:
-            logger.info(f"Error {e}")
+            logger.error(f"Error {e}")
 
             self.doDisconnect()
             self.doConnect()
@@ -70,7 +71,7 @@ class Dbc():
             pool_connect = self.pool.get_connection()
 
 
-        logger.info("here 3")
+        # logger.info("here 3")
         # instantiate the cursor
         # curs = self.db.cursor()
         curs = pool_connect.cursor()
@@ -152,7 +153,7 @@ class Dbc():
 
     def doConnect(self):
 
-        logger.info("Begin Connect")
+        # logger.info("Begin Connect")
 
         # if self.pool is not None:
         #     gLib.uwsgi_log("Already Connected")
@@ -163,7 +164,7 @@ class Dbc():
         logger.info("Connecting")
         
         try:
-            logger.info("begin try connect")
+            # logger.info("begin try connect")
                 
             self.pool = mariadb.ConnectionPool(
                 pool_name = pool_conf["pool_name"],
@@ -186,7 +187,7 @@ class Dbc():
             # Might need more if there are simultaneous connections?
             self.pool.add_connection()
 
-            logger.info("end try connect")
+            # logger.info("end try connect")
 
         except mariadb.Error as e:
             # print(f"Error connecting to mariadb: {e}")
