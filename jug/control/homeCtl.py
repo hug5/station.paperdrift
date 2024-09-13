@@ -5,6 +5,7 @@
 from flask import render_template
 from jug.lib import gLib
 from jug.dbo import homeDb
+from jug.start import jug
 
 
 class HomeCtl():
@@ -18,7 +19,7 @@ class HomeCtl():
         pop = gLib.getPop()
         moon_phase = gLib.getMoon()  # returns list
 
-        self.jug.logger.info('Call HomeDb')
+        jug.logger.info('Call HomeDb')
         # gLib.uwsgi_log("Call HomeDb")
 
         obj = homeDb.HomeDb()
