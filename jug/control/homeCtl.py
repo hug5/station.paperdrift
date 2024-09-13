@@ -1,11 +1,11 @@
 # import logging
 # logger = logging.getLogger(__name__)
-# from jug.lib.logger import logger
+from jug.lib.logger import logger
 
 from flask import render_template
 from jug.lib import gLib
 from jug.dbo import homeDb
-from jug.start import jug
+# from jug.start import jug
 
 
 class HomeCtl():
@@ -19,7 +19,7 @@ class HomeCtl():
         pop = gLib.getPop()
         moon_phase = gLib.getMoon()  # returns list
 
-        jug.logger.info('Call HomeDb')
+        logger.info('Call HomeDb')
         # gLib.uwsgi_log("Call HomeDb")
 
         obj = homeDb.HomeDb()

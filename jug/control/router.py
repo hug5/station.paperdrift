@@ -1,4 +1,4 @@
-# from jug.lib.logger import logger
+from jug.lib.logger import logger
   # need to import the logger variable;
 
 from flask import Flask, \
@@ -9,9 +9,11 @@ from flask import Flask, \
 from jug.dbo import dbc
 from jug.lib import gLib
 
+# import json
 # from json import dumps
 # from werkzeug.routing import Request
-
+# from werkzeug.wrappers import Request, Response
+# from werkzeug.test import create_environ
 
 
 class Router():
@@ -26,7 +28,7 @@ class Router():
             template_folder=dir_html,
         )
 
-        self.jug.debug = True
+        # self.jug.debug = True
 
         self.article = ''
         self.header = ''
@@ -39,7 +41,7 @@ class Router():
         from jug.control import headerCtl
         from jug.control import footerCtl
 
-        self.jug.logger.info('DoCommon')
+        logger.info('DoCommon')
 
         def doHeader():
             obj = headerCtl.HeaderCtl()
@@ -97,7 +99,7 @@ class Router():
     def doHome(self):
         from jug.control import homeCtl
 
-        self.jug.logger.info('DoHome')
+        logger.info('DoHome')
         # gLib.uwsgi_log("doHome")
 
         # dbc = self.doDb()
@@ -122,7 +124,7 @@ class Router():
     def doSomePathUrl(self, url):
         from jug.control import pathCtl
 
-        self.jug.logger.info('DoSomePathUrl')
+        logger.info('DoSomePathUrl')
 
         self.doCommon()
 
@@ -182,32 +184,55 @@ class Router():
 
     def doRequestUrl(self):
 
-        # rpath = request.environ['PATH_INFO']
-        # self.jug.logger.info("---URL PATH_INFO: " + rpath)
-        rpath = request.environ['QUERY_STRING']
-        self.jug.logger.info("---URL QUERY_STRING: " + rpath)
+
+        # Assume this url:
+        # https://station.paperdrift.com/something/?a=b
+
 
         rpath = request.url_root
-        self.jug.logger.info("---URL url_root: " + rpath)
-          # root/host url only
+        logger.info("---URL url_root: " + rpath)
+          # https://station.paperdrift.com/
 
-        # ip_addr = request.remote_addr
         rpath = request.base_url
-        self.jug.logger.info("---URL base_url: " + rpath)
-            # result: http://www.example.com/myapplication/foo/page.html
-            # Excludes after ? query
+        logger.info("---URL base_url: " + rpath)
+            # https://station.paperdrift.com/something/
+
         rpath = request.url
-        self.jug.logger.info("---URL url: " + rpath)
-          # http://www.example.com/myapplication/foo/page.html?x=y
-          # Full url, including ? and arguments
+        logger.info("---URL url: " + rpath)
+          # https://station.paperdrift.com/something/?a=b
 
         rpath = request.full_path
-        self.jug.logger.info("---URL full_path: " + rpath)
-          # /foo/page.html?x=y
-          # full path excluding url root;
+        logger.info("---URL full_path: " + rpath)
+          # /something/?a=b
+          # /?   # will always have a ? on the index or other page ERRONESOUSLY;
+
+        rpath = request.environ['PATH_INFO']
+        logger.info("---URL PATH_INFO: " + rpath)
+            # /something/
+
+        rpath = request.environ['QUERY_STRING']
+        logger.info("---URL QUERY_STRING: " + rpath)
+          # a=b
+
+        # These below give me the same IP address
+        # rpath = request.remote_addr
+        # logger.info("---Remote Address: " + rpath)
+          # 84.239.5.141
+        rpath = request.environ['REMOTE_ADDR']
+        logger.info("---Remote Address2: " + rpath)
+          # 84.239.5.141
+
+
+        # This gives us the TRUE RAW uri; ? and // are always shown
+        rpath = request.environ["REQUEST_URI"]
+        logger.info("---uri: " + rpath)
+          # /something/?a=b
+
+        # print everything; check uwsgi_log
+        # print(request.environ)
 
         # Also:
-        # logger.debug, self.jug.logger.info, logger.warning, logger.error, logger.critical
+        # logger.debug, logger.info, logger.warning, logger.error, logger.critical
 
 
     def checkTrailingQuestion(self):
@@ -227,7 +252,7 @@ class Router():
         def before_request_route():
             # Shared logic to log the request before processing
             # print(f"Request received: {request.method} {request.url}")
-            self.jug.logger.info("---route_common Yay!")
+            logger.info("---route_common Yay!")
             self.doRequestUrl()
             if self.checkTrailingQuestion() == False:
                 rpath = request.base_url
