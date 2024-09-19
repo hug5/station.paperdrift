@@ -6,7 +6,7 @@ from flask import Flask, \
                   redirect, \
                   request
 
-from jug.dbo import dbc
+# from jug.dbo import dbc
 from jug.lib import gLib
 
 # import json
@@ -162,7 +162,8 @@ class Router():
             # check for home or paperdrift in url; if so, go to root url;
             url2 = url.rstrip('/')
             # if url2 in home_list: return "/"
-            if url2 in home_list: return True
+            if url2 in home_list:
+                return True
             # Otherwise should return false implicitly
 
 
@@ -173,12 +174,16 @@ class Router():
 
             # check that url ends in /
             checkPath = gLib.checkPathSlash(url)
-            if checkPath != True: return checkPath
+            # if checkPath != True: return checkPath
+            if not checkPath:
+                return checkPath
             # Otherwise should return false implicitly
 
 
-        if check_path_url(): return "/"
-        if check_trailing_slash(): return checkPath
+        if check_path_url():
+            return "/"
+        if check_trailing_slash():
+            return checkPath
 
         return True
 
@@ -253,15 +258,19 @@ class Router():
             # Shared logic to log the request before processing
             # print(f"Request received: {request.method} {request.url}")
             logger.info("---route_common Yay!")
+            # logger.error("---UH")
             self.doRequestUrl()
-            if self.checkTrailingQuestion() == False:
+            # if self.checkTrailingQuestion() == False:
+            if not self.checkTrailingQuestion():
                 rpath = request.base_url
                 return redirect(rpath, code=301)
 
 
         @self.jug.route("/")
         def home():
+            logger.info("---in home")
             return self.doHome()
+
 
 
         @self.jug.route('/<path:url>')
@@ -274,7 +283,9 @@ class Router():
             # if checkPath != True: return redirect(checkPath, code=301)
               # Check for slash; If no ending / in url, then redirect to path with / suffix;
             checkPath = self.doCheckPath(url)
-            if checkPath != True: return redirect(checkPath, code=301)
+            # if checkPath != True: return redirect(checkPath, code=301)
+            if not checkPath:
+                return redirect(checkPath, code=301)
 
             return self.doSomePathUrl(url)
 
@@ -308,3 +319,4 @@ class Router():
 # app.run(debug=True)
 
 # But how to do this on a running remote server running uwsgi?
+

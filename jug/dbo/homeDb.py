@@ -1,10 +1,10 @@
-from jug.lib.logger import logger
+# from jug.lib.logger import logger
 # import logging
 # logger = logging.getLogger(__name__)
 
 import random
 from jug.dbo import dbc
-from jug.lib import gLib
+# from jug.lib import gLib
 
 
 class HomeDb():

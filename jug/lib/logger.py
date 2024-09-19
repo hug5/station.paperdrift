@@ -34,16 +34,17 @@ from logging.config import dictConfig
 dictConfig({
     'version': 1,
     'formatters': {
-        'format1': {
+
+        'formatter1': {
           "format": "{levelname} : {message} | {module}:{lineno} | {asctime}",
           "style": "{"
-          # For this style, but denote the style;
+          # For this style {, must denote the style;
         },
-        'format2': {
+        'formatter2': {
           # 'format': '%(levelname)s : %(message)s | %(module)s:%(lineno)s | %(asctime)s',
           'format': '[%(asctime)s] %(levelname)s in %(module)s: %(message)s',
           # "style": "%"
-          # For this style, appears to be optional
+          # For this % format, style appears to be optional
         }
         # The options for style are "%", "$", or "{".
 
@@ -53,17 +54,17 @@ dictConfig({
         "console": {
             "class": "logging.StreamHandler",
             "stream": "ext://sys.stdout",
-            "formatter": "format1",
+            "formatter": "formatter1",
         },
         "console2": {
             "class": "logging.StreamHandler",
             "stream": "ext://sys.stdout",
-            "formatter": "format1",
+            "formatter": "formatter1",
         },
         "file": {
             "class": "logging.FileHandler",
             "filename": "etc/log/debug.log",
-            "formatter": "format1",
+            "formatter": "formatter1",
         },
     },
 
@@ -71,15 +72,15 @@ dictConfig({
         "level": "DEBUG",
         "handlers": [
             "console",
-            "file"
+            #"file"
         ]
     },
 
     "loggers": {
-        "logger": {
+        "logger1": {
             "level": "DEBUG",
             "handlers": [
-                "console",
+                # "console",
                 "file"
             ],
             "propagate": False,
@@ -94,7 +95,11 @@ dictConfig({
 })
 
 root = logging.getLogger("root")
-logger = logging.getLogger("extra")
+logger = logging.getLogger("logger1")
 
-logger.info('======== extra logger started ========')
 root.info('======== root logger started ========')
+logger.info('======== logger started ========')
+
+# Console sends to uwsgi log;
+
+# file won't send to uwsgi log;

@@ -1,7 +1,7 @@
 from jug.lib.logger import logger
 
 import mariadb
-from jug.lib import gLib
+# from jug.lib import gLib
 
 class Dbc():
 
@@ -12,7 +12,8 @@ class Dbc():
 
 
     def commit_transaction(self):
-        self.db.commit()
+        # self.db.commit()
+        pass
 
 
     def doDisconnect(self):

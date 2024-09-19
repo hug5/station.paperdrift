@@ -2,7 +2,8 @@
 # from flask import flask
 # import html
 # from flask import redirect
-from markupsafe import Markup, escape
+# from markupsafe import Markup, escape
+from markupsafe import escape
 import random
 import os
 
