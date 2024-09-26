@@ -96,27 +96,27 @@ class Dbc():
         # pool_connect.commit()
         # pool_connect.rollback()
 
-        ##########
-                # resultList = []
+        ###
+          # resultList = []
 
-                # # Prepare result:
+          # # Prepare result:
 
-                # # Method 1
-                # # for (ARTICLENO, HEADLINE, BLURB) in cur:
-                # #     resultList.append(f"{first_name} {last_name} <{email}>")
+          # # Method 1
+          # # for (ARTICLENO, HEADLINE, BLURB) in cur:
+          # #     resultList.append(f"{first_name} {last_name} <{email}>")
 
-                #     # This should put everything in a list as a single string;
-                #     # Could also use this method to create a dictionary; with the field name as the index;
+          #     # This should put everything in a list as a single string;
+          #     # Could also use this method to create a dictionary; with the field name as the index;
 
-                # # Method 2
-                # for row in curs:
-                #     # arr.append(f"{row}")  # This would probably be like above;
-                #     resultList.append(row)
-                #     # This should create multidimensional list;
-                #     # Each field is a separate list item;
+          # # Method 2
+          # for row in curs:
+          #     # arr.append(f"{row}")  # This would probably be like above;
+          #     resultList.append(row)
+          #     # This should create multidimensional list;
+          #     # Each field is a separate list item;
 
-                # # for (first_name, last_name) in cur:
-                # #     print(f"First Name: {first_name}, Last Name: {last_name}")
+          # # for (first_name, last_name) in cur:
+          # #     print(f"First Name: {first_name}, Last Name: {last_name}")
 
 
         cc = self.pool.connection_count
@@ -125,17 +125,18 @@ class Dbc():
 
         pool_connect.close()
 
-                # # cc = self.pool.connection_count
-                # # ps = self.pool.pool_size
-                # # gLib.uwsgi_log(f"connection count2: {cc}")
-                # # gLib.uwsgi_log(f"pool size2: {ps}")
+        ###
+          # # cc = self.pool.connection_count
+          # # ps = self.pool.pool_size
+          # # gLib.uwsgi_log(f"connection count2: {cc}")
+          # # gLib.uwsgi_log(f"pool size2: {ps}")
 
-                # # for x in range(10000000):
-                # #     y = "hello"
+          # # for x in range(10000000):
+          # #     y = "hello"
 
-                # logger.info(f"resultList: {resultList}")
-                # # self.doDisconnect()
-                # return resultList
+          # logger.info(f"resultList: {resultList}")
+          # # self.doDisconnect()
+          # return resultList
 
 
         return curs
@@ -143,21 +144,30 @@ class Dbc():
     def getConfig(self):
 
         return {
-            "un" : "inkon",
-            "pw" : "J##Dd*(r9TZYKh$%",
-            "host" : "localhost",         # localhost is default
-            "port" : 3306,
-            "database" : "inkonDb",
-            "autocommit" : True,
-            "pool_name" : "pool_1",
-            "pool_size" : 64,             # The max should be 64
+            "un"                 : "inkon",
+            "pw"                 : "J##Dd*(r9TZYKh$%",
+            "host"               : "localhost",    # localhost is default
+            "port"               : 3306,
+            "database"           : "inkonDb",
+            "autocommit"         : True,
+            "pool_name"          : "pool_1",
+            "pool_size"          : 64,             # The max should be 64
             "pool_reset_connect" : False,
-            "pool_valid_int" : 500,       # 500 is default
+            "pool_valid_int"     : 500,       # 500 is default
         }
 
         # return config_dict
 
     def doConnect(self):
+
+        '''
+          I am still not convinced about this whole pool things;
+          I don't see the benefits in this; even if there is a marginal
+          benefit, it's going to be very very tiny, I suspect; and not
+          worth the trouble we're seeing here;
+
+        '''
+
 
         # logger.info("Begin Connect")
 
