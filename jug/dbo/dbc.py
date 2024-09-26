@@ -96,25 +96,27 @@ class Dbc():
         # pool_connect.commit()
         # pool_connect.rollback()
 
+        ##########
+                # resultList = []
 
-        resultList = []
+                # # Prepare result:
 
-        # Prepare result:
+                # # Method 1
+                # # for (ARTICLENO, HEADLINE, BLURB) in cur:
+                # #     resultList.append(f"{first_name} {last_name} <{email}>")
 
-        # Method 1
-        # for (ARTICLENO, HEADLINE, BLURB) in cur:
-        #     resultList.append(f"{first_name} {last_name} <{email}>")
+                #     # This should put everything in a list as a single string;
+                #     # Could also use this method to create a dictionary; with the field name as the index;
 
-            # This should put everything in a list as a single string;
-            # Could also use this method to create a dictionary; with the field name as the index;
+                # # Method 2
+                # for row in curs:
+                #     # arr.append(f"{row}")  # This would probably be like above;
+                #     resultList.append(row)
+                #     # This should create multidimensional list;
+                #     # Each field is a separate list item;
 
-        # Method 2
-        for row in curs:
-            # arr.append(f"{row}")  # This would probably be like above;
-            resultList.append(row)
-            # This should create multidimensional list;
-            # Each field is a separate list item;
-
+                # # for (first_name, last_name) in cur:
+                # #     print(f"First Name: {first_name}, Last Name: {last_name}")
 
 
         cc = self.pool.connection_count
@@ -123,17 +125,20 @@ class Dbc():
 
         pool_connect.close()
 
-        # cc = self.pool.connection_count
-        # ps = self.pool.pool_size
-        # gLib.uwsgi_log(f"connection count2: {cc}")
-        # gLib.uwsgi_log(f"pool size2: {ps}")
+                # # cc = self.pool.connection_count
+                # # ps = self.pool.pool_size
+                # # gLib.uwsgi_log(f"connection count2: {cc}")
+                # # gLib.uwsgi_log(f"pool size2: {ps}")
 
-        # for x in range(10000000):
-        #     y = "hello"
+                # # for x in range(10000000):
+                # #     y = "hello"
 
-        # self.doDisconnect()
-        return resultList
+                # logger.info(f"resultList: {resultList}")
+                # # self.doDisconnect()
+                # return resultList
 
+
+        return curs
 
     def getConfig(self):
 
