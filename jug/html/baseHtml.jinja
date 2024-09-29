@@ -40,16 +40,16 @@
 </head>
 <html>
 <body>
-  <div id="pageDiv">
-    {% block header %}{% endblock %}
-    <div id="mainDiv">
-      <section id="contentSection">
-        {% block article %}{% endblock %}
-      </section>
+    <div id="pageDiv">
+        {% block header %}{% endblock %}
+        <div id="mainDiv">
+            <section id="contentSection">
+                {% block article %}{% endblock %}
+            </section>
+        </div>
+        {% block footer %}{% endblock %}
+        {% block misc %}{% endblock %}
     </div>
-    {% block footer %}{% endblock %}
-    {% block misc %}{% endblock %}
-  </div>
 </body>
 </html>
 

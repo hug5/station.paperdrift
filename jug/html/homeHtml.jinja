@@ -63,10 +63,13 @@
       <p><a href="/shanghai/">Abscond to Shanghai</a></p>
     </section>
 
+    <div id="news_result">
+      <span><b>BREAKING NEWS :</b></span>
+      {% for result in news_result %}
+        <span>{{ result }}</span>
+      {% endfor %}
+    </div>
+
 </article>
 
-<div id="db_result">
-  <span><b>BREAKING NEWS : </b></span>
-  <span>{{ db_result }}</span>
-</div>
 

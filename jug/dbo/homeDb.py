@@ -139,7 +139,8 @@ class HomeDb():
             pass
 
         # logger.info('return result')
-        return db_result
+        return [db_result]
+            # return as list, not string; will combine with other news list later;
 
 
     def doStart(self):

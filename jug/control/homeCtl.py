@@ -5,8 +5,9 @@ from jug.lib.logger import logger
 from flask import render_template
 from jug.lib import gLib
 from jug.dbo import homeDb
+from jug.control import reqsCtl
 # from jug.start import jug
-
+import random
 
 class HomeCtl():
 
@@ -22,15 +23,27 @@ class HomeCtl():
         logger.info('Call HomeDb')
         # gLib.uwsgi_log("Call HomeDb")
 
-        obj = homeDb.HomeDb()
-        db_result = obj.doStart()
+        h_obj = homeDb.HomeDb()
+        result_list = h_obj.doStart()
+        logger.info(f'reqs: {result_list}')
 
+        r_obj = reqsCtl.ReqsCtl()
+        result_list2 = r_obj.get_yahoo_news()[0]
+        # returning multiarray;
+        # first is the headline; 2nd the link;
+
+        news_list = result_list2 + result_list
+
+        random.shuffle(news_list)
+
+        logger.info(f'reqs: {news_list}')
 
         return render_template(
             "homeHtml.jinja",
             population = pop,
             moon_phase = moon_phase,
-            db_result = db_result
+            # db_result = db_result,
+            news_result = news_list
             # header = headerHtml
             # code=moon
         )

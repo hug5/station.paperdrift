@@ -12,6 +12,9 @@ body{
 #pageDiv{
   margin: 10px;
   margin-top: 0;
+/*   width: 520px; */
+  max-width: 520px;
+/*   border: 1px solid #D43F3F;  */
 }
 
 header{
@@ -37,7 +40,7 @@ a:visited{
 
 article {
   border: 0px solid;
-  max-width: 520px;
+  max-width: inherit;
   overflow: hidden;
   border-top:  1px solid #9A9A9A;
   border-bottom:  1px solid #9A9A9A;
@@ -59,7 +62,17 @@ article h4:nth-child(3) {
 
 article section{
   border-top:  1px solid #9A9A9A;
+  border-bottom:  1px solid #9A9A9A;
+  overflow: hidden;
   margin-top: 15px;
+
+  padding-bottom: 15px;
+
+}
+article section h4{
+  margin-top: 10px;
+  margin-bottom: -5px;
+/*   border: 1px solid #000; */
 
 }
 article section p{
@@ -80,17 +93,65 @@ article p:hover{
 
 }
 
-#db_result{
+#news_result{
   margin-top: 10px;
   margin-bottom: 15px;
   font-size: 16px;
-}
-#db_result b{
-  color: #464646;
+  margin-left: 10px;
 }
 
+#news_result span{
+   line-height: 1.5rem;
+   margin-left: 10px;
+   float: left;
+
+   /*
+   background-color: #F7F7F7;
+   border: 1px solid #B34848;
+   margin-bottom: 5px;
+   display: inline-block;
+   float: left;
+   */
+}
+#news_result span:nth-child(2){
+   float: none;
+}
+#news_result span:first-child{
+   background-color: #F3EDC9;
+   float: none;
+   margin-left: 0px;
+}
+
+/*
+  #news_result div{
+  margin-left: -15px;
+  margin-left: 10px;
+  background-color: #F3EDC9;
+  margin-bottom: 5px;
+  overflow: hidden;
+  border: 1px solid #000;
+  display: inline-block;
+}
+
+#news_result div:first-child{
+  color: #464646;
+  position: relative;
+  margin-left: -10px;
+  background-color: #FFF;
+  display: inline;
+  overflow: visible;
+}
+
+#news_result div:nth-child(2){
+  clear: none;
+  float: left;
+  margin: 0;
+}
+ */
+
 footer{
-  margin-top: 20px;
+  margin-top: 15px;
+
 }
 
 #destination_input,
