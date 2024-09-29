@@ -46,7 +46,7 @@ article {
   border-bottom:  1px solid #9A9A9A;
 
   padding-top: 10px;
-  padding-bottom: 20px;
+/*   padding-bottom: 20px; */
 
 }
 article h3 {
@@ -95,14 +95,17 @@ article p:hover{
 
 #news_result{
   margin-top: 10px;
-  margin-bottom: 15px;
+/*   margin-bottom: 15px; */
   font-size: 16px;
-  margin-left: 10px;
+  padding-left: 10px;
+  padding-bottom: 10px;
+  height: 70px;
+  overflow: hidden;
+  background-color: #FFFEC7;
 }
 
 #news_result span{
    line-height: 1.5rem;
-   margin-left: 10px;
    float: left;
 
    /*
@@ -119,7 +122,8 @@ article p:hover{
 #news_result span:first-child{
    background-color: #F3EDC9;
    float: none;
-   margin-left: 0px;
+   margin-left: -10px;
+   margin-right: 10px;
 }
 
 /*
