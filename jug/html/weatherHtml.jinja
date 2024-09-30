@@ -1,20 +1,34 @@
+{# ------------------------------------------------------
+    <p>Country: {{weatherDict["country"]}}</p>
+    <p>Local Time: {{weatherDict["datetime"]}}</p>
+
+   --------------------------------------------------- #}
+
 <section id="weather_section">
+
+    <h4  id="weather_moonphase">{{moon_phase[1]}} The Moon is {{adv}} {{moon_phase[0]}}.</h4>
 
     <div id="weather_imageBox">
 
         <div id="weather_img"><img src="{{weatherDict["condition_icon"]}}"></div>
-
         <div id="weather_text">{{weatherDict["condition_text"]}}</div>
+        <div id="other_text">Humidity: {{weatherDict["humidity"]}} %</div>
 
     </div>
 
     <div id="weather_infoBox">
-        <p>Country: {{weatherDict["country"]}}</p>
-        <p>Local Time: {{weatherDict["datetime"]}}</p>
-        <p>Temp: {{weatherDict["temp_c"]}} c / {{weatherDict["temp_f"]}} f</p>
-        <p>Feels Like: {{weatherDict["feelslike_c"]}} c / {{weatherDict["feelslike_f"]}} f</p>
-        <p>Humidity: {{weatherDict["humidity"]}}</p>
+        <p>Temp Now: {{weatherDict["temp_c"]}}º c / {{weatherDict["temp_f"]}}º f</p>
+        <p>Feels Like: {{weatherDict["feelslike_c"]}}º c / {{weatherDict["feelslike_f"]}}º f</p>
+
+        <p>Max Temp: {{weatherDict["max_temp_c"]}}º c / {{weatherDict["max_temp_f"]}}º f</p>
+
+        <p>Min Temp: {{weatherDict["min_temp_c"]}}º c / {{weatherDict["min_temp_f"]}}º f</p>
+
+        <p>Sunrise/Sunset: {{weatherDict["sunrise"]}} / {{weatherDict["sunset"]}}</p>
+
+
     </div>
+
     <p id="weatherapilink">Powered by <a href="https://www.weatherapi.com/" title="Weather API" target="_blank">WeatherAPI.com</a></p>
 
 </section>

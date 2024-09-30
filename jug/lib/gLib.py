@@ -89,7 +89,7 @@ def getPop():
       # Also add thousand separator;
 
 
-def getMoon():
+def getMoon(moon_phase=False):
     # moonArr = ['◐', '◑', '◒', '◓', '◔', '◕']
     # return moonArr[random.randrange(0, 6)]
     # return random.choice(moonArr)
@@ -98,14 +98,22 @@ def getMoon():
     # random.randInt(0, 5)  # This returns from 0 to 5, including 5
     # random.randrange(0,6) # This returns from 0 to 5, excludes 6
 
-    moonList_emoji = ['🌑', '🌒', '🌓', '🌔', '🌕', '🌖', '🌗']
-    moonList_str = ["New Moon", "Waxing Crescent Moon", "First Quarter Moon", "Waxing Gibbous Moon", "Full Moon", "Waning Gibbous Moon", "Last Quarter Moon"]
+    moonList_emoji = ['🌑', '🌒', '🌓', '🌔', '🌕', '🌖', '🌗', '🌘']
+    moonList_str = ["New", "Waxing Crescent", "First Quarter", "Waxing Gibbous", "Full", "Waning Gibbous", "Last Quarter", "Waning Crescent"]
 
-    max = len(moonList_emoji)
-    rn = random.randrange(0, max)
 
     # Return the emoji and text
-    return [moonList_str[rn], moonList_emoji[rn]]
+    # If no specific moon phase provided, then get random:
+    if  moon_phase:
+        for index, moon in enumerate(moonList_str):
+            if moon_phase.lower() == moon.lower():
+                return [moonList_str[index], moonList_emoji[index]]
+
+    # If still here, then get random moon phase
+    max = len(moonList_emoji)
+    rnd = random.randrange(0, max)
+
+    return [moonList_str[rnd], moonList_emoji[rnd]]
 
 
     # moonDict = {
@@ -116,6 +124,7 @@ def getMoon():
     #     "Full Moon":'🌕',
     #     "Waning Gibbous Moon":'🌖',
     #     "Last Quarter Moon":'🌗'
+    #     "Waning Crescent Moon":'🌘'
     # }
     # # randomly pop item from dictionary as a list;
     # # Should return as: ["New Moon", "🌑"]
@@ -124,4 +133,130 @@ def getMoon():
     # return moonList
 
 
+def getAdverb():
+    adverbs_list = [
+        "turning",
+        "spinning",
+        "glowing",
+        "whirling",
+        "gyrating",
+        "pivotting",
+        "swiveling",
+        "twisting",
+        "rolling",
+        "smiling",
+        "stumbling",
+        "grinning"
+    ]
 
+    rnum = random.randint(0, len(adverbs_list)-1)
+    return adverbs_list[rnum]
+
+def getAdjective():
+    adjectives_list = [
+        "beautiful",
+        "bucolic",
+        "decrepit",
+        "dilapidated",
+        "perilous",
+        "friendly",
+        "tax-free",
+        "high-crime",
+        "sinking",
+        "modern",
+        "floating",
+        "callow",
+        "guilty",
+        "unkempt",
+        "maniculred",
+        "abandoned",
+        "fashionable",
+        "gastronomic",
+        "landlocked",
+        "windy",
+        "rainy",
+        "snowy",
+        "humid",
+        "putrid",
+        "hilly"
+    ]
+
+    rnum = random.randint(0, len(adjectives_list)-1)
+    return adjectives_list[rnum]
+
+def getPronoun():
+    pronouns_list = [
+        "hamlet",
+        "outpost",
+        "village",
+        "city",
+        "town",
+        "banlieue",
+        "settlement",
+        "borough",
+        "colony",
+        "district",
+        "ghetto",
+        "backwoods",
+        "community"
+    ]
+
+    return pronouns_list[random.randint(0, len(pronouns_list)-1)]
+
+def getFamousSyn():
+    famous_list = [
+        "famous",
+        "infamous",
+        "known",
+        "distinguished",
+        "notable",
+        "celebrated",
+        "distinguished",
+        "prominent",
+        "acclaimed",
+        "respected",
+        "maligned",
+        "besmirched",
+        "condemned",
+        "vilified",
+        "mocked",
+        "ridiculed",
+        "forgotten",
+        "remembered",
+        "disgraced"
+    ]
+
+    return famous_list[random.randrange(0, len(famous_list))]
+
+
+def getFamousFor():
+    famous_list = [
+        "abandoned rocky hills",
+        "scented fishy lakes",
+        "curvacious streams",
+        "ham sandwich",
+        "obstreperous men",
+        "lonely women",
+        "social grandmothers",
+        "fat hamburger",
+        "stinky fried rice",
+        "green spaghetti",
+        "pineapple pizza",
+        "bean burritos",
+        "seedy nightclubs",
+        "long, sinewy trees",
+        "nine seasons",
+        "26 hour sun",
+        "pretentious evenings",
+        "gossipy citizens",
+        "cranky temper",
+        "greasy living",
+        "feral dogs",
+        "lost black diamonds",
+        "lean & mean government",
+        "quisling politicians",
+        "clear, fresh water",
+        "antedeluvian architecture"
+    ]
+
+    return famous_list[random.randint(0, len(famous_list)-1)]

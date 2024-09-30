@@ -1,4 +1,4 @@
-{# ------------------------------------------------------
+{#------------------------------------------------------
   {% extends "baseHtml.jinja" %}
 
   {% block header %}
@@ -6,7 +6,6 @@
   {% endblock %}
 
   {% block article %}
-
 
   {% block misc %}
     {% for row in db %}
@@ -35,12 +34,14 @@
   <p>Who: {{ dog.name, dog.age, ##dog.location }}</p>
   <p>Today is: {{dog.dayName}}, ##{{dog.now}}</p>
   <p>My calculation: {{dog.mult(2)}}</p>
--------------------------------------------------------- #}
+    <h4>Moon Phase: {{moon_phase[1]}} {{ moon_phase[0]}}</h4>
+  -------------------------------------------------------#}
 
 <article>
     <h3>Welcome to Paperdrift.</h3>
     <h4>Population: {{population}} est.</h4>
-    <h4>Moon Phase: {{moon_phase[1]}} {{ moon_phase[0]}}</h4>
+    <h4>Country: {{country}}</h4>
+    <h4>Local Time: {{local_datetime}}</h4>
 
     {% include 'weatherHtml.jinja' %}
 

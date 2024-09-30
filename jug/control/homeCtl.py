@@ -20,10 +20,9 @@ class HomeCtl():
     def getWeather(self):
 
         location = "Santa Barbara"
-        weather = weather_api.Weather_api()
-        weatherDict = weather.do_weather(location)
+        weatherO = weather_api.Weather_api()
+        weatherDict = weatherO.do_weather(location)
         logger.info(f'weather: {weatherDict}')
-
         return weatherDict
 
     def get_breaking_news(self):
@@ -54,16 +53,30 @@ class HomeCtl():
         logger.info(f'reqs: {result_list}')
 
         return result_list
+    def getMoon(self, moon_phase):
+        return gLib.getMoon(moon_phase)
 
+    def getAdverb(self):
+        return gLib.getAdverb()
 
     def doHome(self):
+
+        weatherDict = self.getWeather()
+
+        country = weatherDict["country"]
+        local_datetime = weatherDict["datetime"]
+
+        moon_phase = self.getMoon(weatherDict["moon_phase"])
 
         return render_template(
             "homeHtml.jinja",
             population = gLib.getPop(),
-            moon_phase = gLib.getMoon(),
+            adv = self.getAdverb(),
+            moon_phase = moon_phase,
             news_result = self.get_breaking_news(),
-            weatherDict = self.getWeather()
+            weatherDict = weatherDict,
+            local_datetime = local_datetime,
+            country = country
         )
 
 

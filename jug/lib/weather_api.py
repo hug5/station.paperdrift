@@ -1,12 +1,26 @@
 import requests
 import json
 import random
+from jug.private_key import weatherAPI_key
+
 
 
 class Weather_api:
 
     def __init__(self):
-        pass
+
+        # Base url:
+        w_burl = "https://api.weatherapi.com/v1/forecast.json?aqi=no&alerts=no&days=1"
+
+        # weatherAPI key; get key from key module;
+        w_key = "&key=" + weatherAPI_key.wkey
+
+        # weather url, minus location:
+        self.w_url = w_burl + w_key + "&q="
+
+        # url = w_url + location
+
+
 
     def send_req(self, url):
 
@@ -26,12 +40,17 @@ class Weather_api:
 
         country_list = [
             "Moscow",
+            "Tehran",
+            "Baghdad",
+            "Damascus",
+            "Beijing",
+            "Brasilia",
             "Tokyo",
             "Seoul",
             "Ulaanbaatar",
+            "Athens",
             "Paris",
             "London",
-            "Los Angeles",
             "Munich",
             "Milan",
             "Kinshasa",
@@ -44,16 +63,68 @@ class Weather_api:
         index = random.randrange(0, len(country_list))
         return country_list[index]
 
+    def make_fake_weather(self):
+
+        # We'll end up here if the weatherAPI isn't working
+
+        # Return a dictionary with some values that we use;
+        return {
+            "location": {
+                "name": "City of Atlantis",
+                "country": "Atlantis",
+                "localtime": "15:42"
+            },
+            "current": {
+                "temp_c": 25.6,
+                "temp_f": 78.1,
+                "condition": {
+                    "text": "Partly cloudy",
+                    "icon": "//cdn.weatherapi.com/weather/64x64/day/116.png",
+                    "code": 1003
+                },
+                "humidity": 58,
+                "cloud": 50,
+                "feelslike_c": 27.7,
+                "feelslike_f": 81.8,
+            },
+            "forecast": {
+                "forecastday": [
+                    {
+                        "day": {
+                            "maxtemp_c": 22.6,
+                            "maxtemp_f": 72.7,
+                            "mintemp_c": 18.5,
+                            "mintemp_f": 65.3,
+                            "avgtemp_c": 20.3,
+                            "avgtemp_f": 68.5,
+                        },
+                        "astro": {
+                            "sunrise": "06:47 AM",
+                            "sunset": "06:33 PM",
+                            "moonrise": "04:36 AM",
+                            "moonset": "05:51 PM",
+                            "moon_phase": "Waning Crescent",
+                            "moon_illumination": 7,
+                            "is_moon_up": 0,
+                            "is_sun_up": 0
+                        }
+
+                    }
+                ]
+            }
+        }
 
     def call_weather(self, location):
-        w_url = "https://api.weatherapi.com/v1/current.json?key=d15ec96bdfd048c0bda84905243009&aqi=no&q="
+
         # location="Los Angeles"
-        url = w_url + location
+        url = self.w_url + location
+
         # response = send_req(url)
         # print(response.text)
         jsonr = json.loads(self.send_req(url).text)
 
         return jsonr
+
 
     def do_weather(self, location):
 
@@ -63,10 +134,16 @@ class Weather_api:
         # result = jsonr.get("location", "other_default_value")
         result = jsonr.get("location")
 
+        # Let's put a cap on the number of retries in case weatherAPI is down or we can't get access; if down, we'll make up a fake weather dictionary;
+        try_counter = 0
         while result is None:
             # If bad location, then try random location:
             jsonr = self.call_weather(self.get_random_location())
             result = jsonr.get("location")
+            try_counter += 1
+            if try_counter > 5:
+                result = self.make_fake_weather()
+
 
         # parse the json
         # Remember that the location may be fake; ie, not match with request;
@@ -79,6 +156,9 @@ class Weather_api:
             weather["location"] = jsonr.get("location")["name"]
 
             weather["country"] = jsonr.get("location")['country']
+            if weather["country"] == "United States of America":
+                weather["country"] = "United States"
+
             weather["datetime"] = jsonr.get("location")['localtime']
 
             weather["temp_c"] = jsonr.get("current")['temp_c']
@@ -90,6 +170,13 @@ class Weather_api:
             weather["condition_text"] = jsonr.get("current")['condition']['text']
             weather["condition_icon"] = "https:" + jsonr.get("current")['condition']['icon']
 
+            weather["max_temp_c"] = jsonr.get("forecast")['forecastday'][0]['day']['maxtemp_c']
+            weather["min_temp_c"] = jsonr.get("forecast")['forecastday'][0]['day']['mintemp_c']
+            weather["max_temp_f"] = jsonr.get("forecast")['forecastday'][0]['day']['maxtemp_f']
+            weather["min_temp_f"] = jsonr.get("forecast")['forecastday'][0]['day']['mintemp_f']
+            weather["sunrise"] = jsonr.get("forecast")['forecastday'][0]['astro']['sunrise']
+            weather["sunset"] = jsonr.get("forecast")['forecastday'][0]['astro']['sunset']
+            weather["moon_phase"] = jsonr.get("forecast")['forecastday'][0]['astro']['moon_phase']
             # print(weather)
             return weather
 
