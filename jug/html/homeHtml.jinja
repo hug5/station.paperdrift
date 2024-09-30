@@ -37,13 +37,14 @@
   <p>My calculation: {{dog.mult(2)}}</p>
 -------------------------------------------------------- #}
 
-
 <article>
     <h3>Welcome to Paperdrift.</h3>
     <h4>Population: {{population}} est.</h4>
     <h4>Moon Phase: {{moon_phase[1]}} {{ moon_phase[0]}}</h4>
 
-    <section>
+    {% include 'weatherHtml.jinja' %}
+
+    <section id="destinations">
         <h4>Popular Destinations:</h4>
         <p><a href="/chihuahua/">Yapping Chihuahua</a></p>
         <p><a href="/anchorage/">Sled to Anchorage</a></p>
@@ -78,3 +79,5 @@
     </div>
 
 </article>
+
+

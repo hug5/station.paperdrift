@@ -1,5 +1,7 @@
+from jug.lib.logger import logger
 from flask import render_template
-from ..lib import gLib
+from jug.lib import gLib
+from jug.lib import weather_api
 import random
 
 
@@ -11,7 +13,6 @@ class PathCtl:
 
     def getPop(self):
         return gLib.getPop()
-
 
     def getMoon(self):
         return gLib.getMoon()
@@ -99,6 +100,16 @@ class PathCtl:
         return famous_list[random.randint(0, len(famous_list)-1)]
 
 
+    def getWeather(self):
+
+        location = self.url
+        weather = weather_api.Weather_api()
+        weatherDict = weather.do_weather(location)
+        logger.info(f'weather: {weatherDict}')
+
+        return weatherDict
+
+
     def doPath(self):
 
         return render_template(
@@ -109,6 +120,7 @@ class PathCtl:
             adj = self.getAdjective(),
             famous = self.getFamousFor(),
             pronoun = self.getPronoun(),
+            weatherDict = self.getWeather()
         )
 
     def doStart(self):

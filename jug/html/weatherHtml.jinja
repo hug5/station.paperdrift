@@ -1,0 +1,20 @@
+<section id="weather_section">
+
+    <div id="weather_imageBox">
+
+        <div id="weather_img"><img src="{{weatherDict["condition_icon"]}}"></div>
+
+        <div id="weather_text">{{weatherDict["condition_text"]}}</div>
+
+    </div>
+
+    <div id="weather_infoBox">
+        <p>Country: {{weatherDict["country"]}}</p>
+        <p>Local Time: {{weatherDict["datetime"]}}</p>
+        <p>Temp: {{weatherDict["temp_c"]}} c / {{weatherDict["temp_f"]}} f</p>
+        <p>Feels Like: {{weatherDict["feelslike_c"]}} c / {{weatherDict["feelslike_f"]}} f</p>
+        <p>Humidity: {{weatherDict["humidity"]}}</p>
+    </div>
+    <p id="weatherapilink">Powered by <a href="https://www.weatherapi.com/" title="Weather API" target="_blank">WeatherAPI.com</a></p>
+
+</section>

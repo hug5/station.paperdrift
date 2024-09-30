@@ -46,7 +46,7 @@ article {
   border-bottom:  1px solid #9A9A9A;
 
   padding-top: 10px;
-  padding-bottom: 10px;
+/*   padding-bottom: 15px; */
 
 }
 article h3 {
@@ -60,22 +60,63 @@ article h4:nth-child(3) {
   color:#833232;
 }
 
-article section{
+#weather_section{
+  overflow: hidden;
+  margin-top: 10px;
+  padding-top: 10px;
+  margin-left: 10px;
+}
+
+#weather_section #weather_imageBox{
+  float: left;
+  margin-right: 50px;
+}
+#weather_section #weather_imageBox #weather_img{
+  float: left;
+  margin-right: 10px;
+}
+#weather_section #weather_imageBox #weather_text{
+  float: left;
+  color: #5E5B5B;
+  font-weight: 700;
+  margin-top: 20px;
+}
+
+#weather_section #weather_infoBox{
+  float: left;
+  margin-left: 10px;
+}
+#weather_section #weather_infoBox p{
+  float: left;
+  clear: both;
+  font-size: 16px;
+  color: #5A5A5A;
+  margin: 0px;
+  font-weight: 600;
+}
+
+#weather_section #weatherapilink a,
+#weather_section #weatherapilink{
+  float: right;
+  font-size: .5em;
+  color: #928771;
+}
+
+article section#destinations{
   border-top:  1px solid #9A9A9A;
   border-bottom:  1px solid #9A9A9A;
   overflow: hidden;
-  margin-top: 15px;
-
+  margin-top: 0px;
   padding-bottom: 15px;
 
 }
-article section h4{
+article section#destinations h4{
   margin-top: 10px;
   margin-bottom: -5px;
 /*   border: 1px solid #000; */
 
 }
-article section p{
+article section#destinations p{
   width: fit-content;
   margin-bottom: 0;
 
@@ -88,10 +129,13 @@ article section p{
   float: left;
 }
 
-article p:hover{
+article section#destinations p:hover{
   background-color:#E7E6E7;
 
 }
+
+
+
 
 #news_result{
   margin-top: 10px;
@@ -100,12 +144,15 @@ article p:hover{
   padding-left: 10px;
   padding-bottom: 10px;
   /* height: 70px;
-  overflow: hidden; */
+  */
+/*   border: 1px solid #000; */
+  overflow: hidden;
 }
 
 #news_result span{
   line-height: 1.5rem;
   float: left;
+  clear: both;
 }
 #news_result span:nth-child(2){
   float: none;
@@ -143,32 +190,7 @@ article p:hover{
 
 
 
-/*
-  #news_result div{
-  margin-left: -15px;
-  margin-left: 10px;
-  background-color: #F3EDC9;
-  margin-bottom: 5px;
-  overflow: hidden;
-  border: 1px solid #000;
-  display: inline-block;
-}
 
-#news_result div:first-child{
-  color: #464646;
-  position: relative;
-  margin-left: -10px;
-  background-color: #FFF;
-  display: inline;
-  overflow: visible;
-}
-
-#news_result div:nth-child(2){
-  clear: none;
-  float: left;
-  margin: 0;
-}
- */
 
 footer{
   margin-top: 15px;

@@ -3,7 +3,7 @@ from jug.lib.logger import logger
 import requests
 from bs4 import BeautifulSoup
 
-class ReqsCtl():
+class News_Scrape():
 
     def __init__(self):
         pass

@@ -107,8 +107,8 @@ class Router():
 
         self.doCommon()
 
-        obj = homeCtl.HomeCtl()
-        self.article = obj.doStart()
+        homeO = homeCtl.HomeCtl()
+        self.article = homeO.doStart()
 
         pageHtml = render_template(
             "pageHtml.jinja",
