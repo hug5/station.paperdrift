@@ -14,7 +14,8 @@
 
 $(function() {
 
-    $("#destination_input").focus();
+    // Focus by default;
+    // $("#destination_input").focus();
 
     gotoCity = function() {
         let dest_val = $("#destination_input").val().toLowerCase();
@@ -31,7 +32,6 @@ $(function() {
         // }
         // window.location.href = dest_val;
 
-
         window.location.href = "/" + dest_val + "/";
 
     }
@@ -46,8 +46,31 @@ $(function() {
         }
     });
 
+    $("#more_btn").on("click", function(event) {
+
+        let btn_type = $(this).html();
+
+
+        $(".news_hide").slideToggle(150);
+        // $(".news_hide").fadeToggle(150);
+        // $(".news_hide").show();
+        // $(".news_hide").hide();
+
+        if (btn_type == "+MORE"){
+            $(this).html("-LESS");
+        }
+        else {
+            $(this).html("+MORE")
+        }
+
+
+
+    });
+
+
+ if ( !lib.formInputCheck("msgForm") || $(this).hasClass("disabled") ) return false;
+   var sender = $(this).attr("id");
+
+
 });
-
-
-// alert("hello");
 
