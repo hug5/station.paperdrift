@@ -2,6 +2,8 @@ from jug.lib.logger import logger
 
 import mariadb
 # from jug.lib import gLib
+from jug.control.g import G
+
 
 class Dbc():
 
@@ -143,15 +145,28 @@ class Dbc():
 
     def getConfig(self):
 
+        # return {
+        #     "un"                 : "inkon",
+        #     "pw"                 : "J##Dd*(r9TZYKh$%",
+        #     "host"               : "localhost",    # localhost is default
+        #     "port"               : 3306,
+        #     "database"           : "inkonDb",
+        #     "autocommit"         : True,
+        #     "pool_name"          : "pool_1",
+        #     "pool_size"          : 64,             # The max should be 64
+        #     "pool_reset_connect" : False,
+        #     "pool_valid_int"     : 500,       # 500 is default
+        # }
+
         return {
-            "un"                 : "inkon",
-            "pw"                 : "J##Dd*(r9TZYKh$%",
-            "host"               : "localhost",    # localhost is default
-            "port"               : 3306,
-            "database"           : "inkonDb",
+            "un"                 : G["db"]["un"],
+            "pw"                 : G["db"]["pw"],
+            "host"               : G["db"]["host"],
+            "port"               : G["db"]["port"],
+            "database"           : G["db"]["database"],
             "autocommit"         : True,
             "pool_name"          : "pool_1",
-            "pool_size"          : 64,             # The max should be 64
+            "pool_size"          : 64,        # The max should be 64
             "pool_reset_connect" : False,
             "pool_valid_int"     : 500,       # 500 is default
         }
@@ -167,7 +182,6 @@ class Dbc():
           worth the trouble we're seeing here;
 
         '''
-
 
         # logger.info("Begin Connect")
 
@@ -207,8 +221,8 @@ class Dbc():
 
         except mariadb.Error as e:
             # print(f"Error connecting to mariadb: {e}")
-            return e
-
+            # return e
+            logger.exception(f"dbc Error: {e}")
         finally:
             logger.info("Connected")
 

@@ -1,7 +1,8 @@
 import requests
 import json
 import random
-from jug.private_key import weatherAPI_key
+import tomli
+from jug.control.g import G
 
 
 
@@ -13,13 +14,21 @@ class Weather_api:
         w_burl = "https://api.weatherapi.com/v1/forecast.json?aqi=no&alerts=no&days=1"
 
         # weatherAPI key; get key from key module;
-        w_key = "&key=" + weatherAPI_key.wkey
+        # w_key = "&key=" + weatherAPI_key.wkey
+        w_key = f"&key={G['weatherAPI_key']}"
 
         # weather url, minus location:
         self.w_url = w_burl + w_key + "&q="
 
         # url = w_url + location
 
+
+        # with open(config_path, 'rb') as ftoml:
+        #     config = tomli.load(ftoml)
+        #   # If bad, should give FileNotFoundError
+
+        # self.filename = config['history_source_file']
+        # if self.filename == '': raise NameError("No history_source_file")
 
 
     def send_req(self, url):
@@ -156,7 +165,9 @@ class Weather_api:
             weather["location"] = jsonr.get("location")["name"]
 
             weather["country"] = jsonr.get("location")['country']
-            if weather["country"] == "United States of America":
+            # if weather["country"] == "United States of America" or weather["country"] == "USA United States of America":
+            #     weather["country"] = "United States"
+            if weather["country"].find("United States") > -1:
                 weather["country"] = "United States"
 
             weather["datetime"] = jsonr.get("location")['localtime']

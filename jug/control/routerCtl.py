@@ -9,6 +9,11 @@ from flask import Flask, \
 # from jug.dbo import dbc
 from jug.lib import gLib
 
+from jug.control.g import G
+from pathlib import Path
+import tomli
+
+
 # import json
 # from json import dumps
 # from werkzeug.routing import Request
@@ -16,7 +21,7 @@ from jug.lib import gLib
 # from werkzeug.test import create_environ
 
 
-class Router():
+class RouterCtl():
 
     def __init__(self):
 
@@ -33,8 +38,35 @@ class Router():
         self.article = ''
         self.header = ''
         self.footer = ''
-
         self.logo = ''
+
+        self.doAdmin_toml()
+
+    def doAdmin_toml(self):
+        try:
+
+            admin_toml_path = Path("jug/conf/admin.toml")
+            if not Path(admin_toml_path).is_file():
+                raise FileNotFoundError(f"File Not Found: {admin_toml_path}.")
+
+            with admin_toml_path.open(mode='rb') as file_toml:
+                admin_toml = tomli.load(file_toml)
+                # If bad, should give FileNotFoundError
+
+            G["weatherAPI_key"] = admin_toml["weatherAPI"]["key"]
+            G["db"]["un"] = admin_toml["db"]["un"]
+            G["db"]["pw"] = admin_toml["db"]["pw"]
+            G["db"]["host"] = admin_toml["db"]["host"]
+            G["db"]["port"] = admin_toml["db"]["port"]
+            G["db"]["database"] = admin_toml["db"]["database"]
+
+        except FileNotFoundError as e:
+            logger.exception(f"admin.toml Load Error: {e}")
+        except Exception as e:
+            logger.exception(f"doAdmin_toml Error: {e}")
+        finally:
+            logger.info(f'weatherAPI_key: {G["weatherAPI_key"]}')
+
 
 
     def doCommon(self):
@@ -298,7 +330,7 @@ class Router():
       # url              http://www.example.com/myapplication/foo/page.html?x=y
 
 
-    def _start(self):
+    def start(self):
 
         self.doRoute()
         return self.jug
@@ -308,10 +340,10 @@ class Router():
 ## These below don't work even when it appears to!
 # method 1
 # obj = Router()
-# jug = obj._start()
+# jug = obj.start()
 
 # method 2
-# jug = Router()._start()
+# jug = Router().start()
   # Can just shorten to 1 line like this;
 
 # These 2 may be equivalent and allows for debug mode

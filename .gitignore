@@ -1,1 +1,8 @@
 **/conf.d/*
+  # the ** seems to denote any directory; just doing * doesn't work
+  # the canonical directory structure seems to be:
+  # jug/conf.d/*
+  # Thus, just conf.d/* doesn't seem to work;
+**/config/*
+**/conf/*
+**/__pycache__
