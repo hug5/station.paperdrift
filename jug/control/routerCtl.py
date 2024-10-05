@@ -12,6 +12,7 @@ from jug.lib import gLib
 from jug.control.g import G
 from pathlib import Path
 import tomli
+import re
 
 
 # import json
@@ -40,32 +41,45 @@ class RouterCtl():
         self.footer = ''
         self.logo = ''
 
-        self.doAdmin_toml()
+        self.doConfig_toml()
 
-    def doAdmin_toml(self):
+    def doConfig_toml(self):
         try:
 
-            admin_toml_path = Path("jug/conf/admin.toml")
-            if not Path(admin_toml_path).is_file():
-                raise FileNotFoundError(f"File Not Found: {admin_toml_path}.")
+            config_toml_path = Path("jug/conf/config.toml")
+            if not Path(config_toml_path).is_file():
+                raise FileNotFoundError(f"File Not Found: {config_toml_path}.")
 
-            with admin_toml_path.open(mode='rb') as file_toml:
-                admin_toml = tomli.load(file_toml)
+            with config_toml_path.open(mode='rb') as file_toml:
+                config_toml = tomli.load(file_toml)
                 # If bad, should give FileNotFoundError
 
-            G["weatherAPI_key"] = admin_toml["weatherAPI"]["key"]
-            G["db"]["un"] = admin_toml["db"]["un"]
-            G["db"]["pw"] = admin_toml["db"]["pw"]
-            G["db"]["host"] = admin_toml["db"]["host"]
-            G["db"]["port"] = admin_toml["db"]["port"]
-            G["db"]["database"] = admin_toml["db"]["database"]
+            # G["weatherAPI_key"] = config_toml["weatherAPI"]["key"]
+            # G["db"]["un"] = config_toml["db"]["un"]
+            # G["db"]["pw"] = config_toml["db"]["pw"]
+            # G["db"]["host"] = config_toml["db"]["host"]
+            # G["db"]["port"] = config_toml["db"]["port"]
+            # G["db"]["database"] = config_toml["db"]["database"]
+
+            # G.weatherAPI_key = config_toml.get("weatherAPI", {}).get("key")
+            G.api["weatherAPI_key"] = config_toml.get("api", {}).get("weatherAPI_key")
+
+            G.db["un"] = config_toml["db"]["un"]
+            G.db["pw"] = config_toml["db"]["pw"]
+            G.db["host"] = config_toml["db"]["host"]
+            G.db["port"] = config_toml["db"]["port"]
+            G.db["database"] = config_toml["db"]["database"]
+
+            G.site["name"] = config_toml["site"]["name"]
+            G.site["tagline"] = config_toml["site"]["tagline"]
 
         except FileNotFoundError as e:
-            logger.exception(f"admin.toml Load Error: {e}")
+            logger.exception(f"config.toml Load Error: {e}")
         except Exception as e:
-            logger.exception(f"doAdmin_toml Error: {e}")
+            logger.exception(f"doConfig_toml Error: {e}")
         finally:
-            logger.info(f'weatherAPI_key: {G["weatherAPI_key"]}')
+            # logger.info(f'weatherAPI_key: {G["weatherAPI_key"]}')
+            logger.info(f'weatherAPI_key: {G.api["weatherAPI_key"]}')
 
 
 
@@ -141,9 +155,11 @@ class RouterCtl():
 
         homeO = homeCtl.HomeCtl()
         self.article = homeO.doStart()
+        site_title = homeO.getConfig()["site_title"]
 
         pageHtml = render_template(
             "pageHtml.jinja",
+            title = site_title,
             header = self.header,
             article = self.article,
             footer = self.footer,
@@ -160,11 +176,14 @@ class RouterCtl():
 
         self.doCommon()
 
-        obj = pathCtl.PathCtl(url)
-        self.article = obj.doStart()
+        pathO = pathCtl.PathCtl(url)
+        self.article = pathO.doStart()
+        site_title = pathO.getConfig()["site_title"]
+
 
         pageHtml = render_template(
             "pageHtml.jinja",
+            title = site_title,
             header = self.header,
             article = self.article,
             footer = self.footer,
@@ -172,12 +191,12 @@ class RouterCtl():
 
         return gLib.stripJinjaWhiteSpace(pageHtml) + self.logo
 
-    def doCheckPath(self, url):
+    def doCheckBadPath(self, url):
 
         # Doing this for aesthetic; don't want a path that is /home, /paperdrift or /station paperdrift
         # Also check that all paths end with trailing slash;
 
-        checkPath = ''
+        # checkPath = ''
           # Dilemma: don't want to make this variable global;
           # But also want to be able to use within local functions below;
           # So declare here; and assign as nonlocal within local functions?
@@ -185,39 +204,92 @@ class RouterCtl():
         def check_path_url():
             # Check for certain paths we ant to avoid; assign to home if so;
 
-            nonlocal url  # avoid unbound variable error;
+            # nonlocal url  # avoid unbound variable error;
 
             # If url path is any of these, then go home;
             home_list = ["home", "paperdrift", "station paperdrift"]
-            url = url.lower()
+            url2 = url.lower()
 
             # check for home or paperdrift in url; if so, go to root url;
-            url2 = url.rstrip('/')
-            # if url2 in home_list: return "/"
-            if url2 in home_list:
-                return True
-            # Otherwise should return false implicitly
+            url3 = url2.rstrip('/')
+            # if url3 in home_list: return "/"
+            if url3 in home_list:
+                return "/"
+            else:
+                return False
+            # Should also return false implicitly
 
 
         def check_trailing_slash():
             # Check there is trailing slash in paths;
-            nonlocal url
-            nonlocal checkPath
+            # nonlocal checkPath
+            # nonlocal url
 
             # check that url ends in /
             checkPath = gLib.checkPathSlash(url)
             # if checkPath != True: return checkPath
-            if not checkPath:
+            # if not checkPath:
+            if checkPath:
                 return checkPath
-            # Otherwise should return false implicitly
+            else:
+                return False
+            # Should also return false implicitly
+
+        def cleanUrl():
+            # nonlocal url
+            url2 = url.rstrip('/')
+
+            # remove non-alphanumeric characters, but allow for space
+            # all bad characters will be replaced with space;
+            # then later we'll remove redundant spaces;
+            new_url = re.sub(r'[^a-zA-Z0-9\- ]', ' ', url2)
+            # new_url2 = new_url.replace("  ", " ")
+            # new_url = new_url.replace("%20%%20", "x")
+            # new_url = new_url.replace("%20", "x")
+            # new_url = new_url.replace("20%", "x")
+            # new_url = new_url.replace("%", "x")
+              # This doesn't seem to work right... always some edge problem;
+              # When you ahve a weird url like this:
+              # https://station.paperdrift.com/busan%20%20%20%%20%20korea/
+              # I think the server crashes before it even gets here;
+              # Weird... not the %20 isn't showing up!
+
+            # remove redundant spaces
+            new_url2 = ' '.join(new_url.split())
+
+            # Don't need to escape since we removed all bad characters;
+            # escaped_url = gLib.hesc(new_url)
+
+            if new_url2 != url2:
+                logger.info(f'Cleaned url: {new_url2} : {url2}')
+                return "/" + new_url2 + "/"
+            else:
+                # logger.info(f'good url: {escaped_url}')
+                logger.info(f'Good url: {new_url2}')
+                return False
 
 
-        if check_path_url():
-            return "/"
-        if check_trailing_slash():
-            return checkPath
+            # clean_text = re.sub(r'[^a-zA-Z0-9 ]', '', text)
+            # print(clean_text)
 
-        return True
+
+        # if check_trailing_slash():
+        checkPath = check_trailing_slash()
+        if checkPath: return checkPath
+
+        # Check if url is clean
+        result = cleanUrl()
+        if result: return result
+
+        # Check that the city name is not home, paperdrift, station paperdrift
+        # if check_path_url(): return "/"
+        path = check_path_url()
+        if path: return path
+
+
+
+        # If all good, return False; nothing to do;
+        return False
 
     def doRequestUrl(self):
 
@@ -308,18 +380,16 @@ class RouterCtl():
         @self.jug.route('/<path:url>')
         def somePathUrl(url):
 
-            # self.doRequestUrl()
-            # self.checkTrailingQuestion()
+            # If return some value, then go to that given url
+            # If return False, then the url is fine;
+            result = self.doCheckBadPath(url)
+            # So a good path will return False; anything else is bad path;
+            # And we should redirect to the return value;
+            if result: return redirect(result, code=301)
 
-            # checkPath = gLib.checkPathSlash(url)
-            # if checkPath != True: return redirect(checkPath, code=301)
-              # Check for slash; If no ending / in url, then redirect to path with / suffix;
-            checkPath = self.doCheckPath(url)
-            # if checkPath != True: return redirect(checkPath, code=301)
-            if not checkPath:
-                return redirect(checkPath, code=301)
-
+            # If path is good, then proceed normally;
             return self.doSomePathUrl(url)
+
 
       # path             /foo/page.html
       # full_path        /foo/page.html?x=y

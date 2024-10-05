@@ -19,18 +19,28 @@ $(function() {
 
     gotoCity = function() {
         let dest_val = $("#destination_input").val().toLowerCase();
-        // let dest_val = $("#destination_input").val();
-        // let dest_val = "Big City";
+        //
+          // let dest_val = $("#destination_input").val();
+          // let dest_val = "Big City";
 
 
-        // Don't need to do this check anympore; just checking through python so can catch manual entry as well;
-        // if (dest_val == "home" || dest_val == "paperdrift") {
-        //     dest_val = "/";
-        // }
-        // else {
-        //   dest_val = "/" + dest_val;
-        // }
-        // window.location.href = dest_val;
+          // Don't need to do this check anympore; just checking through python so can catch manual entry as well;
+          // if (dest_val == "home" || dest_val == "paperdrift") {
+          //     dest_val = "/";
+          // }
+          // else {
+          //   dest_val = "/" + dest_val;
+          // }
+            // window.location.href = dest_val;
+
+        // remove non-alphanumeric characters, but allow for space
+        // all bad characters will be replaced with space;
+        // then later we'll remove redundant spaces;
+        dest_val = dest_val.replace(/[^0-9a-z\- ]/gi, ' ')
+
+        // remove redundant spaces
+        dest_val = dest_val.replace(/\s\s+/g, ' ')
+        // s = s.replace(/ +/g, " ") // this should also work;
 
         window.location.href = "/" + dest_val + "/";
 

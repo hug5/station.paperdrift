@@ -9,13 +9,23 @@ from jug.lib import news_scrape
 # from jug.start import jug
 import random
 from jug.lib import weather_api
+from jug.control.g import G
 
 
 class HomeCtl():
 
     def __init__(self):
+        self.config = {}
         pass
 
+    def getConfig(self):
+        return self.config
+
+    def doConfig(self):
+
+        self.config = {
+            'site_title' : f"{G.site['name']} | {G.site['tagline']}"
+        }
 
     def getWeather(self):
 
@@ -67,6 +77,8 @@ class HomeCtl():
         local_datetime = weatherDict["datetime"]
 
         moon_phase = self.getMoon(weatherDict["moon_phase"])
+
+        self.doConfig()
 
         return render_template(
             "homeHtml.jinja",

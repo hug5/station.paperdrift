@@ -1,3 +1,5 @@
+from jug.lib.logger import logger
+
 import requests
 import json
 import random
@@ -15,7 +17,8 @@ class Weather_api:
 
         # weatherAPI key; get key from key module;
         # w_key = "&key=" + weatherAPI_key.wkey
-        w_key = f"&key={G['weatherAPI_key']}"
+        # w_key = f"&key={G['weatherAPI_key']}"
+        w_key = f"&key={G.api['weatherAPI_key']}"
 
         # weather url, minus location:
         self.w_url = w_burl + w_key + "&q="
@@ -72,14 +75,15 @@ class Weather_api:
         index = random.randrange(0, len(country_list))
         return country_list[index]
 
-    def make_fake_weather(self):
+    def make_fake_weather(self, location):
 
         # We'll end up here if the weatherAPI isn't working
+        # Should almost never get here;
 
         # Return a dictionary with some values that we use;
         return {
             "location": {
-                "name": "City of Atlantis",
+                "name": location,
                 "country": "Atlantis",
                 "localtime": "15:42"
             },
@@ -146,52 +150,68 @@ class Weather_api:
         # Let's put a cap on the number of retries in case weatherAPI is down or we can't get access; if down, we'll make up a fake weather dictionary;
         try_counter = 0
         while result is None:
+            logger.info('Weather None')
             # If bad location, then try random location:
             jsonr = self.call_weather(self.get_random_location())
             result = jsonr.get("location")
+
+            if result:
+                # logger.info('Weather found result')
+                # logger.info(json.dumps(jsonr))
+                # If a random location is good, then we want to put back the user's
+                # original location; not use the random location;
+                jsonr["location"]["name"] = location
+                break
+
             try_counter += 1
             if try_counter > 5:
-                result = self.make_fake_weather()
+                logger.info('WeatherAPI: Get Fake')
+                jsonr = self.make_fake_weather(location)
 
 
         # parse the json
         # Remember that the location may be fake; ie, not match with request;
+
         try:
 
             weather = {}
 
             # Parse json:
             # city = jsonr.get("location['name']", "error")
-            weather["location"] = jsonr.get("location")["name"]
+            # weather["location"] = jsonr.get("location")["name"]
+            weather["location"] = jsonr.get("location", {}).get("name")
+              # Can also call get multiple times to safely get value;
+              # yet if the return is None, then the 2nd call is not safe!
 
-            weather["country"] = jsonr.get("location")['country']
+            weather["country"] = jsonr.get("location", {})['country']
             # if weather["country"] == "United States of America" or weather["country"] == "USA United States of America":
             #     weather["country"] = "United States"
             if weather["country"].find("United States") > -1:
                 weather["country"] = "United States"
 
-            weather["datetime"] = jsonr.get("location")['localtime']
+            weather["datetime"] = jsonr.get("location", {})['localtime']
 
-            weather["temp_c"] = jsonr.get("current")['temp_c']
-            weather["temp_f"] = jsonr.get("current")['temp_f']
-            weather["feelslike_c"] = jsonr.get("current")['feelslike_c']
-            weather["feelslike_f"] = jsonr.get("current")['feelslike_f']
-            weather["humidity"] = jsonr.get("current")['humidity']
+            weather["temp_c"] = jsonr.get("current", {})['temp_c']
+            weather["temp_f"] = jsonr.get("current", {})['temp_f']
+            weather["feelslike_c"] = jsonr.get("current", {})['feelslike_c']
+            weather["feelslike_f"] = jsonr.get("current", {})['feelslike_f']
+            weather["humidity"] = jsonr.get("current", {})['humidity']
 
-            weather["condition_text"] = jsonr.get("current")['condition']['text']
-            weather["condition_icon"] = "https:" + jsonr.get("current")['condition']['icon']
+            weather["condition_text"] = jsonr.get("current", {})['condition']['text']
+            weather["condition_icon"] = "https:" + jsonr.get("current", {})['condition']['icon']
 
-            weather["max_temp_c"] = jsonr.get("forecast")['forecastday'][0]['day']['maxtemp_c']
-            weather["min_temp_c"] = jsonr.get("forecast")['forecastday'][0]['day']['mintemp_c']
-            weather["max_temp_f"] = jsonr.get("forecast")['forecastday'][0]['day']['maxtemp_f']
-            weather["min_temp_f"] = jsonr.get("forecast")['forecastday'][0]['day']['mintemp_f']
-            weather["sunrise"] = jsonr.get("forecast")['forecastday'][0]['astro']['sunrise']
-            weather["sunset"] = jsonr.get("forecast")['forecastday'][0]['astro']['sunset']
-            weather["moon_phase"] = jsonr.get("forecast")['forecastday'][0]['astro']['moon_phase']
+            weather["max_temp_c"] = jsonr.get("forecast", {})['forecastday'][0]['day']['maxtemp_c']
+            weather["min_temp_c"] = jsonr.get("forecast", {})['forecastday'][0]['day']['mintemp_c']
+            weather["max_temp_f"] = jsonr.get("forecast", {})['forecastday'][0]['day']['maxtemp_f']
+            weather["min_temp_f"] = jsonr.get("forecast", {})['forecastday'][0]['day']['mintemp_f']
+            weather["sunrise"] = jsonr.get("forecast", {})['forecastday'][0]['astro']['sunrise']
+            weather["sunset"] = jsonr.get("forecast", {})['forecastday'][0]['astro']['sunset']
+            weather["moon_phase"] = jsonr.get("forecast", {})['forecastday'][0]['astro']['moon_phase']
             # print(weather)
             return weather
 
         except Exception as e:
-            return False
+            logger.exception("Error parsing weather json")
+            return {}
         finally:
             pass

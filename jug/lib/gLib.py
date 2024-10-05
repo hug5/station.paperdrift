@@ -38,7 +38,8 @@ def checkPathSlash(url):
 
         return '/' + url2
     else:
-        return True
+        # return True
+        return False
 
     # There doesn't seem to be a way to redirect directly from here; have to do a return; very lame!
 
@@ -135,18 +136,19 @@ def getMoon(moon_phase=False):
 
 def getAdverb():
     adverbs_list = [
-        "turning",
-        "spinning",
-        "glowing",
-        "whirling",
-        "gyrating",
-        "pivotting",
-        "swiveling",
-        "twisting",
-        "rolling",
-        "smiling",
-        "stumbling",
-        "grinning"
+        "Turning",
+        "Spinning",
+        "Glowing",
+        "Whirling",
+        "Gyrating",
+        "Pivotting",
+        "Swiveling",
+        "Twisting",
+        "Rolling",
+        "Smiling",
+        "Grinning",
+        "Stumbling",
+        "Rolicking"
     ]
 
     rnum = random.randint(0, len(adverbs_list)-1)
@@ -186,19 +188,27 @@ def getAdjective():
 
 def getPronoun():
     pronouns_list = [
-        "hamlet",
-        "outpost",
-        "village",
-        "city",
-        "town",
+        "backwater",
+        "backwood",
         "banlieue",
-        "settlement",
+        "boondocks",
         "borough",
+        "city",
         "colony",
+        "community",
         "district",
+        "dukedom",
+        "encampment",
+        "enclave",
         "ghetto",
-        "backwoods",
-        "community"
+        "hamlet",
+        "municipality",
+        "outpost",
+        "plantation",
+        "settlement",
+        "shtetl",
+        "town",
+        "village",
     ]
 
     return pronouns_list[random.randint(0, len(pronouns_list)-1)]
@@ -231,20 +241,20 @@ def getFamousSyn():
 
 def getFamousFor():
     famous_list = [
-        "abandoned rocky hills",
-        "scented fishy lakes",
-        "curvacious streams",
+        "ankle-breaking rocky hills",
+        "smelly fishy lakes",
+        "sinewy streams",
         "ham sandwich",
-        "obstreperous men",
+        "ungovernable men",
         "lonely women",
-        "social grandmothers",
+        "nosey grandmothers",
         "fat hamburger",
         "stinky fried rice",
         "green spaghetti",
         "pineapple pizza",
         "bean burritos",
         "seedy nightclubs",
-        "long, sinewy trees",
+        "fat trees",
         "nine seasons",
         "26 hour sun",
         "pretentious evenings",
@@ -252,10 +262,11 @@ def getFamousFor():
         "cranky temper",
         "greasy living",
         "feral dogs",
-        "lost black diamonds",
-        "lean & mean government",
+        "flying pigs",
+        "lost diamonds",
+        "absentee government",
         "quisling politicians",
-        "clear, fresh water",
+        "fresh sparkling water",
         "antedeluvian architecture"
     ]
 

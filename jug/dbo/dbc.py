@@ -159,11 +159,16 @@ class Dbc():
         # }
 
         return {
-            "un"                 : G["db"]["un"],
-            "pw"                 : G["db"]["pw"],
-            "host"               : G["db"]["host"],
-            "port"               : G["db"]["port"],
-            "database"           : G["db"]["database"],
+            # "un"                 : G["db"]["un"],
+            # "pw"                 : G["db"]["pw"],
+            # "host"               : G["db"]["host"],
+            # "port"               : G["db"]["port"],
+            # "database"           : G["db"]["database"],
+            "un"                 : G.db["un"],
+            "pw"                 : G.db["pw"],
+            "host"               : G.db["host"],
+            "port"               : G.db["port"],
+            "database"           : G.db["database"],
             "autocommit"         : True,
             "pool_name"          : "pool_1",
             "pool_size"          : 64,        # The max should be 64
