@@ -98,4 +98,4 @@ class News_Scrape():
 
         except Exception as e:
             logger.info(f"Britannica error: {e}")
-            return False
+            return {}

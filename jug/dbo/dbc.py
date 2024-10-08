@@ -1,8 +1,8 @@
 from jug.lib.logger import logger
 
 import mariadb
-# from jug.lib import gLib
-from jug.control.g import G
+# from jug.lib.f import F
+from jug.lib.g import G
 
 
 class Dbc():
@@ -23,13 +23,13 @@ class Dbc():
         # if self.db:
         #     self.db.close
             # self.db = False
-        # gLib.uwsgi_log("Disconnecting")
+        # F.uwsgi_log("Disconnecting")
         logger.info('Disconnecting')
 
         if self.pool is not None:
             self.pool.close()
             self.pool = None
-            # gLib.uwsgi_log("Disconnected")
+            # F.uwsgi_log("Disconnected")
             # logger.info('Disconnected')
         # When to close connection??
 
@@ -37,11 +37,11 @@ class Dbc():
     def doQuery(self, query):
 
         # https://mariadb.com/docs/server/connect/programming-languages/python/example/
-        # gLib.uwsgi_log("Begin Query")
+        # F.uwsgi_log("Begin Query")
         logger.info('Begin Query + get pool connection')
 
 
-        # gLib.uwsgi_log("get pool connection")
+        # F.uwsgi_log("get pool connection")
         logger.info('get pool connection')
         # Create connection pool;
         # self.doConnect()
@@ -134,8 +134,8 @@ class Dbc():
         ###
           # # cc = self.pool.connection_count
           # # ps = self.pool.pool_size
-          # # gLib.uwsgi_log(f"connection count2: {cc}")
-          # # gLib.uwsgi_log(f"pool size2: {ps}")
+          # # F.uwsgi_log(f"connection count2: {cc}")
+          # # F.uwsgi_log(f"pool size2: {ps}")
 
           # # for x in range(10000000):
           # #     y = "hello"
@@ -195,7 +195,7 @@ class Dbc():
         # logger.info("Begin Connect")
 
         # if self.pool is not None:
-        #     gLib.uwsgi_log("Already Connected")
+        #     F.uwsgi_log("Already Connected")
         #     return;
 
         pool_conf = self.getConfig()

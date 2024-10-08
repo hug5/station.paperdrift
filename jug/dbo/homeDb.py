@@ -6,7 +6,7 @@ import random
 from jug.dbo import dbc
 from jug.lib.logger import logger
 
-# from jug.lib import gLib
+# from jug.lib.f import F
 
 
 class HomeDb():
@@ -26,21 +26,21 @@ class HomeDb():
 
             # result = dbo.doQuery()[0][4]
             # logger.info('#1 query')
-            # gLib.uwsgi_log("#1 query")
+            # F.uwsgi_log("#1 query")
             # print("---#1 query")
 
 
             # #-------------------------------
             # db_result = dbo.doQuery(query)
-            # # gLib.uwsgi_log("---#2 query")
+            # # F.uwsgi_log("---#2 query")
             # # db_result = dbo.doQuery(query)
-            # # gLib.uwsgi_log("---#3 query")
+            # # F.uwsgi_log("---#3 query")
             # # db_result = dbo.doQuery(query)
-            # # gLib.uwsgi_log("---#4 query")
+            # # F.uwsgi_log("---#4 query")
             # # db_result = dbo.doQuery(query)
-            # # gLib.uwsgi_log("---#5 query")
+            # # F.uwsgi_log("---#5 query")
             # # db_result = dbo.doQuery(query)
-            # # gLib.uwsgi_log("---#6 query")
+            # # F.uwsgi_log("---#6 query")
             # # db_result = dbo.doQuery(query)
 
             # # r_index = random.randrange(len(db_result))

@@ -3,13 +3,13 @@
 from jug.lib.logger import logger
 
 from flask import render_template
-from jug.lib import gLib
+from jug.lib.f import F
 from jug.dbo import homeDb
 from jug.lib import news_scrape
 # from jug.start import jug
 import random
 from jug.lib import weather_api
-from jug.control.g import G
+from jug.lib.g import G
 
 
 class HomeCtl():
@@ -39,7 +39,7 @@ class HomeCtl():
 
 
         # Get news items from MariaDB
-        # gLib.uwsgi_log("Call HomeDb")
+        # F.uwsgi_log("Call HomeDb")
 
         # logger.info('Call HomeDb')
         homeO = homeDb.HomeDb()
@@ -64,10 +64,10 @@ class HomeCtl():
 
         return result_list
     def getMoon(self, moon_phase):
-        return gLib.getMoon(moon_phase)
+        return F.getMoon(moon_phase)
 
     def getAdverb(self):
-        return gLib.getAdverb()
+        return F.getAdverb()
 
     def doHome(self):
 
@@ -82,7 +82,7 @@ class HomeCtl():
 
         return render_template(
             "homeHtml.jinja",
-            population = gLib.getPop(),
+            population = F.getPop(),
             adv = self.getAdverb(),
             moon_phase = moon_phase,
             news_result = self.get_breaking_news(),

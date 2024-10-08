@@ -7,9 +7,8 @@ from flask import Flask, \
                   request
 
 # from jug.dbo import dbc
-from jug.lib import gLib
-
-from jug.control.g import G
+from jug.lib.f import F
+from jug.lib.g import G
 from pathlib import Path
 import tomli
 import re
@@ -116,23 +115,23 @@ class RouterCtl():
         #     dbo.doConnect()
 
         #     # result = dbo.doQuery()[0][4]
-        #     gLib.uwsgi_log("#1 query")
+        #     F.uwsgi_log("#1 query")
         #     result = dbo.doQuery()
-        #     gLib.uwsgi_log("#2 query")
+        #     F.uwsgi_log("#2 query")
         #     result = dbo.doQuery()
-        #     gLib.uwsgi_log("#3 query")
+        #     F.uwsgi_log("#3 query")
         #     result = dbo.doQuery()
-        #     gLib.uwsgi_log("#4 query")
+        #     F.uwsgi_log("#4 query")
         #     result = dbo.doQuery()
-        #     gLib.uwsgi_log("#5 query")
+        #     F.uwsgi_log("#5 query")
         #     result = dbo.doQuery()
-        #     gLib.uwsgi_log("#6 query")
+        #     F.uwsgi_log("#6 query")
         #     result = dbo.doQuery()
 
 
         #     return result
 
-        #     # return gLib.hesc(dbc)
+        #     # return F.hesc(dbc)
         # except Exception as e:
         #     # print(f"Error committing transaction: {e}")
         #     return [["bad db connection", e]]
@@ -146,10 +145,10 @@ class RouterCtl():
         from jug.control import homeCtl
 
         logger.info('DoHome')
-        # gLib.uwsgi_log("doHome")
+        # F.uwsgi_log("doHome")
 
         # dbc = self.doDb()
-        # gLib.uwsgi_log("post-dbc")
+        # F.uwsgi_log("post-dbc")
 
         self.doCommon()
 
@@ -166,7 +165,7 @@ class RouterCtl():
             # db = dbc
         )
 
-        return gLib.stripJinjaWhiteSpace(pageHtml) + self.logo
+        return F.stripJinjaWhiteSpace(pageHtml) + self.logo
 
 
     def doSomePathUrl(self, url):
@@ -189,7 +188,7 @@ class RouterCtl():
             footer = self.footer,
         )
 
-        return gLib.stripJinjaWhiteSpace(pageHtml) + self.logo
+        return F.stripJinjaWhiteSpace(pageHtml) + self.logo
 
     def doCheckBadPath(self, url):
 
@@ -226,7 +225,7 @@ class RouterCtl():
             # nonlocal url
 
             # check that url ends in /
-            checkPath = gLib.checkPathSlash(url)
+            checkPath = F.checkPathSlash(url)
             # if checkPath != True: return checkPath
             # if not checkPath:
             if checkPath:
@@ -258,7 +257,7 @@ class RouterCtl():
             new_url2 = ' '.join(new_url.split())
 
             # Don't need to escape since we removed all bad characters;
-            # escaped_url = gLib.hesc(new_url)
+            # escaped_url = F.hesc(new_url)
 
             if new_url2 != url2:
                 logger.info(f'Cleaned url: {new_url2} : {url2}')
