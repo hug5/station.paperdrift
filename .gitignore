@@ -6,3 +6,4 @@
 **/config/*
 **/conf/*
 **/__pycache__
+*.scss

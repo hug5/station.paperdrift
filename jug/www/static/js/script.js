@@ -73,14 +73,10 @@ $(function() {
             $(this).html("+MORE")
         }
 
-
-
     });
 
-
- if ( !lib.formInputCheck("msgForm") || $(this).hasClass("disabled") ) return false;
-   var sender = $(this).attr("id");
-
+    // $("#location_box img").fadeOut(0);
+    // $("#location_box img").fadeIn(400);
 
 });
 

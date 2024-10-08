@@ -21,4 +21,12 @@
 
     {% include 'weatherHtml.jinja' %}
 
+    <div id="location_box">
+        <img src="{{location_info["imageUrl"]}}">
+        <div id="location_description_box">
+            <a id="location_title" href="{{location_info["url"]}}" tabindex=-1 target=_blank>About {{location_info["title"]}}</a>
+            <p id="location_description">{{ location_info["description"] }}<span><a href="{{location_info["url"]}}" target=_blank tabindex=-1>READ</a></span></p>
+        </div>
+    </div>
+
 </article>

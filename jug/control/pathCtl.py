@@ -4,6 +4,8 @@ from jug.lib import gLib
 from jug.lib import weather_api
 from jug.control.g import G
 import random
+from jug.lib import news_scrape
+
 
 
 class PathCtl:
@@ -42,6 +44,25 @@ class PathCtl:
             'site_title' : f"{title} | {G.site['name']}"
         }
 
+    def get_Britannica_Location(self, location):
+        news_scrapeO = news_scrape.News_Scrape()
+        json_result = news_scrapeO.get_britannica(location)
+
+        if not json_result:
+            imageUrl = "https://cdn.britannica.com/03/94403-050-03683FB0/Rio-de-Janeiro-Braz.jpg?w=300&h=1000"
+            description = f'{location} is an obscure settlement in an undisclosed location. Not much is known except that the mayor ran off with the barmaid and left his wife and seven children in penury destitution. But all was not lost as word arrived she was sole heir to the Snickers estate. Soon she was flowing in chocolate and suitors as far as the eye can see.'
+            url = "https://www.britannica.com/Geography-Travel"
+            json_result = {}
+            json_result["title"] = location
+            json_result["url"] = url
+            json_result["description"] = description
+            json_result["imageUrl"] = imageUrl
+
+        return json_result
+            # print(json_result["title"])
+            # print(json_result["url"])
+            # print(json_result["description"])
+            # print(json_result["imageUrl"])
 
     def getPop(self):
         return gLib.getPop()
@@ -76,15 +97,16 @@ class PathCtl:
     def doPath(self):
 
         weatherDict = self.getWeather()
-
         # Let's always use canoncial name from weatherAPI, not name entered by user,
         # unless weatherapi couldn't find it; then the bad name is used;
         location = weatherDict.get("location")
           # This would be the safe way to do it... but so much trouble!!
           # how mnay times do I have to error check?!
 
-        self.doConfig(location)
+        location_info = self.get_Britannica_Location(location)
 
+
+        self.doConfig(location)
 
         country = weatherDict["country"]
         local_datetime = weatherDict["datetime"]
@@ -101,6 +123,7 @@ class PathCtl:
             "pathHtml.jinja",
             # city = self.url,
             city = location,
+            location_info = location_info,
             population = self.getPop(),
             moon_phase = moon_phase,
             adv = self.getAdverb(),

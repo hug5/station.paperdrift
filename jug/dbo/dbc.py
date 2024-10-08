@@ -56,7 +56,8 @@ class Dbc():
 
 
         except mariadb.PoolError as e:
-            logger.info(f"Error opening connection from pool: {e}")
+            # logger.info(f"Error opening connection from pool: {e}")
+            logger.exception(f"Error opening connection from pool: {e}")
             self.pool.add_connection()
             pool_connect = self.pool.get_connection() ###
 
@@ -66,7 +67,10 @@ class Dbc():
             # pool_connect = self.pool.get_connection()
 
         except Exception as e:
-            logger.error(f"Error {e}")
+            # logger.error(f"Error {e}")
+            logger.exception(f"dbc Error: {e}")
+
+
 
             self.doDisconnect()
             self.doConnect()

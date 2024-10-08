@@ -2,6 +2,8 @@ from jug.lib.logger import logger
 # Making an HTTP Request
 import requests
 from bs4 import BeautifulSoup
+import json
+
 
 class News_Scrape():
 
@@ -47,7 +49,6 @@ class News_Scrape():
         soup2 = []
         soup2L = []
 
-
         # first 2 titles are yahoo site titles;
         for idx in range(2, len(soup1)):
             soup2.append(soup1[idx].text)
@@ -58,4 +59,43 @@ class News_Scrape():
         # print(soup2)
         # print(soup2L)
 
+    def get_britannica(self, location):
 
+        # location = "Miami"
+
+        url = 'https://www.britannica.com/search?query='
+        response = self.send_req(f'{url}{location}')
+
+        soup = BeautifulSoup(response.text, 'html.parser')
+
+
+        # Find the specific script tag
+        script_tag = soup.find('script', {'data-type': 'Init Mendel'})
+
+        if not script_tag:
+            logger.info(f'britannica not found: {location}')
+            return False
+
+        json_result = {}
+
+        try:
+
+            resultStart = script_tag.text.find("topicInfo")
+            resultStart += 11
+
+            resultEnd = script_tag.text.find("toc", resultStart)
+            resultEnd -= 2
+
+            result = script_tag.text[resultStart:resultEnd]
+
+            json_result = json.loads(result)
+            return json_result
+
+            # print(json_result["title"])
+            # print(json_result["url"])
+            # print(json_result["description"])
+            # print(json_result["imageUrl"])
+
+        except Exception as e:
+            logger.info(f"Britannica error: {e}")
+            return False
