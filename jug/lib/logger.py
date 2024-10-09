@@ -101,5 +101,14 @@ root.info('======== root logger started ========')
 logger.info('======== logger started ========')
 
 # Console sends to uwsgi log;
-
 # file won't send to uwsgi log;
+
+
+# logger.info()
+# logger.debug()
+# logger.warning()
+# logger.error()
+# logger.critical()
+
+# Special exception logger; shorthand;
+# logger.exception(f"config.toml Load Error: {e}")
