@@ -1,8 +1,9 @@
 from jug.lib.logger import logger
-  # need to import the logger variable;
+  # need to import the logger variable
 
+                  # render_template, \
+                  # g as G
 from flask import Flask, \
-                  render_template, \
                   redirect, \
                   request
 
@@ -27,7 +28,7 @@ class RouterCtl():
 
     def __init__(self):
 
-        dir_html = "/jug/html"
+        dir_html = "../html"
 
         self.jug = Flask(
             __name__,
@@ -46,6 +47,10 @@ class RouterCtl():
         self.router_result = False
         self.redirect = [False, '']
 
+        # G.get_db()
+        # G.get_api()
+        # G.get_site()
+
 
     def getRouter_result(self):
         return self.router_result
@@ -53,7 +58,6 @@ class RouterCtl():
     def doConfig_toml(self):
 
         try:
-
             config_toml_path = Path("jug/conf/config.toml")
             if not Path(config_toml_path).is_file():
                 raise FileNotFoundError(f"File Not Found: {config_toml_path}.")
@@ -62,14 +66,6 @@ class RouterCtl():
                 config_toml = tomli.load(file_toml)
                 # If bad, should give FileNotFoundError
 
-            # G["weatherAPI_key"] = config_toml["weatherAPI"]["key"]
-            # G["db"]["un"] = config_toml["db"]["un"]
-            # G["db"]["pw"] = config_toml["db"]["pw"]
-            # G["db"]["host"] = config_toml["db"]["host"]
-            # G["db"]["port"] = config_toml["db"]["port"]
-            # G["db"]["database"] = config_toml["db"]["database"]
-
-            # G.weatherAPI_key = config_toml.get("weatherAPI", {}).get("key")
             G.api["weatherAPI_key"] = config_toml.get("api", {}).get("weatherAPI_key")
 
             G.db["un"] = config_toml["db"]["un"]
@@ -88,6 +84,7 @@ class RouterCtl():
         finally:
             # logger.info(f'weatherAPI_key: {G["weatherAPI_key"]}')
             logger.info(f'weatherAPI_key: {G.api["weatherAPI_key"]}')
+
 
     def doCheckBadPath(self, url):
 
@@ -108,14 +105,14 @@ class RouterCtl():
             home_list = ["home", "paperdrift", "station paperdrift"]
             url2 = url.lower()
 
+
             # check for home or paperdrift in url; if so, go to root url;
             url3 = url2.rstrip('/')
             # if url3 in home_list: return "/"
             if url3 in home_list:
+                logger.info("---redirecting to /")
                 return "/"
-            else:
-                return False
-            # Should also return false implicitly
+            return None
 
 
         def check_trailing_slash():
@@ -129,9 +126,7 @@ class RouterCtl():
             # if not checkPath:
             if checkPath:
                 return checkPath
-            else:
-                return False
-            # Should also return false implicitly
+            return None
 
         def cleanUrl():
             # nonlocal url
@@ -161,11 +156,10 @@ class RouterCtl():
             if new_url2 != url2:
                 logger.info(f'Cleaned url: {new_url2} : {url2}')
                 return "/" + new_url2 + "/"
-            else:
-                # logger.info(f'good url: {escaped_url}')
-                logger.info(f'Good url: {new_url2}')
-                return False
-
+            # else:
+            #     # logger.info(f'good url: {escaped_url}')
+            #     logger.info(f'Good url: {new_url2}')
+            return None
 
             # clean_text = re.sub(r'[^a-zA-Z0-9 ]', '', text)
             # print(clean_text)
@@ -173,21 +167,19 @@ class RouterCtl():
 
         # if check_trailing_slash():
         checkPath = check_trailing_slash()
-        if checkPath: return checkPath
+        if checkPath is not None: return checkPath
 
         # Check if url is clean
         result = cleanUrl()
-        if result: return result
+        if result is not None: return result
 
         # Check that the city name is not home, paperdrift, station paperdrift
         # if check_path_url(): return "/"
         path = check_path_url()
-        if path: return path
+        if path is not None: return path
 
-
-
-        # If all good, return False; nothing to do;
-        return False
+        # If all good, return None; nothing to do;
+        return None
 
 
     def checkTrailingQuestion(self):
@@ -262,7 +254,7 @@ class RouterCtl():
     def doSomePathUrl(self, url):
 
         result = self.doCheckBadPath(url)
-        if result is not False:
+        if result is not None:
             self.redirect[0] = True
             self.redirect[1] = result
             return
@@ -272,56 +264,52 @@ class RouterCtl():
         self.router_result = page_obj.getHtml()
 
 
-    def returnRoute(self):
+    def doRoute(self, sender=True):
+        # Using True/False to denote whether we want to return a result to close out; or whether this is just an intermediary check;
 
         if self.redirect[0] is True:
             return redirect(self.redirect[1], code=301)
-        return self.getRouter_result()
+
+        if sender is True:
+            return self.getRouter_result()
+        # if here, then will implicitly return None
 
 
-    def doRoute(self):
+    def doBeforeRequest(self):
+        self.doRequestUrl()
+        self.checkTrailingQuestion()
+
+
+
+    def parseRoute(self):
 
         # self.doCommon()
         @self.jug.before_request
         def before_request_route():
-            # Shared logic to log the request before processing
-            # print(f"Request received: {request.method} {request.url}")
-            logger.info("---route_common Yay!")
-            # logger.error("---UH")
-            self.doRequestUrl()
-            # if self.checkTrailingQuestion() == False:
-            # if self.checkTrailingQuestion() is False:
-            #     rpath = request.base_url
-            #     return redirect(rpath, code=301)
-            self.checkTrailingQuestion()
-            if self.redirect[0] is True:
-                return redirect(self.redirect[1], code=301)
-
+            # logger.info("---route_common Yay!")
+            self.doBeforeRequest()
+            return self.doRoute(False)
 
         @self.jug.route("/")
         def home():
-            logger.info("---in home")
+            # logger.info("---in home")
             self.doHome()
-            return self.returnRoute()
-
-            # if self.redirect is False:
-            #     return self.getRouter_result()
-            # return redirect(self.redirect_url, code=301)
-
-            # if self.redirect[0] is True:
-            #     return redirect(self.redirect[1], code=301)
-            # return self.getRouter_result()
-
+            return self.doRoute()
 
         @self.jug.route('/<path:url>')
         def somePathUrl(url):
-
             self.doSomePathUrl(url)
-            return self.returnRoute()
+            return self.doRoute()
+
+        # @self.jug.after_request
+        # def after_request_route(response_object):
+        #     # takes a response object and must return a response object; what is a response object?
+        #     logger.info("---after_request")
+        #     return response_object
 
 
     def start(self):
-        self.doRoute()
+        self.parseRoute()
         return self.jug
 
 
