@@ -27,7 +27,7 @@ class RouterCtl():
 
     def __init__(self):
 
-        dir_html = "../html"
+        dir_html = "/jug/html"
 
         self.jug = Flask(
             __name__,
