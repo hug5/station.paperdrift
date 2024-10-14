@@ -3,12 +3,12 @@
 # import os
 # print(os.getcwd())
 
-from jug.control import routerCtl
-jug = routerCtl.RouterCtl().start()
+from jug.control.routerCtl import RouterCtl
+jug = RouterCtl().start()
   # This works
 
-# from jug.control.router import Router
-# jug = Router().start()
+# from jug.control import routerCtl
+# jug = routerCtl.RouterCtl().start()
   # This works
 
 

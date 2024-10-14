@@ -144,6 +144,6 @@ class PathCtl:
         )
 
 
-    def doStart(self):
+    def start(self):
         return self.doPath()
 

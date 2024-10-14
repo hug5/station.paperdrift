@@ -16,10 +16,14 @@ class HomeCtl():
 
     def __init__(self):
         self.config = {}
+        self.html = ''
         pass
 
     def getConfig(self):
         return self.config
+
+    def getHtml(self):
+        return self.html
 
     def doConfig(self):
 
@@ -43,7 +47,7 @@ class HomeCtl():
 
         # logger.info('Call HomeDb')
         homeO = homeDb.HomeDb()
-        result_list = homeO.doStart()
+        result_list = homeO.start()
         logger.info(f'reqs: {result_list}')
 
 
@@ -80,7 +84,8 @@ class HomeCtl():
 
         self.doConfig()
 
-        return render_template(
+        # return render_template(
+        self.html = render_template(
             "homeHtml.jinja",
             population = F.getPop(),
             adv = self.getAdverb(),
@@ -92,6 +97,7 @@ class HomeCtl():
         )
 
 
-    def doStart(self):
-        return self.doHome()
+    def start(self):
+        # return self.doHome()
+        self.doHome()
 

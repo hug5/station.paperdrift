@@ -39,8 +39,11 @@ class RouterCtl():
         self.header = ''
         self.footer = ''
         self.logo = ''
-
         self.doConfig_toml()
+
+        # self.result = False
+        # self.html = ''
+
 
     def doConfig_toml(self):
         try:
@@ -80,21 +83,21 @@ class RouterCtl():
             # logger.info(f'weatherAPI_key: {G["weatherAPI_key"]}')
             logger.info(f'weatherAPI_key: {G.api["weatherAPI_key"]}')
 
-
-
     def doCommon(self):
-        from jug.control import headerCtl
-        from jug.control import footerCtl
+        from jug.control.headerCtl import HeaderCtl
+        from jug.control.footerCtl import FooterCtl
 
         logger.info('DoCommon')
 
         def doHeader():
-            obj = headerCtl.HeaderCtl()
-            self.header = obj.doStart()
+            obj = HeaderCtl()
+            obj.start()
+            self.header = obj.getHtml()
 
         def doFooter():
-            obj = footerCtl.FooterCtl()
-            self.footer = obj.doStart()
+            obj = FooterCtl()
+            obj.start()
+            self.footer = obj.getHtml()
 
         def doLogo():
             self.logo = render_template(
@@ -140,9 +143,8 @@ class RouterCtl():
         #     pass
 
 
-
     def doHome(self):
-        from jug.control import homeCtl
+        from jug.control.homeCtl import HomeCtl
 
         logger.info('DoHome')
         # F.uwsgi_log("doHome")
@@ -152,11 +154,14 @@ class RouterCtl():
 
         self.doCommon()
 
-        homeO = homeCtl.HomeCtl()
-        self.article = homeO.doStart()
-        site_title = homeO.getConfig()["site_title"]
+        home_obj = HomeCtl()
+        # self.article = home_obj.start()
+        home_obj.start()
 
-        pageHtml = render_template(
+        self.article = home_obj.getHtml()
+        site_title = home_obj.getConfig()["site_title"]
+
+        html = render_template(
             "pageHtml.jinja",
             title = site_title,
             header = self.header,
@@ -165,7 +170,7 @@ class RouterCtl():
             # db = dbc
         )
 
-        return F.stripJinjaWhiteSpace(pageHtml) + self.logo
+        return F.stripJinja(html) + self.logo
 
 
     def doSomePathUrl(self, url):
@@ -176,11 +181,11 @@ class RouterCtl():
         self.doCommon()
 
         pathO = pathCtl.PathCtl(url)
-        self.article = pathO.doStart()
+        self.article = pathO.start()
         site_title = pathO.getConfig()["site_title"]
 
 
-        pageHtml = render_template(
+        html = render_template(
             "pageHtml.jinja",
             title = site_title,
             header = self.header,
@@ -188,7 +193,7 @@ class RouterCtl():
             footer = self.footer,
         )
 
-        return F.stripJinjaWhiteSpace(pageHtml) + self.logo
+        return F.stripJinja(html) + self.logo
 
     def doCheckBadPath(self, url):
 
@@ -375,7 +380,6 @@ class RouterCtl():
             return self.doHome()
 
 
-
         @self.jug.route('/<path:url>')
         def somePathUrl(url):
 
@@ -384,7 +388,8 @@ class RouterCtl():
             result = self.doCheckBadPath(url)
             # So a good path will return False; anything else is bad path;
             # And we should redirect to the return value;
-            if result: return redirect(result, code=301)
+            if result:
+                return redirect(result, code=301)
 
             # If path is good, then proceed normally;
             return self.doSomePathUrl(url)
@@ -400,13 +405,15 @@ class RouterCtl():
 
 
     def start(self):
-
         self.doRoute()
         return self.jug
 
 
 
+## NOTES -----------------------------
+
 ## These below don't work even when it appears to!
+
 # method 1
 # obj = Router()
 # jug = obj.start()
@@ -420,4 +427,3 @@ class RouterCtl():
 # app.run(debug=True)
 
 # But how to do this on a running remote server running uwsgi?
-

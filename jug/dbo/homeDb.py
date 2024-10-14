@@ -143,6 +143,6 @@ class HomeDb():
             # return as list, not string; will combine with other news list later;
 
 
-    def doStart(self):
+    def start(self):
         return self.doHomeDb()
 

@@ -45,12 +45,12 @@ class F():
 
         # There doesn't seem to be a way to redirect directly from here; have to do a return; very lame!
 
-    def stripJinjaWhiteSpace(pageHtml):
-        # pageHtml = pageHtml.replace('\n', '').replace('   ', '').replace('  ', '')
-        # # return pageHtml.replace('    ', '')
-        # return pageHtml
+    def stripJinja(html):
+        # html = html.replace('\n', '').replace('   ', '').replace('  ', '')
+        # # return html.replace('    ', '')
+        # return html
 
-        return ' '.join(pageHtml.split())
+        return ' '.join(html.split())
         # Split the string by white spaces and put into a list; then join back using ' ' (space)
         # Supposed to at most leave 1 white space;
         # Not perfect though; see white space between '> <', for instance;
