@@ -234,8 +234,6 @@ class RouterCtl():
 
         # These below give me the same IP address
         # rpath = request.remote_addr
-        # logger.info("---Remote Address: " + rpath)
-          # 84.239.5.141
         rpath = request.environ['REMOTE_ADDR']
         logger.info("---Remote Address2: " + rpath)
           # 84.239.5.141
@@ -264,15 +262,15 @@ class RouterCtl():
     def doSomePathUrl(self, url):
 
         result = self.doCheckBadPath(url)
-        if result:
+        if result is not False:
             self.redirect[0] = True
             self.redirect[1] = result
-            # self.router_result = redirect(self.redirect_url, code=301)
             return
 
         page_obj = PageCtl()
         page_obj.doSomePathUrl(url)
         self.router_result = page_obj.getHtml()
+
 
     def returnRoute(self):
 
@@ -315,39 +313,11 @@ class RouterCtl():
             # return self.getRouter_result()
 
 
-
         @self.jug.route('/<path:url>')
         def somePathUrl(url):
-            # If return False, then the url is fine;
-            # result = self.doCheckBadPath(url)
-            # if result:
-            #     return redirect(result, code=301)
 
             self.doSomePathUrl(url)
             return self.returnRoute()
-            # return self.getRouter_result()
-
-            # "Both are equal" if a == b else "a is greater"
-
-            # if self.redirect[0] is True:
-            #     return redirect(self.redirect[1], code=301)
-
-            # return self.getRouter_result()
-
-            # If path is good, then proceed normally;
-            # return self.doSomePathUrl(url)
-
-
-
-
-
-      # path             /foo/page.html
-      # full_path        /foo/page.html?x=y
-      # script_root      /myapplication
-
-      # url_root         http://www.example.com/myapplication/
-      # base_url         http://www.example.com/myapplication/foo/page.html
-      # url              http://www.example.com/myapplication/foo/page.html?x=y
 
 
     def start(self):
