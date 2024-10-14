@@ -102,7 +102,7 @@ class RouterCtl():
             # nonlocal url  # avoid unbound variable error;
 
             # If url path is any of these, then go home;
-            home_list = ["home", "paperdrift", "station paperdrift"]
+            home_list = ["home", "paperdrift", "station paperdrift", "station"]
             url2 = url.lower()
 
 
