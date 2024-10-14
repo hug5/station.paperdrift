@@ -13,6 +13,8 @@ from pathlib import Path
 import tomli
 import re
 
+from jug.control.pageCtl import PageCtl
+
 
 # import json
 # from json import dumps
@@ -41,11 +43,15 @@ class RouterCtl():
         self.logo = ''
         self.doConfig_toml()
 
-        # self.result = False
-        # self.html = ''
+        self.router_result = False
+        self.redirect = [False, '']
 
+
+    def getRouter_result(self):
+        return self.router_result
 
     def doConfig_toml(self):
+
         try:
 
             config_toml_path = Path("jug/conf/config.toml")
@@ -82,118 +88,6 @@ class RouterCtl():
         finally:
             # logger.info(f'weatherAPI_key: {G["weatherAPI_key"]}')
             logger.info(f'weatherAPI_key: {G.api["weatherAPI_key"]}')
-
-    def doCommon(self):
-        from jug.control.headerCtl import HeaderCtl
-        from jug.control.footerCtl import FooterCtl
-
-        logger.info('DoCommon')
-
-        def doHeader():
-            obj = HeaderCtl()
-            obj.start()
-            self.header = obj.getHtml()
-
-        def doFooter():
-            obj = FooterCtl()
-            obj.start()
-            self.footer = obj.getHtml()
-
-        def doLogo():
-            self.logo = render_template(
-                "logo.jinja"
-            )
-
-        doHeader()
-        doFooter()
-        doLogo()
-        # pass
-
-    # def doDb(self):
-
-        # try:
-
-        #     # dbc = False
-        #     dbo = dbc.Dbc()
-        #     dbo.doConnect()
-
-        #     # result = dbo.doQuery()[0][4]
-        #     F.uwsgi_log("#1 query")
-        #     result = dbo.doQuery()
-        #     F.uwsgi_log("#2 query")
-        #     result = dbo.doQuery()
-        #     F.uwsgi_log("#3 query")
-        #     result = dbo.doQuery()
-        #     F.uwsgi_log("#4 query")
-        #     result = dbo.doQuery()
-        #     F.uwsgi_log("#5 query")
-        #     result = dbo.doQuery()
-        #     F.uwsgi_log("#6 query")
-        #     result = dbo.doQuery()
-
-
-        #     return result
-
-        #     # return F.hesc(dbc)
-        # except Exception as e:
-        #     # print(f"Error committing transaction: {e}")
-        #     return [["bad db connection", e]]
-        # finally:
-        #     dbo.doDisconnect()
-        #     pass
-
-
-    def doHome(self):
-        from jug.control.homeCtl import HomeCtl
-
-        logger.info('DoHome')
-        # F.uwsgi_log("doHome")
-
-        # dbc = self.doDb()
-        # F.uwsgi_log("post-dbc")
-
-        self.doCommon()
-
-        home_obj = HomeCtl()
-        # self.article = home_obj.start()
-        home_obj.start()
-
-        self.article = home_obj.getHtml()
-        site_title = home_obj.getConfig()["site_title"]
-
-        html = render_template(
-            "pageHtml.jinja",
-            title = site_title,
-            header = self.header,
-            article = self.article,
-            footer = self.footer,
-            # db = dbc
-        )
-
-        return F.stripJinja(html) + self.logo
-
-
-    def doSomePathUrl(self, url):
-        from jug.control import pathCtl
-
-        logger.info('DoSomePathUrl')
-
-        self.doCommon()
-
-        pathO = pathCtl.PathCtl(url)
-        self.article = pathO.start()
-        site_title = pathO.getConfig()["site_title"]
-
-
-        html = render_template(
-            "pageHtml.jinja",
-            title = site_title,
-            header = self.header,
-            article = self.article,
-            footer = self.footer,
-        )
-
-        return F.stripJinja(html) + self.logo
 
     def doCheckBadPath(self, url):
 
@@ -295,8 +189,19 @@ class RouterCtl():
         # If all good, return False; nothing to do;
         return False
 
-    def doRequestUrl(self):
 
+    def checkTrailingQuestion(self):
+
+        # check for /?/ and /??+ path (2 or more question marks);
+        ch_qmark = request.full_path
+        if ch_qmark == "/?/" or ch_qmark.find("/??") >= 0 :
+            # return False # Not okay; redirect
+            self.redirect[0] = True
+            self.redirect[1] = request.base_url
+        # return True # okay
+
+
+    def doRequestUrl(self):
 
         # Assume this url:
         # https://station.paperdrift.com/something/?a=b
@@ -348,14 +253,32 @@ class RouterCtl():
         # logger.debug, logger.info, logger.warning, logger.error, logger.critical
 
 
-    def checkTrailingQuestion(self):
+    def doHome(self):
+        # from jug.control.homeCtl import HomeCtl
 
-        # check for /?/ and /??+ path (2 or more question marks);
-        ch_qmark = request.full_path
-        if ch_qmark == "/?/" or ch_qmark.find("/??") >= 0 :
-            return False # Not okay; redirect
+        page_obj = PageCtl()
+        page_obj.doHome()
+        self.router_result = page_obj.getHtml()
 
-        return True # okay
+
+    def doSomePathUrl(self, url):
+
+        result = self.doCheckBadPath(url)
+        if result:
+            self.redirect[0] = True
+            self.redirect[1] = result
+            # self.router_result = redirect(self.redirect_url, code=301)
+            return
+
+        page_obj = PageCtl()
+        page_obj.doSomePathUrl(url)
+        self.router_result = page_obj.getHtml()
+
+    def returnRoute(self):
+
+        if self.redirect[0] is True:
+            return redirect(self.redirect[1], code=301)
+        return self.getRouter_result()
 
 
     def doRoute(self):
@@ -369,30 +292,53 @@ class RouterCtl():
             # logger.error("---UH")
             self.doRequestUrl()
             # if self.checkTrailingQuestion() == False:
-            if not self.checkTrailingQuestion():
-                rpath = request.base_url
-                return redirect(rpath, code=301)
+            # if self.checkTrailingQuestion() is False:
+            #     rpath = request.base_url
+            #     return redirect(rpath, code=301)
+            self.checkTrailingQuestion()
+            if self.redirect[0] is True:
+                return redirect(self.redirect[1], code=301)
 
 
         @self.jug.route("/")
         def home():
             logger.info("---in home")
-            return self.doHome()
+            self.doHome()
+            return self.returnRoute()
+
+            # if self.redirect is False:
+            #     return self.getRouter_result()
+            # return redirect(self.redirect_url, code=301)
+
+            # if self.redirect[0] is True:
+            #     return redirect(self.redirect[1], code=301)
+            # return self.getRouter_result()
+
 
 
         @self.jug.route('/<path:url>')
         def somePathUrl(url):
-
-            # If return some value, then go to that given url
             # If return False, then the url is fine;
-            result = self.doCheckBadPath(url)
-            # So a good path will return False; anything else is bad path;
-            # And we should redirect to the return value;
-            if result:
-                return redirect(result, code=301)
+            # result = self.doCheckBadPath(url)
+            # if result:
+            #     return redirect(result, code=301)
+
+            self.doSomePathUrl(url)
+            return self.returnRoute()
+            # return self.getRouter_result()
+
+            # "Both are equal" if a == b else "a is greater"
+
+            # if self.redirect[0] is True:
+            #     return redirect(self.redirect[1], code=301)
+
+            # return self.getRouter_result()
 
             # If path is good, then proceed normally;
-            return self.doSomePathUrl(url)
+            # return self.doSomePathUrl(url)
+
+
+
 
 
       # path             /foo/page.html
