@@ -174,6 +174,13 @@ class RouterCtl():
             # print(clean_text)
 
 
+        check_trailing_slash()
+        if self.redirect[0] is True: return None
+        cleanUrl()
+        if self.redirect[0] is True: return None
+        check_path_url()
+        # if self.redirect[0] is True: return None
+
         # # if check_trailing_slash():
         # checkPath = check_trailing_slash()
         # if checkPath is not None: return checkPath
@@ -197,9 +204,7 @@ class RouterCtl():
         ch_qmark = request.full_path
         if ch_qmark == "/?/" or ch_qmark.find("/??") >= 0 :
             # return False # Not okay; redirect
-            self.redirect[0] = True
-            self.redirect[1] = request.base_url
-        # return True # okay
+            self.redirect = [True, request.base_url]
 
 
     def doRequestUrl(self):
@@ -266,12 +271,6 @@ class RouterCtl():
         if self.redirect[0] is True:
             return self.redirect[1]
 
-        # result = self.doCheckBadPath(url)
-        # if result is not None:
-        #     self.redirect = [True, result]
-        #     return
-        #-------------------------
-
         page_obj = PageCtl()
         page_obj.doSomePathUrl(url)
         self.response_obj = page_obj.getHtml()
@@ -295,12 +294,12 @@ class RouterCtl():
 
     def parseRoute(self):
 
-        # self.doCommon()
-        # @self.jug.before_request
-        # def before_request_route():
-        #     # logger.info("---route_common Yay!")
-        #     self.doBeforeRequest()
-        #     return self.doRoute(False)
+        @self.jug.before_request
+        def before_request_route():
+            # logger.info("---route_common Yay!")
+            self.doBeforeRequest()
+            return self.doRoute(False)
+            # Odd that if return None, then no effect;
 
         @self.jug.route("/")
         def home():
@@ -312,6 +311,7 @@ class RouterCtl():
         def somePathUrl(url):
             self.doSomePathUrl(url)
             return self.doRoute()
+            # return None
 
         # @self.jug.after_request
         # def after_request_route(response_object):
