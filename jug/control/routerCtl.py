@@ -296,11 +296,11 @@ class RouterCtl():
     def parseRoute(self):
 
         # self.doCommon()
-        @self.jug.before_request
-        def before_request_route():
-            # logger.info("---route_common Yay!")
-            self.doBeforeRequest()
-            return self.doRoute(False)
+        # @self.jug.before_request
+        # def before_request_route():
+        #     # logger.info("---route_common Yay!")
+        #     self.doBeforeRequest()
+        #     return self.doRoute(False)
 
         @self.jug.route("/")
         def home():
