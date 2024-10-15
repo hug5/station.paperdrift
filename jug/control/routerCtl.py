@@ -181,22 +181,6 @@ class RouterCtl():
         check_path_url()
         # if self.redirect[0] is True: return None
 
-        # # if check_trailing_slash():
-        # checkPath = check_trailing_slash()
-        # if checkPath is not None: return checkPath
-
-        # # Check if url is clean
-        # result = cleanUrl()
-        # if result is not None: return result
-
-        # # Check that the city name is not home, paperdrift, station paperdrift
-        # # if check_path_url(): return "/"
-        # path = check_path_url()
-        # if path is not None: return path
-
-        # If all good, return None; nothing to do;
-        # return None
-
 
     def checkTrailingQuestion(self):
 
@@ -327,6 +311,12 @@ class RouterCtl():
 
 
 ## NOTES -----------------------------
+
+# // 2024-10-15 Tue 01:20
+# Must say that I'm not happy with the aesthetics of the code above;
+# Wish python had true ternaries to make doing checks and ifs more graceful;
+# Not sure what the best way to do url checks without being clumsy;
+
 
 ## These below don't work even when it appears to!
 
