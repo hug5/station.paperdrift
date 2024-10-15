@@ -44,7 +44,7 @@ class RouterCtl():
         self.logo = ''
         self.doConfig_toml()
 
-        self.router_result = False
+        self.response_obj = False
         self.redirect = [False, '']
 
         # G.get_db()
@@ -52,8 +52,8 @@ class RouterCtl():
         # G.get_site()
 
 
-    def getRouter_result(self):
-        return self.router_result
+    def getResponse_obj(self):
+        return self.response_obj
 
     def doConfig_toml(self):
 
@@ -111,8 +111,11 @@ class RouterCtl():
             # if url3 in home_list: return "/"
             if url3 in home_list:
                 logger.info("---redirecting to /")
-                return "/"
-            return None
+                # return "/"
+                self.redirect = [True, "/"]
+                # return False
+
+            # return None
 
 
         def check_trailing_slash():
@@ -125,8 +128,11 @@ class RouterCtl():
             # if checkPath != True: return checkPath
             # if not checkPath:
             if checkPath:
-                return checkPath
-            return None
+                # return checkPath
+                self.redirect = [True, checkPath]
+                # return False
+
+            # return None
 
         def cleanUrl():
             # nonlocal url
@@ -155,31 +161,34 @@ class RouterCtl():
 
             if new_url2 != url2:
                 logger.info(f'Cleaned url: {new_url2} : {url2}')
-                return "/" + new_url2 + "/"
+                # return "/" + new_url2 + "/"
+                self.redirect = [True, "/" + new_url2 + "/"]
+                # return False
+
             # else:
             #     # logger.info(f'good url: {escaped_url}')
             #     logger.info(f'Good url: {new_url2}')
-            return None
+            # return None
 
             # clean_text = re.sub(r'[^a-zA-Z0-9 ]', '', text)
             # print(clean_text)
 
 
-        # if check_trailing_slash():
-        checkPath = check_trailing_slash()
-        if checkPath is not None: return checkPath
+        # # if check_trailing_slash():
+        # checkPath = check_trailing_slash()
+        # if checkPath is not None: return checkPath
 
-        # Check if url is clean
-        result = cleanUrl()
-        if result is not None: return result
+        # # Check if url is clean
+        # result = cleanUrl()
+        # if result is not None: return result
 
-        # Check that the city name is not home, paperdrift, station paperdrift
-        # if check_path_url(): return "/"
-        path = check_path_url()
-        if path is not None: return path
+        # # Check that the city name is not home, paperdrift, station paperdrift
+        # # if check_path_url(): return "/"
+        # path = check_path_url()
+        # if path is not None: return path
 
         # If all good, return None; nothing to do;
-        return None
+        # return None
 
 
     def checkTrailingQuestion(self):
@@ -248,20 +257,24 @@ class RouterCtl():
 
         page_obj = PageCtl()
         page_obj.doHome()
-        self.router_result = page_obj.getHtml()
+        self.response_obj = page_obj.getHtml()
 
 
     def doSomePathUrl(self, url):
 
-        result = self.doCheckBadPath(url)
-        if result is not None:
-            self.redirect[0] = True
-            self.redirect[1] = result
-            return
+        self.doCheckBadPath(url)
+        if self.redirect[0] is True:
+            return self.redirect[1]
+
+        # result = self.doCheckBadPath(url)
+        # if result is not None:
+        #     self.redirect = [True, result]
+        #     return
+        #-------------------------
 
         page_obj = PageCtl()
         page_obj.doSomePathUrl(url)
-        self.router_result = page_obj.getHtml()
+        self.response_obj = page_obj.getHtml()
 
 
     def doRoute(self, sender=True):
@@ -271,14 +284,13 @@ class RouterCtl():
             return redirect(self.redirect[1], code=301)
 
         if sender is True:
-            return self.getRouter_result()
+            return self.getResponse_obj()
         # if here, then will implicitly return None
 
 
     def doBeforeRequest(self):
         self.doRequestUrl()
         self.checkTrailingQuestion()
-
 
 
     def parseRoute(self):
