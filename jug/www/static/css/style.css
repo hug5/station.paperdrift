@@ -336,8 +336,8 @@ article h4:nth-child(5) {
 
 
 footer{
-  margin-top: 15px;
-  padding: 3px;
+    margin-top: 15px;
+    padding: 3px;
 
 }
 
@@ -348,6 +348,11 @@ footer #submit_btn{
     background-color:#CBDBE3;
     padding: 5px;
 
+    font-family: "Moderustic", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 18px;
 
 }
 

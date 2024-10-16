@@ -36,13 +36,26 @@ $(function() {
         // remove non-alphanumeric characters, but allow for space
         // all bad characters will be replaced with space;
         // then later we'll remove redundant spaces;
-        dest_val = dest_val.replace(/[^0-9a-z\- ]/gi, ' ')
+        // dest_val = dest_val.replace(/[^0-9a-z\- ]/gi, ' ')
+
+
+        dest_val = dest_val.replace(/[\[\]{}\\<>?@*~!#$%^&(),;+]/gi, ' ');
 
         // remove redundant spaces
-        dest_val = dest_val.replace(/\s\s+/g, ' ')
-        // s = s.replace(/ +/g, " ") // this should also work;
+        // dest_val = dest_val.replace(/\s\s+/g, ' ')
+        dest_val = dest_val.replace(/ +/g, " ") // this should also work;
+        dest_val = dest_val.trim();
+
+        // encode
+        dest_val = encodeURIComponent(dest_val);
+        // replace %20 with +
+        dest_val = dest_val.replace(/%20/gi, '+');
 
         window.location.href = "/" + dest_val + "/";
+
+
+        // return decodeURIComponent(str);
+
 
     }
 

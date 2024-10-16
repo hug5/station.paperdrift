@@ -41,8 +41,7 @@ class RouterCtl():
         self.article = ''
         self.header = ''
         self.footer = ''
-        self.logo = ''
-        self.doConfig_toml()
+        self.setConfig_toml()
 
         self.response_obj = False
         self.redirect = [False, '']
@@ -55,7 +54,7 @@ class RouterCtl():
     def getResponse_obj(self):
         return self.response_obj
 
-    def doConfig_toml(self):
+    def setConfig_toml(self):
 
         try:
             config_toml_path = Path("jug/conf/config.toml")
@@ -80,7 +79,7 @@ class RouterCtl():
         except FileNotFoundError as e:
             logger.exception(f"config.toml Load Error: {e}")
         except Exception as e:
-            logger.exception(f"doConfig_toml Error: {e}")
+            logger.exception(f"setConfig_toml Error: {e}")
         finally:
             # logger.info(f'weatherAPI_key: {G["weatherAPI_key"]}')
             logger.info(f'weatherAPI_key: {G.api["weatherAPI_key"]}')
@@ -100,6 +99,7 @@ class RouterCtl():
             # Check for certain paths we ant to avoid; assign to home if so;
 
             # nonlocal url  # avoid unbound variable error;
+            # logger.info(f'pre url3 in home list: {self.redirect}')
 
             # If url path is any of these, then go home;
             home_list = ["home", "paperdrift", "station paperdrift", "station"]
@@ -108,14 +108,17 @@ class RouterCtl():
 
             # check for home or paperdrift in url; if so, go to root url;
             url3 = url2.rstrip('/')
-            # if url3 in home_list: return "/"
-            if url3 in home_list:
-                logger.info("---redirecting to /")
-                # return "/"
-                self.redirect = [True, "/"]
-                # return False
 
-            # return None
+            # if url3 in home_list:
+            #     # logger.info("---redirecting to /")
+            #     self.redirect = [True, "/"]
+
+            # tuple ternary operator:
+            self.redirect = ([False, ''], [True, '/']) [url3 in home_list]
+
+            # logger.info(f'post url3 in home list: {self.redirect}')
+
+
 
 
         def check_trailing_slash():
@@ -125,14 +128,13 @@ class RouterCtl():
 
             # check that url ends in /
             checkPath = F.checkPathSlash(url)
-            # if checkPath != True: return checkPath
-            # if not checkPath:
-            if checkPath:
-                # return checkPath
-                self.redirect = [True, checkPath]
-                # return False
+            # if checkPath is not True:
+            #     # return checkPath
+            #     self.redirect = [True, checkPath]
+            #     # return False
 
-            # return None
+            self.redirect = ([False, ""], [True, checkPath])[checkPath is not True]
+
 
         def cleanUrl():
             # nonlocal url
@@ -141,7 +143,7 @@ class RouterCtl():
             # remove non-alphanumeric characters, but allow for space
             # all bad characters will be replaced with space;
             # then later we'll remove redundant spaces;
-            new_url = re.sub(r'[^a-zA-Z0-9\- ]', ' ', url2)
+            new_url = re.sub(r'[^%a-zA-Z0-9\- ]', ' ', url2)
             # new_url2 = new_url.replace("  ", " ")
             # new_url = new_url.replace("%20%%20", "x")
             # new_url = new_url.replace("%20", "x")
@@ -155,15 +157,19 @@ class RouterCtl():
 
             # remove redundant spaces
             new_url2 = ' '.join(new_url.split())
+            redirect_url2 = f"/{new_url2}/"
+            logger.info("---redirect_url: " + redirect_url2)
 
             # Don't need to escape since we removed all bad characters;
             # escaped_url = F.hesc(new_url)
 
-            if new_url2 != url2:
-                logger.info(f'Cleaned url: {new_url2} : {url2}')
-                # return "/" + new_url2 + "/"
-                self.redirect = [True, "/" + new_url2 + "/"]
-                # return False
+            # if new_url2 != url2:
+            #     logger.info(f'Cleaned url: {new_url2} : {url2}')
+            #     # return "/" + new_url2 + "/"
+            #     self.redirect = [True, "/" + new_url2 + "/"]
+            #     # return False
+
+            self.redirect = ([False, ''], [True, redirect_url2])[new_url2 != url2]
 
             # else:
             #     # logger.info(f'good url: {escaped_url}')
@@ -174,22 +180,27 @@ class RouterCtl():
             # print(clean_text)
 
 
-        check_trailing_slash()
-        if self.redirect[0] is True: return None
-        cleanUrl()
-        if self.redirect[0] is True: return None
-        check_path_url()
+        # check_trailing_slash()
+        # if self.redirect[0] is True: return None
+        # cleanUrl()
+        # if self.redirect[0] is True: return None
+        # check_path_url()
+
+
         # if self.redirect[0] is True: return None
 
 
     def checkTrailingQuestion(self):
 
         # check for /?/ and /??+ path (2 or more question marks);
-        ch_qmark = request.full_path
-        if ch_qmark == "/?/" or ch_qmark.find("/??") >= 0 :
-            # return False # Not okay; redirect
-            self.redirect = [True, request.base_url]
+        # ch_qmark = request.full_path
+        ch_qmark = request.environ["REQUEST_URI"]
 
+        # if ch_qmark == "/?/" or ch_qmark.find("/??") >= 0 :
+        if ch_qmark == "/?/" or ch_qmark.find("/?") >= 0 :
+            # return False # Not okay; redirect
+            logger.info(f"---found ? {request.base_url}")
+            self.redirect = [True, request.base_url]
 
     def doRequestUrl(self):
 
@@ -264,6 +275,7 @@ class RouterCtl():
         # Using True/False to denote whether we want to return a result to close out; or whether this is just an intermediary check;
 
         if self.redirect[0] is True:
+            logger.info(f'--redirecting: {self.redirect[1]}')
             return redirect(self.redirect[1], code=301)
 
         if sender is True:
@@ -281,21 +293,31 @@ class RouterCtl():
         @self.jug.before_request
         def before_request_route():
             # logger.info("---route_common Yay!")
+            self.redirect = [False, '']
             self.doBeforeRequest()
             return self.doRoute(False)
             # Odd that if return None, then no effect;
 
         @self.jug.route("/")
         def home():
-            # logger.info("---in home")
+            logger.info("---in home")
+
             self.doHome()
             return self.doRoute()
 
-        @self.jug.route('/<path:url>')
+        @self.jug.route('/<path:url>/')
         def somePathUrl(url):
+            logger.info("---in path")
             self.doSomePathUrl(url)
             return self.doRoute()
             # return None
+
+        # @self.jug.route('/<path:url>/<path:url2>/')
+        # def somePathUrl2(url, url2):
+        #     logger.info("---in path url2")
+        #     self.redirect = [True, f"/{url}/"]
+        #     return self.doRoute()
+
 
         # @self.jug.after_request
         # def after_request_route(response_object):

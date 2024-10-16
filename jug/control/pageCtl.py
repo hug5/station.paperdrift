@@ -1,6 +1,8 @@
 from jug.lib.logger import logger
 from flask import render_template
 from jug.lib.f import F
+from jug.control.headerCtl import HeaderCtl
+from jug.control.footerCtl import FooterCtl
 
 
 class PageCtl():
@@ -10,37 +12,33 @@ class PageCtl():
         self.article = ''
         self.header = ''
         self.footer = ''
-        self.logo = ''
+        self.ascii_art = ''
 
         self.html = ''
 
     def getHtml(self):
         return self.html
 
+    def doHeader(self):
+        ob = HeaderCtl()
+        ob.start()
+        self.header = ob.getHtml()
+
+    def doFooter(self):
+        ob = FooterCtl()
+        ob.start()
+        self.footer = ob.getHtml()
+
+    def doAscii_art(self):
+        self.ascii_art = render_template(
+            "ascii_art.jinja"
+        )
+
     def doCommon(self):
-        from jug.control.headerCtl import HeaderCtl
-        from jug.control.footerCtl import FooterCtl
-
-        logger.info('DoCommon')
-
-        def doHeader():
-            obj = HeaderCtl()
-            obj.start()
-            self.header = obj.getHtml()
-
-        def doFooter():
-            obj = FooterCtl()
-            obj.start()
-            self.footer = obj.getHtml()
-
-        def doLogo():
-            self.logo = render_template(
-                "logo.jinja"
-            )
-
-        doHeader()
-        doFooter()
-        doLogo()
+        # logger.info('DoCommon')
+        self.doHeader()
+        self.doFooter()
+        self.doAscii_art()
         # pass
 
     def doHome(self):
@@ -52,12 +50,12 @@ class PageCtl():
 
         self.doCommon()
 
-        home_obj = HomeCtl()
-        # self.article = home_obj.start()
-        home_obj.start()
+        ob = HomeCtl()
+        # self.article = ob.start()
+        ob.start()
 
-        self.article = home_obj.getHtml()
-        site_title = home_obj.getConfig()["site_title"]
+        self.article = ob.getHtml()
+        site_title = ob.getConfig()["site_title"]
 
         html = render_template(
             "pageHtml.jinja",
@@ -68,21 +66,23 @@ class PageCtl():
             # db = dbc
         )
 
-        # return F.stripJinja(html) + self.logo
-        self.html = F.stripJinja(html) + self.logo
+        logger.info(f'---type info: {type(html)}')
+        self.html = F.stripJinja(html) + self.ascii_art
+        # self.html = html + self.ascii_art
 
 
     def doSomePathUrl(self, url):
-        from jug.control import pathCtl
+        from jug.control.pathCtl import PathCtl
 
         logger.info('DoSomePathUrl')
 
         self.doCommon()
 
-        pathO = pathCtl.PathCtl(url)
-        self.article = pathO.start()
-        site_title = pathO.getConfig()["site_title"]
-
+        ob = PathCtl(url)
+        # self.article = ob.start()
+        ob.start()
+        self.article = ob.getHtml()
+        site_title = ob.getConfig()["site_title"]
 
         html = render_template(
             "pageHtml.jinja",
@@ -92,4 +92,5 @@ class PageCtl():
             footer = self.footer,
         )
 
-        self.html = F.stripJinja(html) + self.logo
+        self.html = F.stripJinja(html) + self.ascii_art
+        # self.html = html + self.ascii_art

@@ -15,6 +15,10 @@ class PathCtl:
         self.url = url.rstrip('/').title()
 
         self.config = {}
+        self.html = ''
+
+    def getHtml(self):
+        return self.html
 
     def getConfig(self):
         return self.config
@@ -126,7 +130,7 @@ class PathCtl:
         # logger.info(f'moonphase: {moon_phase[0][0]}')
         # logger.info(f'moonphase: {moon_phase[0][1]}')
 
-        return render_template(
+        self.html = render_template(
             "pathHtml.jinja",
             # city = self.url,
             city = location,

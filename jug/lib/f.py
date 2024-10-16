@@ -39,9 +39,9 @@ class F():
             # raise redirect_to('/' + url2)
 
             return '/' + url2
-        else:
             # return True
-            return False
+
+        return True
 
         # There doesn't seem to be a way to redirect directly from here; have to do a return; very lame!
 

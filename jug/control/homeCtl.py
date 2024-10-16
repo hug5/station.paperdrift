@@ -19,11 +19,11 @@ class HomeCtl():
         self.html = ''
         pass
 
-    def getConfig(self):
-        return self.config
-
     def getHtml(self):
         return self.html
+
+    def getConfig(self):
+        return self.config
 
     def doConfig(self):
 
