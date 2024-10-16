@@ -347,12 +347,9 @@ footer #submit_btn{
     font-size: 16px;
     background-color:#CBDBE3;
     padding: 5px;
+    font-family: inherit;
+    /* On chrome, doesn't seem to take on parent font */
 
-    font-family: "Moderustic", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: normal;
-    font-style: normal;
-    font-size: 18px;
 
 }
 
