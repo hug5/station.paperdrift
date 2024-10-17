@@ -50,15 +50,21 @@ class RouterCtl():
         self.article = ''
         self.header = ''
         self.footer = ''
-        self.setConfig_toml()
+        self.retry_counter = 0
 
         self.response_obj = False
         self.redirect = [False, '']
+
+        G = {}
+
         logger.info(f'---Init. state self.redirect: {self.redirect}')
+        # logger.info(f'Anything in G BEFORE?: [{G.api}][{G.db}][{G.site}][{G.location}]')
 
-        self.retry_counter = 0
 
-        logger.info(f'Anything in G?: {G.api}{G.db}{G.site}')
+        self.setConfig_toml()
+
+        # logger.info(f'Anything in G AFTER?: [{G.api}][{G.db}][{G.site}][{G.location}]')
+        logger.info(f'Anything in G AFTER?: [{G.api}][{G.db}][{G.site}]')
 
         # G.get_db()
         # G.get_api()
@@ -100,6 +106,8 @@ class RouterCtl():
         finally:
             # logger.info(f'weatherAPI_key: {G["weatherAPI_key"]}')
             logger.info(f'weatherAPI_key: {G.api["weatherAPI_key"]}')
+            # logger.info(f'Anything in G AFTER?: [{G.api}][{G.db}][{G.site}]')
+
 
 
     def doCheckBadPath(self, url):
