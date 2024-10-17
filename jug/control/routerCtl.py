@@ -32,7 +32,7 @@ class RouterCtl():
         logger.info('                          ')
         logger.info('XXXXXXXXXXXXXXXXX')
         logger.info('XXXXXXXXXXXXXXXXX')
-        logger.info(f'==== Begin RouterCtl Init ===')
+        logger.info('==== Begin RouterCtl Init ===')
 
         dir_html = "../html"
 
@@ -43,6 +43,9 @@ class RouterCtl():
         )
 
         # self.jug.debug = True
+
+
+    def init(self):
 
         self.article = ''
         self.header = ''
@@ -55,9 +58,13 @@ class RouterCtl():
 
         self.retry_counter = 0
 
+        logger.info(f'Anything in G?: {G.api}{G.db}{G.site}')
+
         # G.get_db()
         # G.get_api()
         # G.get_site()
+
+
 
 
     def getResponse_obj(self):
@@ -379,6 +386,7 @@ class RouterCtl():
         @self.jug.before_request
         def before_request_route():
 
+            self.init()
 
             logger.info('                          ')
             logger.info('                          ')
@@ -416,7 +424,7 @@ class RouterCtl():
         @self.jug.after_request
         def after_request_route(response_object):
             # Reset this!
-            self.redirect = ["False", '']
+            # self.redirect = ["False", '']
             logger.info("---after_request")
 
             # takes a response object and must return a response object; what is a response object?

@@ -11,11 +11,18 @@ from jug.lib import news_scrape
 class PathCtl:
 
     def __init__(self, url):
+
+        logger.info('PathCtl __init__')
+
         # self.url = url.rstrip('/').capitalize()
         self.url = url.rstrip('/').title()
 
         self.config = {}
         self.html = ''
+
+        G.location = "xxxxxxx"
+        logger.info(f'G.location: {G.location}')
+
 
     def getHtml(self):
         return self.html

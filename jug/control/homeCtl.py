@@ -15,8 +15,12 @@ from jug.lib.g import G
 class HomeCtl():
 
     def __init__(self):
+        logger.info('HomeCtl __init__')
+
         self.config = {}
         self.html = ''
+        logger.info(f'G.location: {G.location}')
+
         pass
 
     def getHtml(self):
