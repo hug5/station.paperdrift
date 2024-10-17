@@ -386,9 +386,6 @@ class RouterCtl():
             logger.info('0000000000000000')
             logger.info("---parseRoute")
 
-            # Reset this!
-            self.redirect = ["False", '']
-
             # self.redirect = [False, '']
             self.doBeforeRequest()
             # logger.info("---returning None")
@@ -416,11 +413,14 @@ class RouterCtl():
         #     return self.doRoute()
 
 
-        # @self.jug.after_request
-        # def after_request_route(response_object):
-        #     # takes a response object and must return a response object; what is a response object?
-        #     logger.info("---after_request")
-        #     return response_object
+        @self.jug.after_request
+        def after_request_route(response_object):
+            # Reset this!
+            self.redirect = ["False", '']
+            logger.info("---after_request")
+
+            # takes a response object and must return a response object; what is a response object?
+            return response_object
 
 
     def start(self):
