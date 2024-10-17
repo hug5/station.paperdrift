@@ -8,7 +8,7 @@ from jug.dbo import homeDb
 from jug.lib import news_scrape
 # from jug.start import jug
 import random
-from jug.lib import weather_api
+from jug.lib.weather_api import Weather_api
 from jug.lib.g import G
 
 
@@ -32,11 +32,10 @@ class HomeCtl():
         }
 
     def getWeather(self):
-
         location = "Santa Barbara"
-        weatherO = weather_api.Weather_api()
-        weatherDict = weatherO.do_weather(location)
-        logger.info(f'weather: {weatherDict}')
+        weather_obj = Weather_api()
+        weatherDict = weather_obj.do_weather(location)
+        # logger.info(f'weather: {weatherDict}')
         return weatherDict
 
     def get_breaking_news(self):
@@ -49,7 +48,6 @@ class HomeCtl():
         homeO = homeDb.HomeDb()
         result_list = homeO.start()
         logger.info(f'reqs: {result_list}')
-
 
         # Get news item from Yahoo News with request
         news_scrapeO = news_scrape.News_Scrape()

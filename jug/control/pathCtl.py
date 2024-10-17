@@ -1,7 +1,7 @@
 from jug.lib.logger import logger
 from flask import render_template
 from jug.lib.f import F
-from jug.lib import weather_api
+from jug.lib.weather_api import Weather_api
 from jug.lib.g import G
 import random
 from jug.lib import news_scrape
@@ -92,16 +92,15 @@ class PathCtl:
 
     def getFamousFor(self):
         return F.getFamousFor()
+
     def getFamousSyn(self):
         return F.getFamousSyn()
 
     def getWeather(self):
-
         location = self.url
-        weather = weather_api.Weather_api()
-        weatherDict = weather.do_weather(location)
-        logger.info(f'weather: {weatherDict}')
-
+        weather_obj = Weather_api()
+        weatherDict = weather_obj.do_weather(location)
+        # logger.info(f'weather: {weatherDict}')
         return weatherDict
 
 

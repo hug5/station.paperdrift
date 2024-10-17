@@ -13,7 +13,7 @@ from jug.lib.g import G
 from pathlib import Path
 import tomli
 import re
-
+from urllib import parse
 from jug.control.pageCtl import PageCtl
 
 
@@ -191,16 +191,70 @@ class RouterCtl():
 
 
     def checkTrailingQuestion(self):
+        pass
+        # # check for /?/ and /??+ path (2 or more question marks);
+        # # ch_qmark = request.full_path
+        # ch_qmark = request.environ["REQUEST_URI"]
 
-        # check for /?/ and /??+ path (2 or more question marks);
-        # ch_qmark = request.full_path
-        ch_qmark = request.environ["REQUEST_URI"]
+        # # if ch_qmark == "/?/" or ch_qmark.find("/??") >= 0 :
+        # if ch_qmark == "/?/" or ch_qmark.find("/?") >= 0 :
+        #     # return False # Not okay; redirect
+        #     logger.info(f"---found ? {request.base_url}")
+        #     self.redirect = [True, request.base_url]
 
-        # if ch_qmark == "/?/" or ch_qmark.find("/??") >= 0 :
-        if ch_qmark == "/?/" or ch_qmark.find("/?") >= 0 :
-            # return False # Not okay; redirect
-            logger.info(f"---found ? {request.base_url}")
-            self.redirect = [True, request.base_url]
+    def cleanUrl(self, url):
+
+        url2 = parse.unquote_plus(url)
+        url3 = ' '.join(url2.split())
+        url4 = parse.quote_plus(url3, safe="/", encoding="utf-8", errors='replace')
+
+        # Return clean url with slashes
+        return f'/{url4}/'
+
+    def checkUrl(self):
+
+        req_url = request.environ["REQUEST_URI"]
+        url_list = req_url.split("/")
+        # Home: ['', '']
+        # Home: ['', '?asdf']
+        # some path: ['', 'san%20diego', '?']
+        # url1 = url_list[1]
+
+        url_list_len = len(url_list)
+        logger.info(f'***checkUrl: {url_list} : {url_list_len}')
+
+        # We're at home page
+        if url_list_len == 2 and url_list[1] != '':
+            r_url = "/"
+            logger.info(f'***checkUrl, badurl: "{r_url}"')
+            self.redirect = [True, r_url]
+            return
+
+        # If like this: ['', 'san%20diego', 'asdf', ''], or more;
+        # Then too many paths; redirect to index 1
+        if url_list_len >= 4:
+            url = url_list[1]
+            r_url = self.cleanUrl(url)
+            logger.info(f'***checkUrl, badurl: "{r_url}"')
+            self.redirect = [True, r_url]
+            return
+
+        # if like this: ['', 'san%20diego', '?',]
+        # Then check index 1 and 2
+        if url_list_len == 3:
+            if url_list[2] != '':
+                url = url_list[1]
+                r_url = self.cleanUrl(url)
+                logger.info(f'***checkUrl, badurl: "{r_url}"')
+                self.redirect = [True, r_url]
+
+            else:
+                r_url = self.cleanUrl(url_list[1])
+                url = f'/{url_list[1]}/'
+                if r_url != url:
+                    logger.info(f'***checkUrl, badurl: "{r_url}"')
+                    self.redirect = [True, r_url]
+
 
     def doRequestUrl(self):
 
@@ -262,9 +316,9 @@ class RouterCtl():
 
     def doSomePathUrl(self, url):
 
-        self.doCheckBadPath(url)
-        if self.redirect[0] is True:
-            return self.redirect[1]
+        # self.doCheckBadPath(url)
+        # if self.redirect[0] is True:
+        #     return self.redirect[1]
 
         page_obj = PageCtl()
         page_obj.doSomePathUrl(url)
@@ -285,7 +339,8 @@ class RouterCtl():
 
     def doBeforeRequest(self):
         self.doRequestUrl()
-        self.checkTrailingQuestion()
+        # self.checkTrailingQuestion()
+        self.checkUrl()
 
 
     def parseRoute(self):
@@ -293,7 +348,7 @@ class RouterCtl():
         @self.jug.before_request
         def before_request_route():
             # logger.info("---route_common Yay!")
-            self.redirect = [False, '']
+            # self.redirect = [False, '']
             self.doBeforeRequest()
             return self.doRoute(False)
             # Odd that if return None, then no effect;
@@ -301,13 +356,12 @@ class RouterCtl():
         @self.jug.route("/")
         def home():
             logger.info("---in home")
-
             self.doHome()
             return self.doRoute()
 
         @self.jug.route('/<path:url>/')
         def somePathUrl(url):
-            logger.info("---in path")
+            logger.info(f"---in path: {url}")
             self.doSomePathUrl(url)
             return self.doRoute()
             # return None
@@ -329,7 +383,6 @@ class RouterCtl():
     def start(self):
         self.parseRoute()
         return self.jug
-
 
 
 ## NOTES -----------------------------

@@ -69,7 +69,6 @@ class F():
 
     def cd():
         import os
-
         cwd = os.getcwd()
         print(cwd)
 
