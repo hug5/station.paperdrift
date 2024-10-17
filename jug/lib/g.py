@@ -17,9 +17,14 @@ class G():
 
     api = {}
     site = {}
-
     location = ''
 
+    @staticmethod
+    def init():
+        G.db = {}
+        G.api = {}
+        G.site = {}
+        G.location = ''
 
 
 # Problem with this format is that access is verbose;

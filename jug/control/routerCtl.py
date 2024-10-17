@@ -50,21 +50,23 @@ class RouterCtl():
         self.article = ''
         self.header = ''
         self.footer = ''
-        self.retry_counter = 0
+        # self.retry_counter = 0
+          # This isn't going to work when the variable is here;
+          # On each request, will get reset to 0;
 
         self.response_obj = False
         self.redirect = [False, '']
 
-        G = {}
+        logger.info(f'---init---')
 
-        logger.info(f'---Init. state self.redirect: {self.redirect}')
-        # logger.info(f'Anything in G BEFORE?: [{G.api}][{G.db}][{G.site}][{G.location}]')
+        logger.info(f'Anything in G BEFORE?: [{G.api}][{G.db}][{G.site}][{G.location}]')
+        # G.init()
 
 
         self.setConfig_toml()
+        logger.info(f'Anything in G AFTER?: [{G.api}][{G.db}][{G.site}][{G.location}]')
 
-        # logger.info(f'Anything in G AFTER?: [{G.api}][{G.db}][{G.site}][{G.location}]')
-        logger.info(f'Anything in G AFTER?: [{G.api}][{G.db}][{G.site}]')
+        # logger.info(f'Anything in G AFTER?: [{G.api}][{G.db}][{G.site}]')
 
         # G.get_db()
         # G.get_api()
@@ -369,11 +371,11 @@ class RouterCtl():
         # Using True/False to denote whether we want to return a result to close out; or whether this is just an intermediary check;
 
         if self.redirect[0] is True:
-            self.retry_counter += 1
-            if self.retry_counter > 1:
-                self.redirect[1] = G.site["baseUrl"]
-                logger.info(f'---Borking!--- {self.retry_counter}')
-                self.retry_counter = 0
+            # self.retry_counter += 1
+            # if self.retry_counter > 1:
+            #     self.redirect[1] = G.site["baseUrl"]
+            #     logger.info(f'---Borking!--- {self.retry_counter}')
+            #     self.retry_counter = 0
 
             logger.info(f'--redirecting: {self.redirect[1]}')
             return redirect(self.redirect[1], code=301)
