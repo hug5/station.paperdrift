@@ -100,7 +100,7 @@ class PathCtl:
         location = self.url
         weather_obj = Weather_api()
         weatherDict = weather_obj.do_weather(location)
-        # logger.info(f'weather: {weatherDict}')
+        logger.info(f'weather: {weatherDict}')
         return weatherDict
 
 
@@ -122,6 +122,8 @@ class PathCtl:
         local_datetime = weatherDict["datetime"]
 
         moon_phase = self.getMoon(weatherDict["moon_phase"])
+
+        logger.info(f'moonphase: {moon_phase}')
 
         # moon_phase = weatherDict["moon_phase"]
         # t = type(moon_phase)
