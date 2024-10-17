@@ -28,10 +28,10 @@ class RouterCtl():
 
     def __init__(self):
 
-        logger.info('XXXXXXXXXXXX')
-        logger.info('XXXXXXXXXXXX')
-        logger.info('XXXXXXXXXXXX')
-        logger.info('XXXXXXXXXXXX')
+        logger.info('                          ')
+        logger.info('                          ')
+        logger.info('XXXXXXXXXXXXXXXXX')
+        logger.info('XXXXXXXXXXXXXXXXX')
         logger.info(f'==== Begin RouterCtl Init ===')
 
         dir_html = "../html"
@@ -281,9 +281,6 @@ class RouterCtl():
         # self.redirect = [False, '']
 
 
-
-
-
     def doRequestUrl(self):
 
         # Assume this url:
@@ -383,7 +380,8 @@ class RouterCtl():
         def before_request_route():
 
 
-            logger.info('0000000000000000')
+            logger.info('                          ')
+            logger.info('                          ')
             logger.info('0000000000000000')
             logger.info('0000000000000000')
             logger.info("---parseRoute")
