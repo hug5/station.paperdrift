@@ -93,54 +93,54 @@ class F():
           # Also add thousand separator;
 
 
-    def getMoon(moon_phase=False):
-        # moonArr = ['◐', '◑', '◒', '◓', '◔', '◕']
-        # return moonArr[random.randrange(0, 6)]
-        # return random.choice(moonArr)
-          # Return a random element from the non-empty sequence seq. If seq is empty, raises IndexError.
+    # def getMoon(moon_phase=False):
+    #     # moonArr = ['◐', '◑', '◒', '◓', '◔', '◕']
+    #     # return moonArr[random.randrange(0, 6)]
+    #     # return random.choice(moonArr)
+    #       # Return a random element from the non-empty sequence seq. If seq is empty, raises IndexError.
 
-        # random.randInt(0, 5)  # This returns from 0 to 5, including 5
-        # random.randrange(0,6) # This returns from 0 to 5, excludes 6
+    #     # random.randInt(0, 5)  # This returns from 0 to 5, including 5
+    #     # random.randrange(0,6) # This returns from 0 to 5, excludes 6
 
-        moonList_emoji = ['🌑', '🌒', '🌓', '🌔', '🌕', '🌖', '🌗', '🌘']
-        moonList_str = ["New Moon", "Waxing Crescent", "First Quarter", "Waxing Gibbous", "Full Moon", "Waning Gibbous", "Last Quarter", "Waning Crescent"]
-        # I forget whwere I got these names? May not necessarily correspond with names from api; Oroginally had New Moon and Full Moon as 'New' and 'Full' but 'Full' was incorrect;
+    #     moonList_emoji = ['🌑', '🌒', '🌓', '🌔', '🌕', '🌖', '🌗', '🌘']
+    #     moonList_str = ["New Moon", "Waxing Crescent", "First Quarter", "Waxing Gibbous", "Full Moon", "Waning Gibbous", "Last Quarter", "Waning Crescent"]
+    #     # I forget whwere I got these names? May not necessarily correspond with names from api; Oroginally had New Moon and Full Moon as 'New' and 'Full' but 'Full' was incorrect;
 
-        logger.info(moon_phase)
+    #     logger.info(moon_phase)
 
-        # Return the emoji and text
-        # If no specific moon phase provided, then get random:
-        if  moon_phase:
-            for index, moon in enumerate(moonList_str):
-                if moon_phase.lower() == moon.lower():
-                    return [moonList_str[index], moonList_emoji[index]]
-                    # moon_result = [moonList_str[index], moonList_emoji[index]]
-                    # logger.info(moon_result)
-                    # return moon_result
+    #     # Return the emoji and text
+    #     # If no specific moon phase provided, then get random:
+    #     if  moon_phase:
+    #         for index, moon in enumerate(moonList_str):
+    #             if moon_phase.lower() == moon.lower():
+    #                 return [moonList_str[index], moonList_emoji[index]]
+    #                 # moon_result = [moonList_str[index], moonList_emoji[index]]
+    #                 # logger.info(moon_result)
+    #                 # return moon_result
 
-        logger.info(f"---Bad Moon: No moon match for: {moon_phase}")
-        # If still here, then get random moon phase
-        max = len(moonList_emoji)
-        rnd = random.randrange(0, max)
+    #     logger.info(f"---Bad Moon: No moon match for: {moon_phase}")
+    #     # If still here, then get random moon phase
+    #     max = len(moonList_emoji)
+    #     rnd = random.randrange(0, max)
 
-        return [moonList_str[rnd], moonList_emoji[rnd]]
+    #     return [moonList_str[rnd], moonList_emoji[rnd]]
 
 
-        # moonDict = {
-        #     "New Moon": '🌑',
-        #     "Waxing Crescent Moon":'🌒',
-        #     "First Quarter Moon":'🌓',
-        #     "Waxing Gibbous Moon":'🌔',
-        #     "Full Moon":'🌕',
-        #     "Waning Gibbous Moon":'🌖',
-        #     "Last Quarter Moon":'🌗'
-        #     "Waning Crescent Moon":'🌘'
-        # }
-        # # randomly pop item from dictionary as a list;
-        # # Should return as: ["New Moon", "🌑"]
+    #     # moonDict = {
+    #     #     "New Moon": '🌑',
+    #     #     "Waxing Crescent Moon":'🌒',
+    #     #     "First Quarter Moon":'🌓',
+    #     #     "Waxing Gibbous Moon":'🌔',
+    #     #     "Full Moon":'🌕',
+    #     #     "Waning Gibbous Moon":'🌖',
+    #     #     "Last Quarter Moon":'🌗'
+    #     #     "Waning Crescent Moon":'🌘'
+    #     # }
+    #     # # randomly pop item from dictionary as a list;
+    #     # # Should return as: ["New Moon", "🌑"]
 
-        # moonList = moonDict.popitem()
-        # return moonList
+    #     # moonList = moonDict.popitem()
+    #     # return moonList
 
 
     def getAdverb():

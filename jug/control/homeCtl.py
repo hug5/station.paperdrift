@@ -75,11 +75,6 @@ class HomeCtl():
 
         weatherDict = self.getWeather()
 
-        country = weatherDict["country"]
-        local_datetime = weatherDict["datetime"]
-
-        moon_phase = self.getMoon(weatherDict["moon_phase"])
-
         self.doConfig()
 
         # return render_template(
@@ -87,11 +82,11 @@ class HomeCtl():
             "homeHtml.jinja",
             population = F.getPop(),
             adv = self.getAdverb(),
-            moon_phase = moon_phase,
+            moon_phase = weatherDict["moon_phase"],
             news_result = self.get_breaking_news(),
             weatherDict = weatherDict,
-            local_datetime = local_datetime,
-            country = country
+            local_datetime = weatherDict["datetime"],
+            country = weatherDict["country"]
         )
 
 

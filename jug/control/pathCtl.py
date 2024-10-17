@@ -109,27 +109,16 @@ class PathCtl:
         weatherDict = self.getWeather()
         # Let's always use canoncial name from weatherAPI, not name entered by user,
         # unless weatherapi couldn't find it; then the bad name is used;
-        location = weatherDict.get("location")
+        # location = weatherDict.get("location")
           # This would be the safe way to do it... but so much trouble!!
           # how mnay times do I have to error check?!
 
+        location = weatherDict.get("location")
         location_info = self.get_Britannica_Location(location)
-
-
         self.doConfig(location)
 
-        country = weatherDict["country"]
-        local_datetime = weatherDict["datetime"]
 
-        moon_phase = self.getMoon(weatherDict["moon_phase"])
-
-        logger.info(f'moonphase: {moon_phase}')
-
-        # moon_phase = weatherDict["moon_phase"]
-        # t = type(moon_phase)
-        # logger.info(f'moonphase: {t}')
-        # logger.info(f'moonphase: {moon_phase[0][0]}')
-        # logger.info(f'moonphase: {moon_phase[0][1]}')
+        logger.info(f'moonphase: {weatherDict["moon_phase"]}')
 
         self.html = render_template(
             "pathHtml.jinja",
@@ -137,15 +126,15 @@ class PathCtl:
             city = location,
             location_info = location_info,
             population = self.getPop(),
-            moon_phase = moon_phase,
+            moon_phase = weatherDict["moon_phase"],
             adv = self.getAdverb(),
             adj = self.getAdjective(),
             famousSyn = self.getFamousSyn(),
             famousFor = self.getFamousFor(),
             pronoun = self.getPronoun(),
             weatherDict = weatherDict,
-            local_datetime = local_datetime,
-            country = country
+            local_datetime = weatherDict["datetime"],
+            country = weatherDict["country"]
         )
 
 

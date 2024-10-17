@@ -138,36 +138,57 @@ class Weather_api:
 
         return jsonr
 
+    def getMoon_emoji(self, moon_phase=False):
+        # moonArr = ['◐', '◑', '◒', '◓', '◔', '◕']
+        # return moonArr[random.randrange(0, 6)]
+        # return random.choice(moonArr)
+          # Return a random element from the non-empty sequence seq. If seq is empty, raises IndexError.
 
-    def do_weather(self, location):
+        # random.randInt(0, 5)  # This returns from 0 to 5, including 5
+        # random.randrange(0,6) # This returns from 0 to 5, excludes 6
 
-        jsonr = self.call_weather(location)
+        moonList_emoji = ['🌑', '🌒', '🌓', '🌔', '🌕', '🌖', '🌗', '🌘']
+        moonList_str = ["New Moon", "Waxing Crescent", "First Quarter", "Waxing Gibbous", "Full Moon", "Waning Gibbous", "Last Quarter", "Waning Crescent"]
+        # I forget whwere I got these names? May not necessarily correspond with names from api; Oroginally had New Moon and Full Moon as 'New' and 'Full' but 'Full' was incorrect;
 
-        # If bad location, then get will default to None
-        # result = jsonr.get("location", "other_default_value")
-        result = jsonr.get("location")
+        logger.info(moon_phase)
 
-        # Let's put a cap on the number of retries in case weatherAPI is down or we can't get access; if down, we'll make up a fake weather dictionary;
-        try_counter = 0
-        while result is None:
-            logger.info('Weather None')
-            # If bad location, then try random location:
-            jsonr = self.call_weather(self.get_random_location())
-            result = jsonr.get("location")
+        # Return the emoji and text
+        # If no specific moon phase provided, then get random:
+        if  moon_phase:
+            for index, moon in enumerate(moonList_str):
+                if moon_phase.lower() == moon.lower():
+                    return [moonList_str[index], moonList_emoji[index]]
+                    # moon_result = [moonList_str[index], moonList_emoji[index]]
+                    # logger.info(moon_result)
+                    # return moon_result
 
-            if result:
-                # logger.info('Weather found result')
-                # logger.info(json.dumps(jsonr))
-                # If a random location is good, then we want to put back the user's
-                # original location; not use the random location;
-                jsonr["location"]["name"] = location
-                break
+        logger.info(f"---Bad Moon: No moon match for: {moon_phase}")
+        # If still here, then get random moon phase
+        max = len(moonList_emoji)
+        rnd = random.randrange(0, max)
 
-            try_counter += 1
-            if try_counter > 5:
-                logger.info('WeatherAPI: Get Fake')
-                jsonr = self.make_fake_weather(location)
+        return [moonList_str[rnd], moonList_emoji[rnd]]
 
+        # moonDict = {
+        #     "New Moon": '🌑',
+        #     "Waxing Crescent Moon":'🌒',
+        #     "First Quarter Moon":'🌓',
+        #     "Waxing Gibbous Moon":'🌔',
+        #     "Full Moon":'🌕',
+        #     "Waning Gibbous Moon":'🌖',
+        #     "Last Quarter Moon":'🌗'
+        #     "Waning Crescent Moon":'🌘'
+        # }
+        # # randomly pop item from dictionary as a list;
+        # # Should return as: ["New Moon", "🌑"]
+
+        # moonList = moonDict.popitem()
+        # return moonList
+
+
+
+    def parse_weather_json(self, jsonr):
 
         # parse the json
         # Remember that the location may be fake; ie, not match with request;
@@ -206,7 +227,14 @@ class Weather_api:
             weather["min_temp_f"] = jsonr.get("forecast", {})['forecastday'][0]['day']['mintemp_f']
             weather["sunrise"] = jsonr.get("forecast", {})['forecastday'][0]['astro']['sunrise']
             weather["sunset"] = jsonr.get("forecast", {})['forecastday'][0]['astro']['sunset']
-            weather["moon_phase"] = jsonr.get("forecast", {})['forecastday'][0]['astro']['moon_phase']
+            # weather["moon_phase"] = jsonr.get("forecast", {})['forecastday'][0]['astro']['moon_phase']
+            moon_phase = jsonr.get("forecast", {})['forecastday'][0]['astro']['moon_phase']
+
+            weather["moon_phase"] = self.getMoon_emoji(moon_phase)
+                # will return list:
+                # [0] moon name, [1] moon emoji
+
+
             # print(weather)
             return weather
 
@@ -215,3 +243,38 @@ class Weather_api:
             return {}
         finally:
             pass
+
+
+    def do_weather(self, location):
+
+        jsonr = self.call_weather(location)
+
+        # If bad location, then get will default to None
+        # result = jsonr.get("location", "other_default_value")
+        result = jsonr.get("location")
+
+        # Let's put a cap on the number of retries in case weatherAPI is down or we can't get access; if down, we'll make up a fake weather dictionary;
+        try_counter = 0
+        while result is None:
+            logger.info('Weather None')
+            # If bad location, then try random location:
+            jsonr = self.call_weather(self.get_random_location())
+            result = jsonr.get("location")
+
+            if result:
+                # logger.info('Weather found result')
+                # logger.info(json.dumps(jsonr))
+                # If a random location is good, then we want to put back the user's
+                # original location; not use the random location;
+                jsonr["location"]["name"] = location
+                break
+
+            try_counter += 1
+            if try_counter > 3:
+                # If random location fails, then just make up a completely fake one;
+                logger.info('WeatherAPI: Get Fake')
+                jsonr = self.make_fake_weather(location)
+
+
+        return self.parse_weather_json(jsonr)
+
