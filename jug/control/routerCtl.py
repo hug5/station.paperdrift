@@ -75,6 +75,7 @@ class RouterCtl():
 
             G.site["name"] = config_toml["site"]["name"]
             G.site["tagline"] = config_toml["site"]["tagline"]
+            G.site["baseUrl"] = config_toml["site"]["baseUrl"]
 
         except FileNotFoundError as e:
             logger.exception(f"config.toml Load Error: {e}")
@@ -350,7 +351,9 @@ class RouterCtl():
             # logger.info("---route_common Yay!")
             # self.redirect = [False, '']
             self.doBeforeRequest()
-            return self.doRoute(False)
+            # logger.info("---returning None")
+            # return None
+            # return self.doRoute(False)
             # Odd that if return None, then no effect;
 
         @self.jug.route("/")

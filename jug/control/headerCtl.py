@@ -1,4 +1,5 @@
 from flask import render_template
+from jug.lib.g import G
 
 class HeaderCtl():
 
@@ -10,8 +11,10 @@ class HeaderCtl():
         return self.html
 
     def doHeader(self):
+        baseUrl = G.site["baseUrl"]
         self.html = render_template(
             "headerHtml.jinja",
+            baseUrl = baseUrl
         )
 
     def start(self):
