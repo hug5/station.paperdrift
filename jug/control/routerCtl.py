@@ -53,6 +53,8 @@ class RouterCtl():
         self.redirect = [False, '']
         logger.info(f'---Init. state self.redirect: {self.redirect}')
 
+        self.retry_counter = 0
+
         # G.get_db()
         # G.get_api()
         # G.get_site()
@@ -213,7 +215,7 @@ class RouterCtl():
     def cleanUrl(self, url):
 
         url2 = parse.unquote_plus(url)
-        url3 = url2.replace('[', '').replace(']', '').replace('{', '').replace('}', '').replace('', '').replace('<', '').replace('>', '').replace('?', '').replace('@', '').replace('*', '').replace('~', '').replace('!', '').replace('#', '').replace('$', '').replace('%', '').replace('^', '').replace('&', '').replace('(', '').replace(')', '').replace(',', '').replace(';', '').replace('+', '')
+        url3 = url2.replace('[', '').replace(']', '').replace('{', '').replace('}', '').replace('', '').replace('<', '').replace('>', '').replace('?', '').replace('@', '').replace('*', '').replace('~', '').replace('!', '').replace('#', '').replace('$', '').replace('%', '').replace('^', '').replace('&', '').replace('(', '').replace(')', '').replace(',', '').replace(';', '').replace('+', '').replace('.', '')
         url4 = ' '.join(url3.split())
 
         url5 = parse.quote_plus(url4, safe="/", encoding="utf-8", errors='replace')
@@ -231,6 +233,14 @@ class RouterCtl():
         # Home: ['', '?asdf']
         # some path: ['', 'san%20diego', '?']
         # url1 = url_list[1]
+
+        # Was trying to catch any suffix beginning with #, but can't seem to do it;
+        # There doesn't seem to be a way to grab that value or its existence;
+        # parsed_url = parse.urlparse(req_url)
+        # fragment = parsed_url[5]
+        # logger.info(f'***url_fragment: {parsed_url}')
+        ##:: ParseResult(scheme='https', netloc='station.paperdrift.com', path='/first second/third fourth/', params='', query='hello=goodbye&ciao=buenes', fragmenurlurlt='marker')
+
 
         url_list_len = len(url_list)
         logger.info(f'***checkUrl: {url_list} : {url_list_len}')
@@ -347,10 +357,14 @@ class RouterCtl():
         # Using True/False to denote whether we want to return a result to close out; or whether this is just an intermediary check;
 
         if self.redirect[0] is True:
+            self.retry_counter += 1
+            if self.retry_counter > 1:
+                self.redirect[1] = G.site["baseUrl"]
+                logger.info(f'---Borking!--- {self.retry_counter}')
+                self.retry_counter = 0
+
             logger.info(f'--redirecting: {self.redirect[1]}')
-            new_redirect = self.redirect[1]
-            self.redirect = ["False", '']
-            return redirect(new_redirect, code=301)
+            return redirect(self.redirect[1], code=301)
 
         if sender is True:
             return self.getResponse_obj()
@@ -367,7 +381,16 @@ class RouterCtl():
 
         @self.jug.before_request
         def before_request_route():
-            # logger.info("---route_common Yay!")
+
+
+            logger.info('0000000000000000')
+            logger.info('0000000000000000')
+            logger.info('0000000000000000')
+            logger.info("---parseRoute")
+
+            # Reset this!
+            self.redirect = ["False", '']
+
             # self.redirect = [False, '']
             self.doBeforeRequest()
             # logger.info("---returning None")

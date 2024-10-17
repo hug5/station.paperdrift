@@ -39,7 +39,7 @@ $(function() {
         // dest_val = dest_val.replace(/[^0-9a-z\- ]/gi, ' ')
 
 
-        dest_val = dest_val.replace(/[\[\]{}\\<>?@*~!#$%^&(),;+]/gi, ' ');
+        dest_val = dest_val.replace(/[\[\]{}\\<>?@*~!#$%^&(),;+\.]/gi, ' ');
 
         // remove redundant spaces
         // dest_val = dest_val.replace(/\s\s+/g, ' ')
