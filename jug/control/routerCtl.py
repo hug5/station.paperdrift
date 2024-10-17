@@ -28,6 +28,12 @@ class RouterCtl():
 
     def __init__(self):
 
+        logger.info('XXXXXXXXXXXX')
+        logger.info('XXXXXXXXXXXX')
+        logger.info('XXXXXXXXXXXX')
+        logger.info('XXXXXXXXXXXX')
+        logger.info(f'==== Begin RouterCtl Init ===')
+
         dir_html = "../html"
 
         self.jug = Flask(
@@ -45,7 +51,7 @@ class RouterCtl():
 
         self.response_obj = False
         self.redirect = [False, '']
-        logger.info(f'Init. state self.redirect: {self.redirect}')
+        logger.info(f'---Init. state self.redirect: {self.redirect}')
 
         # G.get_db()
         # G.get_api()
@@ -342,7 +348,9 @@ class RouterCtl():
 
         if self.redirect[0] is True:
             logger.info(f'--redirecting: {self.redirect[1]}')
-            return redirect(self.redirect[1], code=301)
+            new_redirect = self.redirect[1]
+            self.redirect = ["False", '']
+            return redirect(new_redirect, code=301)
 
         if sender is True:
             return self.getResponse_obj()
