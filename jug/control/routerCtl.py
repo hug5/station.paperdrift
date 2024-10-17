@@ -45,6 +45,7 @@ class RouterCtl():
 
         self.response_obj = False
         self.redirect = [False, '']
+        logger.info(f'Init. state self.redirect: {self.redirect}')
 
         # G.get_db()
         # G.get_api()
@@ -206,13 +207,17 @@ class RouterCtl():
     def cleanUrl(self, url):
 
         url2 = parse.unquote_plus(url)
-        url3 = ' '.join(url2.split())
-        url4 = parse.quote_plus(url3, safe="/", encoding="utf-8", errors='replace')
+        url3 = url2.replace('[', '').replace(']', '').replace('{', '').replace('}', '').replace('', '').replace('<', '').replace('>', '').replace('?', '').replace('@', '').replace('*', '').replace('~', '').replace('!', '').replace('#', '').replace('$', '').replace('%', '').replace('^', '').replace('&', '').replace('(', '').replace(')', '').replace(',', '').replace(';', '').replace('+', '')
+        url4 = ' '.join(url3.split())
+
+        url5 = parse.quote_plus(url4, safe="/", encoding="utf-8", errors='replace')
 
         # Return clean url with slashes
-        return f'/{url4}/'
+        return f'/{url5}/'
 
     def checkUrl(self):
+
+        logger.info(f'Beg. state self.redirect: {self.redirect}')
 
         req_url = request.environ["REQUEST_URI"]
         url_list = req_url.split("/")
@@ -226,10 +231,10 @@ class RouterCtl():
 
         # We're at home page
         if url_list_len == 2 and url_list[1] != '':
-            r_url = "/"
+            # r_url = "/"
+            r_url = G.site["baseUrl"]
             logger.info(f'***checkUrl, badurl: "{r_url}"')
             self.redirect = [True, r_url]
-            return
 
         # If like this: ['', 'san%20diego', 'asdf', ''], or more;
         # Then too many paths; redirect to index 1
@@ -238,7 +243,6 @@ class RouterCtl():
             r_url = self.cleanUrl(url)
             logger.info(f'***checkUrl, badurl: "{r_url}"')
             self.redirect = [True, r_url]
-            return
 
         # if like this: ['', 'san%20diego', '?',]
         # Then check index 1 and 2
@@ -255,6 +259,13 @@ class RouterCtl():
                 if r_url != url:
                     logger.info(f'***checkUrl, badurl: "{r_url}"')
                     self.redirect = [True, r_url]
+
+        logger.info(f'End. state self.redirect: {self.redirect}')
+
+        # self.redirect = [False, '']
+
+
+
 
 
     def doRequestUrl(self):
