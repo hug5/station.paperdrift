@@ -62,6 +62,7 @@ header{
     width: 1px;
     height: 100%;
     background-color: #8D561E;
+    opacity: .8;
     float: left;
     position: relative;
     /*animation: beam_move 2s infinite; */

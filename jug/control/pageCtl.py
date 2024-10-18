@@ -51,8 +51,7 @@ class PageCtl():
         self.doCommon()
 
         ob = HomeCtl()
-        # self.article = ob.start()
-        ob.start()
+        ob.doHome()
 
         self.article = ob.getHtml()
         site_title = ob.getConfig()["site_title"]
@@ -80,7 +79,7 @@ class PageCtl():
 
         ob = LocationCtl(url)
         # self.article = ob.start()
-        ob.start()
+        ob.doLocation()
         self.article = ob.getHtml()
         site_title = ob.getConfig()["site_title"]
 

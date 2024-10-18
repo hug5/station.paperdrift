@@ -16,11 +16,9 @@ class HomeCtl():
 
     def __init__(self):
         logger.info('HomeCtl __init__')
-
         self.config = {}
         self.html = ''
 
-        pass
 
     def getHtml(self):
         return self.html
@@ -35,7 +33,7 @@ class HomeCtl():
         }
 
     def getWeather(self):
-        location = "Santa Barbara"
+        location = "Santa Barbara" # for home page, default to Santa Barbara
         weather_obj = Weather_api()
         weatherDict = weather_obj.do_weather(location)
         # logger.info(f'weather: {weatherDict}')
@@ -77,10 +75,8 @@ class HomeCtl():
     def doHome(self):
 
         weatherDict = self.getWeather()
-
         self.doConfig()
 
-        # return render_template(
         self.html = render_template(
             "homeHtml.jinja",
             population = F.getPop(),
@@ -91,9 +87,4 @@ class HomeCtl():
             local_datetime = weatherDict["datetime"],
             country = weatherDict["country"]
         )
-
-
-    def start(self):
-        # return self.doHome()
-        self.doHome()
 

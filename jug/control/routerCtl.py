@@ -32,9 +32,9 @@ class RouterCtl():
         self.response_obj = False
         self.redirect = [False, '']
 
-        logger.info(f'Anything in G BEFORE?: [{G.api}][{G.db}][{G.site}]')
+        logger.info(f'---In G BEFORE?: [{G.api}][{G.db}][{G.site}]')
         G.reset()
-        logger.info(f'Anything in G AFTER?: [{G.api}][{G.db}][{G.site}]')
+        logger.info(f'---In G AFTER?: [{G.api}][{G.db}][{G.site}]')
 
         self.setConfig_toml()
 

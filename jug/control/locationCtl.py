@@ -13,10 +13,8 @@ class LocationCtl:
     def __init__(self, url):
 
         logger.info('LocationCtl __init__')
-
         # self.url = url.rstrip('/').capitalize()
         self.url = url.rstrip('/').title()
-
         self.config = {}
         self.html = ''
 
@@ -125,8 +123,7 @@ class LocationCtl:
         logger.info(f'moonphase: {weatherDict["moon_phase"]}')
 
         self.html = render_template(
-            "pathHtml.jinja",
-            # city = self.url,
+            "locationHtml.jinja",
             city = location,
             location_info = location_info,
             population = self.getPop(),
@@ -141,7 +138,4 @@ class LocationCtl:
             country = weatherDict["country"]
         )
 
-
-    def start(self):
-        return self.doLocation()
 
