@@ -37,17 +37,18 @@ a:visited{
 header{
   margin: 0;
   padding: 15px 0 15px 0;
+  overflow: hidden;
 
 
-  div#titlebox{
-    border:2px solid #824E1A;
-    border:2px solid #BF6B17;
+  #titlebox{
     border:2px solid #D5883B;
+    border-left: 5px solid #D5883B;
+
     overflow: hidden;
     width: fit-content;
     height: 40px;
 
-    span {
+    a span {
       float: left;
       /*margin-top: 25px;*/
       margin: 7px;
@@ -57,7 +58,7 @@ header{
       }
     }
 
-    h3 {
+    a h3 {
       background-color: #D5883B;
       padding: 8px;
       padding-left: 12px;
@@ -72,7 +73,6 @@ header{
 
   }
 }
-
 
 
 
@@ -187,11 +187,15 @@ article h4:nth-child(5) {
   color: #5E5B5B;
   font-weight: 700;
   max-width: 100px;
-  height: 64px;
   display: grid;
   align-items: center;
-  /*  grid, align-items seems to finally  vertically center  */
+  min-height: 64px;
+  /*
+  border: 1px solid;
+  overflow: hidden;
+  grid, align-items seems to finally  vertically center  */
   text-align: center;
+
 }
 
 #weather_section #weather_imageBox #humidity_text{
@@ -364,51 +368,61 @@ article h4:nth-child(5) {
 
 
 footer{
-    margin-top: 15px;
-    padding: 3px;
-
+  margin-top: 15px;
 }
 
-footer #destination_input,
-footer #submit_btn{
+
+/*---------------------------------------------*/
+
+
+#searchBox{
+
+  padding: 3px;
+
+  /* overflow: hidden;
+  float: left;
+  clear: none;
+  margin-top: 5px; */
+
+  #destination_input,
+  #submit_btn{
     border: 1px solid #828282;
     font-size: 16px;
     background-color:#CBDBE3;
     padding: 5px;
     font-family: inherit;
     /* On chrome, doesn't seem to take on parent font */
+  }
 
-
-}
-
-footer #destination_input {
+  #destination_input {
     width: 200px;
-    /* top-left | top-right | bottom-right | bottom-left */
     border-radius: 5px 0 0px 5px;
     border-style: solid;
-    /* box-shadow: 2px 2px 2px#536C59; */
-}
+    /* top-left | top-right | bottom-right | bottom-left
+    box-shadow: 2px 2px 2px#536C59;
+    &:is(:hover, :focus-visible)
+    */
+    &:focus {
+        background-color:#FFF;
+    }
+  }
 
-footer #destination_input:focus {
-    background-color:#FFF;
 
-
-}
-
-footer #submit_btn{
+  #submit_btn{
     /* top-left | top-right | bottom-right | bottom-left */
     border-radius: 0 5px 5px 0;
     position: relative; left: -2px;
     padding-left: 8px;
     padding-right: 8px;
+    /*     margin-left: 4px; */
 
-}
+  }
 
-footer #submit_btn:hover{
-  cursor: pointer;
+  #submit_btn:hover{
+    cursor: pointer;
     background-color:#B2C5CF;
 
+  }
+
 }
-
-
 

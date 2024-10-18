@@ -53,10 +53,14 @@ class F():
         # return html
 
         return ' '.join(html.split())
+        # return ' '.join(html.split()).replace('> <', '><')
         # Split the string by white spaces and put into a list; then join back using ' ' (space)
         # Supposed to at most leave 1 white space;
         # Not perfect though; see white space between '> <', for instance;
-        # Not sure about speed between this and doing replace command;
+        # Also note that we can use replace to make > < to ><,
+        # but this will alter the css layout sometimes; This is a quandary;
+        # I have not seen any noticeable difference between stripping (as I do above),
+        # And not stripping; so maybe that's a good baseline to start with;
 
     def hesc(str):
         # result = flask.escape(str)
