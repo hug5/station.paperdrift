@@ -25,11 +25,25 @@ class JugCtl():
 
         self.jug = Flask(
             __name__,
-            # template_folder="jug/html"
             template_folder=dir_html,
+            # static_folder="www/static",
+
         )
 
-        # self.jug.debug = True
+        self.jug.debug = True
+
+        logger.info(f'====root_path: {self.jug.root_path}')
+        logger.info(f'====instance_path: {self.jug.instance_path}')
+        # root_path:     /srv/http/station.paperdrift/jug/control
+        # instance_path: /srv/http/station.paperdrift/instance
+
+        # https://flask.palletsprojects.com/en/2.3.x/api/
+        # static_url_path
+        # static_folder
+        # instance_path
+        # root_path
+        # template_folder
+
 
     def jug_init(self):
 
@@ -422,3 +436,5 @@ class JugCtl():
 
         self.parseRoute()
         return self.jug
+
+

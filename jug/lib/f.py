@@ -11,7 +11,7 @@ import os
 
 class F():
 
-
+    @staticmethod
     def uwsgi_log(msg):
 
         # log_path = os.getcwd() + "/etc/log/uwsgi.log"
@@ -23,6 +23,7 @@ class F():
     # escape("<script>alert(document.cookie);</script>")
     # Markup(u'&lt;script&gt;alert(document.cookie);&lt;/script&gt;')
 
+    @staticmethod
     def checkPathSlash(url):
         # checks that url ends in slash
 
@@ -47,6 +48,7 @@ class F():
 
         # There doesn't seem to be a way to redirect directly from here; have to do a return; very lame!
 
+    @staticmethod
     def stripJinja(html):
         # html = html.replace('\n', '').replace('   ', '').replace('  ', '')
         # # return html.replace('    ', '')
@@ -62,6 +64,7 @@ class F():
         # I have not seen any noticeable difference between stripping (as I do above),
         # And not stripping; so maybe that's a good baseline to start with;
 
+    @staticmethod
     def hesc(str):
         # result = flask.escape(str)
           # Not work
@@ -72,14 +75,15 @@ class F():
         # return str
         return result
 
-
+    @staticmethod
     def cd():
         import os
         cwd = os.getcwd()
         print(cwd)
 
-
+    @staticmethod
     def getPop():
+        # Get random population number
 
         # import math
 
@@ -96,57 +100,7 @@ class F():
           # Alias for randrange(a, b+1).
           # Also add thousand separator;
 
-
-    # def getMoon(moon_phase=False):
-    #     # moonArr = ['◐', '◑', '◒', '◓', '◔', '◕']
-    #     # return moonArr[random.randrange(0, 6)]
-    #     # return random.choice(moonArr)
-    #       # Return a random element from the non-empty sequence seq. If seq is empty, raises IndexError.
-
-    #     # random.randInt(0, 5)  # This returns from 0 to 5, including 5
-    #     # random.randrange(0,6) # This returns from 0 to 5, excludes 6
-
-    #     moonList_emoji = ['🌑', '🌒', '🌓', '🌔', '🌕', '🌖', '🌗', '🌘']
-    #     moonList_str = ["New Moon", "Waxing Crescent", "First Quarter", "Waxing Gibbous", "Full Moon", "Waning Gibbous", "Last Quarter", "Waning Crescent"]
-    #     # I forget whwere I got these names? May not necessarily correspond with names from api; Oroginally had New Moon and Full Moon as 'New' and 'Full' but 'Full' was incorrect;
-
-    #     logger.info(moon_phase)
-
-    #     # Return the emoji and text
-    #     # If no specific moon phase provided, then get random:
-    #     if  moon_phase:
-    #         for index, moon in enumerate(moonList_str):
-    #             if moon_phase.lower() == moon.lower():
-    #                 return [moonList_str[index], moonList_emoji[index]]
-    #                 # moon_result = [moonList_str[index], moonList_emoji[index]]
-    #                 # logger.info(moon_result)
-    #                 # return moon_result
-
-    #     logger.info(f"---Bad Moon: No moon match for: {moon_phase}")
-    #     # If still here, then get random moon phase
-    #     max = len(moonList_emoji)
-    #     rnd = random.randrange(0, max)
-
-    #     return [moonList_str[rnd], moonList_emoji[rnd]]
-
-
-    #     # moonDict = {
-    #     #     "New Moon": '🌑',
-    #     #     "Waxing Crescent Moon":'🌒',
-    #     #     "First Quarter Moon":'🌓',
-    #     #     "Waxing Gibbous Moon":'🌔',
-    #     #     "Full Moon":'🌕',
-    #     #     "Waning Gibbous Moon":'🌖',
-    #     #     "Last Quarter Moon":'🌗'
-    #     #     "Waning Crescent Moon":'🌘'
-    #     # }
-    #     # # randomly pop item from dictionary as a list;
-    #     # # Should return as: ["New Moon", "🌑"]
-
-    #     # moonList = moonDict.popitem()
-    #     # return moonList
-
-
+    @staticmethod
     def getAdverb():
         adverbs_list = [
             "Turning",
@@ -167,6 +121,7 @@ class F():
         rnum = random.randint(0, len(adverbs_list)-1)
         return adverbs_list[rnum]
 
+    @staticmethod
     def getAdjective():
         adjectives_list = [
             "beautiful",
@@ -199,6 +154,7 @@ class F():
         rnum = random.randint(0, len(adjectives_list)-1)
         return adjectives_list[rnum]
 
+    @staticmethod
     def getPronoun():
         pronouns_list = [
             "backwater",
@@ -226,6 +182,7 @@ class F():
 
         return pronouns_list[random.randint(0, len(pronouns_list)-1)]
 
+    @staticmethod
     def getFamousSyn():
         famous_list = [
             "famous",
@@ -251,7 +208,7 @@ class F():
 
         return famous_list[random.randrange(0, len(famous_list))]
 
-
+    @staticmethod
     def getFamousFor():
         famous_list = [
             "ankle-breaking rocky hills",
