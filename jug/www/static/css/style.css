@@ -1,6 +1,7 @@
-/* html, body {
+/* :root, html, body {
     height:100%;
 } */
+
 body{
   font-family: "Moderustic", sans-serif;
   font-optical-sizing: auto;
@@ -41,6 +42,7 @@ header{
   div#titlebox{
     border:2px solid #824E1A;
     border:2px solid #BF6B17;
+    border:2px solid #D5883B;
     overflow: hidden;
     width: fit-content;
     height: 40px;
@@ -50,8 +52,8 @@ header{
       /*margin-top: 25px;*/
       margin: 7px;
       img{
-        width: 25px;
-        height:25px;
+        width: 27px;
+        height:27px;
       }
     }
 
