@@ -35,10 +35,17 @@ a:visited{
 
 header{
   margin: 0;
+  border:1px solid #BF6B17;
+  overflow: hidden;
 
-  span img{
-    width: 25px;
-    height:25px;
+  span {
+    border:1px solid #BF6B17;
+    float: left;
+    margin-top: 10px;
+    img{
+      width: 25px;
+      height:25px;
+    }
   }
 
   h3 {
@@ -48,6 +55,8 @@ header{
     padding-right: 12px;
     width: fit-content;
     border:1px solid #BF6B17;
+    clear: none;
+    float: left;
 
   }
 }
