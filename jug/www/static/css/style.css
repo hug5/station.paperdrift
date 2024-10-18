@@ -48,6 +48,12 @@ header h3{
   border:1px solid #BF6B17;
 }
 
+header h3 span img{
+  width: 30px;
+  height:30px;
+}
+
+
 /*---------------------------------------------*/
 
 /*
