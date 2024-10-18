@@ -1,6 +1,6 @@
 from jug.lib.logger import logger
 
-from flask import Flask, redirect, request
+from flask import redirect, request
 
 # from jug.dbo import dbc
 from jug.lib.f import F
@@ -12,40 +12,14 @@ from urllib import parse
 from jug.control.pageCtl import PageCtl
 
 
-class JugCtl():
+class RouterCtl():
 
-    def __init__(self):
-        logger.info('                          ')
-        logger.info('                          ')
-        logger.info('XXXXXXXXXXXXXXXXX')
-        logger.info('XXXXXXXXXXXXXXXXX')
-        logger.info('==== Begin JugCtl __init__ ===')
-
-        dir_html = "../html"
-
-        self.jug = Flask(
-            __name__,
-            template_folder=dir_html,
-            # static_folder="www/static",
-
-        )
-
-        self.jug.debug = True
-
-        logger.info(f'====root_path: {self.jug.root_path}')
-        logger.info(f'====instance_path: {self.jug.instance_path}')
-        # root_path:     /srv/http/station.paperdrift/jug/control
-        # instance_path: /srv/http/station.paperdrift/instance
-
-        # https://flask.palletsprojects.com/en/2.3.x/api/
-        # static_url_path
-        # static_folder
-        # instance_path
-        # root_path
-        # template_folder
+    def __init__(self, jug):
+        self.jug = jug
+        logger.info('==== Begin RouterCtl __init__ ===')
 
 
-    def jug_init(self):
+    def router_init(self):
 
         self.article = ''
         self.header = ''
@@ -57,7 +31,7 @@ class JugCtl():
         self.response_obj = False
         self.redirect = [False, '']
 
-        logger.info('---jug_init---')
+        logger.info('---router_init---')
 
         logger.info(f'Anything in G BEFORE?: [{G.api}][{G.db}][{G.site}]')
         G.init()
@@ -386,7 +360,7 @@ class JugCtl():
     def doBeforeRequest(self):
         self.doRequestUrl()
         # self.checkTrailingQuestion()
-        self.jug_init()
+        self.router_init()
         self.checkUrl()
 
 
@@ -430,11 +404,11 @@ class JugCtl():
             return response_object
 
 
-    def doJug(self):
-        # ro = RouterCtl(self.jug)
-        # ro.parseRoute()
+    # def doJug(self):
+    #     # ro = RouterCtl(self.jug)
+    #     # ro.parseRoute()
 
-        self.parseRoute()
-        return self.jug
+    #     self.parseRoute()
+    #     return self.jug
 
 
