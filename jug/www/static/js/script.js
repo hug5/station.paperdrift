@@ -55,8 +55,6 @@ $(function() {
 
 
         // return decodeURIComponent(str);
-
-
     }
 
     $("#submit_btn").on("click", gotoCity);
@@ -88,8 +86,100 @@ $(function() {
 
     });
 
-    // $("#location_box img").fadeOut(0);
-    // $("#location_box img").fadeIn(400);
+
+
+
 
 });
 
+
+
+// $("#location_box img").fadeOut(0);
+// $("#location_box img").fadeIn(400);
+
+
+// var p_action  = "contactUsMsg",
+//     p_name    = lib.ajaxencode(name),
+//     p_email   = lib.ajaxencode(email),
+//     p_msg     = lib.ajaxencode(msg),
+
+//     param     = "action=" + p_action +
+//                 "&name=" + p_name +
+//                 "&email=" + p_email +
+//                 "&msg=" + p_msg;
+// $.post(G.ajaxUrl, param, function(result) {
+
+//     $(this_btn).removeClass("disabled");
+
+//     if (result == "ok") {
+
+//         $("#msgForm").slideUp(400, function() {
+//             $("#formSection p").fadeIn(300).html("YOUR MESSAGE WAS SENT!");
+//         });
+//     }
+
+//     else {
+//         $("#formSection p").fadeIn(300).html("Oops! There was an error.");
+//     }
+// });
+
+
+// $("#submit").click(function (e) {
+//     $.post("result.php",
+//     {
+//         firstName: $("#firstName").val(),
+//         lastName: $("#lastName").val()
+//     })
+//     .done(function (result, status, xhr) {
+//         $("#message").html(result)
+//     })
+//     .fail(function (xhr, status, error) {
+//         $("#message").html("Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText)
+//     });
+// });
+
+// var jqxhr = $.ajax( "example.php" )
+//   .done(function() {
+//     alert( "success" );
+//   })
+//   .fail(function() {
+//     alert( "error" );
+//   })
+//   .always(function() {
+//     alert( "complete" );
+//   });
+
+
+//    $.ajax({
+//      url: 'https://jsonplaceholder.typicode.com/todos/1', // Sample API endpoint
+//      method: 'GET',
+//      dataType: 'json',
+//      success: function(data) {
+//      // Update the content on success
+//      $("#dataContainer").text('Title: ' + data.title);
+//      },
+//      error: function(error) {
+//      // Handle errors
+//      console.error('Error:', error);
+//      }
+//  });
+
+// $.ajax({
+//     url: "geeks.txt",
+//     success: function (result) {
+//         $("#h11").html(result);
+//     },
+//     error: function (xhr, status, error) {
+//         console.log(error);
+//     }
+// });
+
+
+
+// $.ajax({
+//   type: "POST",
+//   url: url,
+//   data: data,
+//   success: success,
+//   dataType: dataType
+// });

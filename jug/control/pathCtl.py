@@ -20,9 +20,6 @@ class PathCtl:
         self.config = {}
         self.html = ''
 
-        # G.location = "xxxxxxx"
-        # logger.info(f'G.location: {G.location}')
-
 
     def getHtml(self):
         return self.html

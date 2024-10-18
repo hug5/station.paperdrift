@@ -2,14 +2,13 @@
     height:100%;
 } */
 
-body{
+html, body{
   font-family: "Moderustic", sans-serif;
   font-optical-sizing: auto;
   font-weight: normal;
   font-style: normal;
   font-size: 18px;
   margin: 0;
-
 }
 
 a,
@@ -18,7 +17,6 @@ a:visited{
   color: #000000;
 
 }
-
 
 /*---------------------------------------------*/
 
@@ -33,44 +31,68 @@ a:visited{
 
 /*---------------------------------------------*/
 
+@keyframes beam_move {
+  0% {
+    left: 2px;
+  }
+  100% {
+    left: 39px;
+  }
+
+}
 
 header{
   margin: 0;
   padding: 15px 0 15px 0;
   overflow: hidden;
+}
 
+#titlebox{
 
-  #titlebox{
-    border:2px solid #D5883B;
-    border-left: 5px solid #D5883B;
+  --titlecolor: #D5883B;
 
-    overflow: hidden;
-    width: fit-content;
-    height: 40px;
+  border:3px solid var(--titlecolor);
+  border-left: 8px solid var(--titlecolor);
 
-    a span {
+  overflow: hidden;
+  width: fit-content;
+  height: 40px;
+
+  #beam{
+    width: 1px;
+    height: 100%;
+    background-color: #8D561E;
+    float: left;
+    position: relative;
+    /*animation: beam_move 2s infinite; */
+    /*animation-delay: 1s;*/
+    animation-name: beam_move;
+    animation-duration: 3s;
+    animation-timing-function: linear;
+    animation-direction: alternate;
+    animation-iteration-count: infinite;
+
+  }
+
+  a {
+    span {
       float: left;
-      /*margin-top: 25px;*/
       margin: 7px;
+
       img{
         width: 27px;
         height:27px;
       }
     }
-
-    a h3 {
-      background-color: #D5883B;
+    h3 {
+      background-color: var(--titlecolor);
       padding: 8px;
       padding-left: 12px;
       padding-right: 12px;
       width: fit-content;
       float: left;
       margin: 0;
-      /* clear: none;
-      */
-
     }
-
   }
 }
 
@@ -390,8 +412,10 @@ footer{
     font-size: 16px;
     background-color:#CBDBE3;
     padding: 5px;
+    /*
     font-family: inherit;
-    /* On chrome, doesn't seem to take on parent font */
+    On chrome, doesn't seem to take on parent font
+    */
   }
 
   #destination_input {

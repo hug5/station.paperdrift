@@ -19,7 +19,6 @@ class HomeCtl():
 
         self.config = {}
         self.html = ''
-        logger.info(f'G.location: {G.location}')
 
         pass
 

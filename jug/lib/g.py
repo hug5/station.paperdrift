@@ -1,30 +1,26 @@
 class G():
 
     db = {}
-    # db = {
-    #   'un' : '',
-    #   'pw' : '',
-    #   'host' : '',
-    #   'port' : '',
-    #   'databse' : ''
-    # }
-    # db_un = ""
-    # db_pw = ""
-    # db_host = ""
-    # db_port = ""
-    # db_database = ""
-    # weatherAPI_key = None
+        # un
+        # pw
+        # host
+        # port
+        # database
 
     api = {}
-    site = {}
-    # location = ''
+        # weatherAPI_key
 
+    site = {}
+        # name
+        # tagline
+        # baseUrl
+
+    # Call at start to reset varables;
     @staticmethod
-    def init():
-        G.db = {}
-        G.api = {}
-        G.site = {}
-        G.location = ''
+    def reset():
+        G.db.clear()
+        G.api.clear()
+        G.site.clear()
 
 
 # Problem with this format is that access is verbose;

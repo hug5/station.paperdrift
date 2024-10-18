@@ -20,6 +20,7 @@ class RouterCtl():
 
 
     def router_init(self):
+        logger.info('---router_init---')
 
         self.article = ''
         self.header = ''
@@ -31,10 +32,8 @@ class RouterCtl():
         self.response_obj = False
         self.redirect = [False, '']
 
-        logger.info('---router_init---')
-
         logger.info(f'Anything in G BEFORE?: [{G.api}][{G.db}][{G.site}]')
-        G.init()
+        G.reset()
         logger.info(f'Anything in G AFTER?: [{G.api}][{G.db}][{G.site}]')
 
         self.setConfig_toml()
@@ -76,123 +75,6 @@ class RouterCtl():
             logger.info(f'weatherAPI_key: {G.api["weatherAPI_key"]}')
             # logger.info(f'Anything in G AFTER?: [{G.api}][{G.db}][{G.site}]')
 
-
-    # Not used
-    def doCheckBadPath(self, url):
-
-        # Doing this for aesthetic; don't want a path that is /home, /paperdrift or /station paperdrift
-        # Also check that all paths end with trailing slash;
-
-        # checkPath = ''
-          # Dilemma: don't want to make this variable global;
-          # But also want to be able to use within local functions below;
-          # So declare here; and assign as nonlocal within local functions?
-
-        def check_path_url():
-            # Check for certain paths we ant to avoid; assign to home if so;
-
-            # nonlocal url  # avoid unbound variable error;
-            # logger.info(f'pre url3 in home list: {self.redirect}')
-
-            # If url path is any of these, then go home;
-            home_list = ["home", "paperdrift", "station paperdrift", "station"]
-            url2 = url.lower()
-
-
-            # check for home or paperdrift in url; if so, go to root url;
-            url3 = url2.rstrip('/')
-
-            # if url3 in home_list:
-            #     # logger.info("---redirecting to /")
-            #     self.redirect = [True, "/"]
-
-            # tuple ternary operator:
-            self.redirect = ([False, ''], [True, '/']) [url3 in home_list]
-
-            # logger.info(f'post url3 in home list: {self.redirect}')
-
-
-
-
-        def check_trailing_slash():
-            # Check there is trailing slash in paths;
-            # nonlocal checkPath
-            # nonlocal url
-
-            # check that url ends in /
-            checkPath = F.checkPathSlash(url)
-            # if checkPath is not True:
-            #     # return checkPath
-            #     self.redirect = [True, checkPath]
-            #     # return False
-
-            self.redirect = ([False, ""], [True, checkPath])[checkPath is not True]
-
-
-        def cleanUrl():
-            # nonlocal url
-            url2 = url.rstrip('/')
-
-            # remove non-alphanumeric characters, but allow for space
-            # all bad characters will be replaced with space;
-            # then later we'll remove redundant spaces;
-            new_url = re.sub(r'[^%a-zA-Z0-9\- ]', ' ', url2)
-            # new_url2 = new_url.replace("  ", " ")
-            # new_url = new_url.replace("%20%%20", "x")
-            # new_url = new_url.replace("%20", "x")
-            # new_url = new_url.replace("20%", "x")
-            # new_url = new_url.replace("%", "x")
-              # This doesn't seem to work right... always some edge problem;
-              # When you ahve a weird url like this:
-              # https://station.paperdrift.com/busan%20%20%20%%20%20korea/
-              # I think the server crashes before it even gets here;
-              # Weird... not the %20 isn't showing up!
-
-            # remove redundant spaces
-            new_url2 = ' '.join(new_url.split())
-            redirect_url2 = f"/{new_url2}/"
-            logger.info("---redirect_url: " + redirect_url2)
-
-            # Don't need to escape since we removed all bad characters;
-            # escaped_url = F.hesc(new_url)
-
-            # if new_url2 != url2:
-            #     logger.info(f'Cleaned url: {new_url2} : {url2}')
-            #     # return "/" + new_url2 + "/"
-            #     self.redirect = [True, "/" + new_url2 + "/"]
-            #     # return False
-
-            self.redirect = ([False, ''], [True, redirect_url2])[new_url2 != url2]
-
-            # else:
-            #     # logger.info(f'good url: {escaped_url}')
-            #     logger.info(f'Good url: {new_url2}')
-            # return None
-
-            # clean_text = re.sub(r'[^a-zA-Z0-9 ]', '', text)
-            # print(clean_text)
-
-
-        # check_trailing_slash()
-        # if self.redirect[0] is True: return None
-        # cleanUrl()
-        # if self.redirect[0] is True: return None
-        # check_path_url()
-
-
-        # if self.redirect[0] is True: return None
-    # Not used
-    def checkTrailingQuestion(self):
-        pass
-        # # check for /?/ and /??+ path (2 or more question marks);
-        # # ch_qmark = request.full_path
-        # ch_qmark = request.environ["REQUEST_URI"]
-
-        # # if ch_qmark == "/?/" or ch_qmark.find("/??") >= 0 :
-        # if ch_qmark == "/?/" or ch_qmark.find("/?") >= 0 :
-        #     # return False # Not okay; redirect
-        #     logger.info(f"---found ? {request.base_url}")
-        #     self.redirect = [True, request.base_url]
 
     def cleanUrl(self, url):
 
@@ -402,6 +284,13 @@ class RouterCtl():
             logger.info("---after_request")
             # takes a response object and must return a response object; what is a response object?
             return response_object
+
+        @self.jug.teardown_request
+        def show_teardown(exception):
+            logger.info("##################################")
+            logger.info("############ teardown ############")
+            logger.info("##################################")
+            # Not sure what teardown does;
 
 
     # def doJug(self):
