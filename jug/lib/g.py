@@ -17,7 +17,7 @@ class G():
 
     api = {}
     site = {}
-    location = ''
+    # location = ''
 
     @staticmethod
     def init():

@@ -19,7 +19,7 @@ class JugCtl():
         logger.info('                          ')
         logger.info('XXXXXXXXXXXXXXXXX')
         logger.info('XXXXXXXXXXXXXXXXX')
-        logger.info('==== Begin JugCtl Init ===')
+        logger.info('==== Begin JugCtl __init__ ===')
 
         dir_html = "../html"
 
@@ -31,7 +31,7 @@ class JugCtl():
 
         # self.jug.debug = True
 
-    def init(self):
+    def jug_init(self):
 
         self.article = ''
         self.header = ''
@@ -43,21 +43,13 @@ class JugCtl():
         self.response_obj = False
         self.redirect = [False, '']
 
-        logger.info('---init---')
+        logger.info('---jug_init---')
 
-        logger.info(f'Anything in G BEFORE?: [{G.api}][{G.db}][{G.site}][{G.location}]')
-        # G.init()
-
+        logger.info(f'Anything in G BEFORE?: [{G.api}][{G.db}][{G.site}]')
+        G.init()
+        logger.info(f'Anything in G AFTER?: [{G.api}][{G.db}][{G.site}]')
 
         self.setConfig_toml()
-        logger.info(f'Anything in G AFTER?: [{G.api}][{G.db}][{G.site}][{G.location}]')
-
-        # logger.info(f'Anything in G AFTER?: [{G.api}][{G.db}][{G.site}]')
-
-        # G.get_db()
-        # G.get_api()
-        # G.get_site()
-
 
 
 
@@ -97,7 +89,7 @@ class JugCtl():
             # logger.info(f'Anything in G AFTER?: [{G.api}][{G.db}][{G.site}]')
 
 
-
+    # Not used
     def doCheckBadPath(self, url):
 
         # Doing this for aesthetic; don't want a path that is /home, /paperdrift or /station paperdrift
@@ -201,8 +193,7 @@ class JugCtl():
 
 
         # if self.redirect[0] is True: return None
-
-
+    # Not used
     def checkTrailingQuestion(self):
         pass
         # # check for /?/ and /??+ path (2 or more question marks);
@@ -218,7 +209,14 @@ class JugCtl():
     def cleanUrl(self, url):
 
         url2 = parse.unquote_plus(url)
-        url3 = url2.replace('[', '').replace(']', '').replace('{', '').replace('}', '').replace('', '').replace('<', '').replace('>', '').replace('?', '').replace('@', '').replace('*', '').replace('~', '').replace('!', '').replace('#', '').replace('$', '').replace('%', '').replace('^', '').replace('&', '').replace('(', '').replace(')', '').replace(',', '').replace(';', '').replace('+', '').replace('.', '')
+        url3 = (url2.replace('[', '').replace(']', '').replace('{', '')
+                .replace('}', '').replace('', '').replace('<', '').replace('>', '')
+                .replace('?', '').replace('@', '').replace('*', '').replace('~', '')
+                .replace('!', '').replace('#', '').replace('$', '').replace('%', '')
+                .replace('^', '').replace('&', '').replace('(', '').replace(')', '')
+                .replace(',', '').replace(';', '').replace('+', '').replace('.', ''))
+                # Wrap with parenthesis to break up lines;
+
         url4 = ' '.join(url3.split())
 
         url5 = parse.quote_plus(url4, safe="/", encoding="utf-8", errors='replace')
@@ -374,6 +372,7 @@ class JugCtl():
     def doBeforeRequest(self):
         self.doRequestUrl()
         # self.checkTrailingQuestion()
+        self.jug_init()
         self.checkUrl()
 
 
@@ -381,21 +380,12 @@ class JugCtl():
 
         @self.jug.before_request
         def before_request_route():
-
-            self.init()
-
             logger.info('                          ')
             logger.info('                          ')
             logger.info('0000000000000000')
             logger.info('0000000000000000')
-            logger.info("---parseRoute")
-
-            # self.redirect = [False, '']
+            logger.info("---parseRoute: before_request")
             self.doBeforeRequest()
-            # logger.info("---returning None")
-            # return None
-            # return self.doRoute(False)
-            # Odd that if return None, then no effect;
 
         @self.jug.route("/")
         def home():
@@ -422,7 +412,6 @@ class JugCtl():
             # Reset this!
             # self.redirect = ["False", '']
             logger.info("---after_request")
-
             # takes a response object and must return a response object; what is a response object?
             return response_object
 
