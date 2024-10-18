@@ -71,14 +71,14 @@ class PageCtl():
         # self.html = html + self.ascii_art
 
 
-    def doSomePathUrl(self, url):
-        from jug.control.pathCtl import PathCtl
+    def doLocationUrl(self, url):
+        from jug.control.locationCtl import LocationCtl
 
-        logger.info('DoSomePathUrl')
+        logger.info('DoLocationUrl')
 
         self.doCommon()
 
-        ob = PathCtl(url)
+        ob = LocationCtl(url)
         # self.article = ob.start()
         ob.start()
         self.article = ob.getHtml()

@@ -96,7 +96,8 @@ class RouterCtl():
 
     def checkUrl(self):
 
-        logger.info(f'Beg. state self.redirect: {self.redirect}')
+        logger.info('---checkUrl')
+        logger.info(f'---Beginning state self.redirect variable: {self.redirect}')
 
         req_url = request.environ["REQUEST_URI"]
         url_list = req_url.split("/")
@@ -210,14 +211,14 @@ class RouterCtl():
         self.response_obj = page_obj.getHtml()
 
 
-    def doSomePathUrl(self, url):
+    def doLocationUrl(self, url):
 
         # self.doCheckBadPath(url)
         # if self.redirect[0] is True:
         #     return self.redirect[1]
 
         page_obj = PageCtl()
-        page_obj.doSomePathUrl(url)
+        page_obj.doLocationUrl(url)
         self.response_obj = page_obj.getHtml()
 
 
@@ -225,12 +226,6 @@ class RouterCtl():
         # Using True/False to denote whether we want to return a result to close out; or whether this is just an intermediary check;
 
         if self.redirect[0] is True:
-            # self.retry_counter += 1
-            # if self.retry_counter > 1:
-            #     self.redirect[1] = G.site["baseUrl"]
-            #     logger.info(f'---Borking!--- {self.retry_counter}')
-            #     self.retry_counter = 0
-
             logger.info(f'--redirecting: {self.redirect[1]}')
             return redirect(self.redirect[1], code=301)
 
@@ -241,7 +236,6 @@ class RouterCtl():
 
     def doBeforeRequest(self):
         self.doRequestUrl()
-        # self.checkTrailingQuestion()
         self.router_init()
         self.checkUrl()
 
@@ -250,11 +244,7 @@ class RouterCtl():
 
         @self.jug.before_request
         def before_request_route():
-            logger.info('                          ')
-            logger.info('                          ')
-            logger.info('0000000000000000')
-            logger.info('0000000000000000')
-            logger.info("---parseRoute: before_request")
+            logger.info("---parseRoute: before_request---")
             self.doBeforeRequest()
 
         @self.jug.route("/")
@@ -264,14 +254,14 @@ class RouterCtl():
             return self.doRoute()
 
         @self.jug.route('/<path:url>/')
-        def somePathUrl(url):
+        def locationUrl(url):
             logger.info(f"---in path: {url}")
-            self.doSomePathUrl(url)
+            self.doLocationUrl(url)
             return self.doRoute()
             # return None
 
         # @self.jug.route('/<path:url>/<path:url2>/')
-        # def somePathUrl2(url, url2):
+        # def locationUrl2(url, url2):
         #     logger.info("---in path url2")
         #     self.redirect = [True, f"/{url}/"]
         #     return self.doRoute()

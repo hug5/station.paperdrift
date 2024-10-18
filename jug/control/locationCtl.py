@@ -8,11 +8,11 @@ from jug.lib import news_scrape
 
 
 
-class PathCtl:
+class LocationCtl:
 
     def __init__(self, url):
 
-        logger.info('PathCtl __init__')
+        logger.info('LocationCtl __init__')
 
         # self.url = url.rstrip('/').capitalize()
         self.url = url.rstrip('/').title()
@@ -108,7 +108,7 @@ class PathCtl:
         return weatherDict
 
 
-    def doPath(self):
+    def doLocation(self):
 
         weatherDict = self.getWeather()
         # Let's always use canoncial name from weatherAPI, not name entered by user,
@@ -143,5 +143,5 @@ class PathCtl:
 
 
     def start(self):
-        return self.doPath()
+        return self.doLocation()
 
