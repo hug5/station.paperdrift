@@ -3,9 +3,7 @@ from jug.lib.logger import logger
 
                   # render_template, \
                   # g as G
-from flask import Flask, \
-                  redirect, \
-                  request
+from flask import redirect, request
 
 # from jug.dbo import dbc
 from jug.lib.f import F
@@ -26,7 +24,9 @@ from jug.control.pageCtl import PageCtl
 
 class RouterCtl():
 
-    def __init__(self):
+    def __init__(self, jug):
+
+        self.jug = jug
 
         logger.info('                          ')
         logger.info('                          ')
@@ -34,15 +34,6 @@ class RouterCtl():
         logger.info('XXXXXXXXXXXXXXXXX')
         logger.info('==== Begin RouterCtl Init ===')
 
-        dir_html = "../html"
-
-        self.jug = Flask(
-            __name__,
-            # template_folder="jug/html"
-            template_folder=dir_html,
-        )
-
-        # self.jug.debug = True
 
 
     def init(self):
@@ -57,7 +48,7 @@ class RouterCtl():
         self.response_obj = False
         self.redirect = [False, '']
 
-        logger.info(f'---init---')
+        logger.info('---init---')
 
         logger.info(f'Anything in G BEFORE?: [{G.api}][{G.db}][{G.site}][{G.location}]')
         # G.init()
@@ -441,9 +432,9 @@ class RouterCtl():
             return response_object
 
 
-    def start(self):
-        self.parseRoute()
-        return self.jug
+    # def start(self):
+    #     self.parseRoute()
+    #     return self.jug
 
 
 ## NOTES -----------------------------

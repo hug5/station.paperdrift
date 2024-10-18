@@ -29,7 +29,7 @@ from jug.control.jugCtl import JugCtl
 
 
 mug = JugCtl()
-jug = mug.start()
+jug = mug.doJug()
 
 
 
