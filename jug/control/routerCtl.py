@@ -1,6 +1,6 @@
 from jug.lib.logger import logger
 
-from flask import redirect, request
+from flask import redirect, request, jsonify
 
 # from jug.dbo import dbc
 from jug.lib.f import F
@@ -203,6 +203,19 @@ class RouterCtl():
         # logger.debug, logger.info, logger.warning, logger.error, logger.critical
 
 
+
+    # def doAjax(self, param):
+    def doAjax(self):
+        logger.info("---ajax POST")
+        # if param == "POST":
+        #     logger.info("---ajax POST")
+        # else:
+        #     logger.info("---ajax GET")
+
+        self.response_obj = jsonify({'ip': "xyz"}), 200
+
+
+
     def doHome(self):
         # from jug.control.homeCtl import HomeCtl
 
@@ -258,13 +271,21 @@ class RouterCtl():
             logger.info(f"---in path: {url}")
             self.doLocationUrl(url)
             return self.doRoute()
-            # return None
 
         # @self.jug.route('/<path:url>/<path:url2>/')
         # def locationUrl2(url, url2):
         #     logger.info("---in path url2")
         #     self.redirect = [True, f"/{url}/"]
         #     return self.doRoute()
+
+
+        # @self.jug.route('/ajax/', methods=['GET', 'POST'])
+        @self.jug.route('/ajax/', methods=['POST'])
+        def ajaxUrl():
+            logger.info("---in path: ajax")
+            # self.doAjax(request.method)
+            self.doAjax()
+            return self.doRoute()
 
 
         @self.jug.after_request
