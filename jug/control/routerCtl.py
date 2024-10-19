@@ -212,9 +212,20 @@ class RouterCtl():
         # else:
         #     logger.info("---ajax GET")
 
-        self.response_obj = jsonify({'ok': 'hello'}), 200
+
+        # self.response_obj = jsonify({'status': 'ok'})
+        # self.response_obj = jsonify("{'status': 'ok'}"), 200
         # self.response_obj = "ok", 200
 
+        res = {
+            "status": "ok",
+            "content": "something"
+        }
+        # self.response_obj = jsonify(res, status=200, mimetype='application/json')
+
+        # self.response_obj = jsonify("ok", status=200)
+        self.response_obj = jsonify(res)
+        # self.response_obj = "ok"
 
 
     def doHome(self):

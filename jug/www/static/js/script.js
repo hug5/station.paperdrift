@@ -107,11 +107,17 @@ $(function() {
 
         $.post(ajaxUrl, param, function(result) {
 
-            let res = ajaxdecode(result)
-            res = JSON.parse(res)
-            alert(res.status)
+            // let res = JSON.parse(result)
+            let res = result.status
+            console.log(res)
 
-            if (res.status == "ok") {
+
+            // let res = JSON.stringify(result)
+            // res = ajaxdecode(res)
+            alert(result.content);
+            // alert(res[0]["status"])
+
+            if (result.status == "ok") {
                 alert("ok");
                 // $("#msgForm").slideUp(400, function() {
                 //     $("#formSection p").fadeIn(300).html("YOUR MESSAGE WAS SENT!");
@@ -122,7 +128,8 @@ $(function() {
                 alert("some problem");
                 // $("#formSection p").fadeIn(300).html("Oops! There was an error.");
             }
-        });
+        },
+        "json");
 
     });
 
