@@ -1,6 +1,6 @@
 from jug.lib.logger import logger
 
-from flask import redirect, request, jsonify
+from flask import redirect, request, jsonify, session
 
 # from jug.dbo import dbc
 from jug.lib.f import F
@@ -212,15 +212,24 @@ class RouterCtl():
         # else:
         #     logger.info("---ajax GET")
 
+        ## Use this syntax if url argument sent:
         # arg_value = request.args.get("action")
           # use with url arguments
+
+        ## Use this syntax if form data sent:
         # arg_value = request.form.get("action")  ## Works
           # Use with forms
-        arg_value = request.values.get("action")  ## Works
+
+        ## Use this syntax if url argument or form data sent:
+        # arg_value = request.values.get("action")  ## Works
           # A combinatio of form.get and args.get
 
+
+        ## Use this syntax when json data sent:
         # request_data = request.get_json(force=True)
-        # arg_value = request_data['action']
+        # https://flask.palletsprojects.com/en/3.0.x/api/#flask.Request.get_json
+        request_data = request.get_json()
+        arg_value = request_data['action']
 
         logger.info(f"---ajax value: {arg_value}")
 
@@ -284,6 +293,8 @@ class RouterCtl():
         def before_request_route():
             logger.info("---parseRoute: before_request---")
             self.doBeforeRequest()
+            session["name"] = "Bob"
+
 
         @self.jug.route("/")
         def home():

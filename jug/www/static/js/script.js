@@ -95,7 +95,7 @@ $(function() {
     let p_action  = "contact",
         p_name    = ajaxencode("Bob"),
         p_email   = ajaxencode("bob@gmail.com"),
-        p_msg     = ajaxencode("This is my message"),
+        p_msg     = ajaxencode("This is my message")
 
     //     param     = "action=" + p_action +
     //                 "&name=" + p_name +

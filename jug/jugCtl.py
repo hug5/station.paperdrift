@@ -19,6 +19,19 @@ class JugCtl():
 
         )
 
+        # $ python -c 'import secrets; print(secrets.token_hex())'
+        # cd97c91dae2d43a9b8fa3d3d6d5930bf1b1a5c59553a292b2b2c4edbf099fc3f
+
+        self.jug.config.update(
+            # TESTING=True,
+            SECRET_KEY='cd97c91dae2d43a9b8fa3d3d6d5930bf1b1a5c59553a292b2b2c4edbf099fc3f',
+            SESSION_COOKIE_SECURE = True,
+            SESSION_COOKIE_SAMESITE = 'Lax'  # Strict, None
+        )
+
+
+        # session["name"] = "Bob"
+
         # self.jug.debug = True
 
         logger.info(f'====root_path: {self.jug.root_path}')
