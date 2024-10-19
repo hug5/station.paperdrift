@@ -212,7 +212,8 @@ class RouterCtl():
         # else:
         #     logger.info("---ajax GET")
 
-        self.response_obj = jsonify({'ip': "xyz"}), 200
+        self.response_obj = jsonify({'ok': 'hello'}), 200
+        # self.response_obj = "ok", 200
 
 
 

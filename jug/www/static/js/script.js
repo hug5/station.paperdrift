@@ -88,6 +88,61 @@ $(function() {
 
 
 
+    let ajaxencode = (str) => encodeURIComponent(str);
+    let ajaxdecode = (str) => decodeURIComponent(str);
+
+    let p_action  = "contact",
+        p_name    = ajaxencode("Bob"),
+        p_email   = ajaxencode("bob@gmail.com"),
+        p_msg     = ajaxencode("This is my message"),
+
+        param     = "action=" + p_action +
+                    "&name=" + p_name +
+                    "&email=" + p_email +
+                    "&msg=" + p_msg;
+
+    let ajaxUrl = "https://station.paperdrift.com/ajax/";
+
+    $("h3").on("click", function(event) {
+
+        $.post(ajaxUrl, param, function(result) {
+
+            let res = ajaxdecode(result)
+            res = JSON.parse(res)
+            alert(res.status)
+
+            if (res.status == "ok") {
+                alert("ok");
+                // $("#msgForm").slideUp(400, function() {
+                //     $("#formSection p").fadeIn(300).html("YOUR MESSAGE WAS SENT!");
+                // });
+            }
+
+            else {
+                alert("some problem");
+                // $("#formSection p").fadeIn(300).html("Oops! There was an error.");
+            }
+        });
+
+    });
+
+
+    // $("#submit").click(function (e) {
+    //     $.post("result.php",
+    //     {
+    //         firstName: $("#firstName").val(),
+    //         lastName: $("#lastName").val()
+    //     })
+
+    //     .done(function (result, status, xhr) {
+    //         $("#message").html(result)
+    //     })
+    //     .fail(function (xhr, status, error) {
+    //         $("#message").html("Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText)
+    //     });
+    // });
+
+
 
 
 });
