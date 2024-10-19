@@ -90,46 +90,77 @@ $(function() {
 
     let ajaxencode = (str) => encodeURIComponent(str);
     let ajaxdecode = (str) => decodeURIComponent(str);
+    let ajaxUrl = "https://station.paperdrift.com/ajax/";
 
     let p_action  = "contact",
         p_name    = ajaxencode("Bob"),
         p_email   = ajaxencode("bob@gmail.com"),
         p_msg     = ajaxencode("This is my message"),
 
-        param     = "action=" + p_action +
-                    "&name=" + p_name +
-                    "&email=" + p_email +
-                    "&msg=" + p_msg;
-
-    let ajaxUrl = "https://station.paperdrift.com/ajax/";
+    //     param     = "action=" + p_action +
+    //                 "&name=" + p_name +
+    //                 "&email=" + p_email +
+    //                 "&msg=" + p_msg;
 
     $("h3").on("click", function(event) {
 
-        $.post(ajaxUrl, param, function(result) {
+        // $.post(ajaxUrl, param, function(result) {
 
+        //     // let res = JSON.parse(result)
+        //     // JSON.parse doesn't work; I think because the result is already
+        //     // a json object; JSON.parse is meant to turn a string into a json object;
+        //     // let res = result.status
+        //     console.log(result.status)
+        //     console.log(result.content)
+
+
+        //     // let res = JSON.stringify(result)
+        //     // res = ajaxdecode(res)
+        //     alert(result.content);
+        //     // alert(res[0]["status"])
+
+        //     if (result.status == "ok") {
+        //         alert("ok");
+        //         // $("#msgForm").slideUp(400, function() {
+        //         //     $("#formSection p").fadeIn(300).html("YOUR MESSAGE WAS SENT!");
+        //         // });
+        //     }
+        //     else {
+        //         alert("some problem");
+        //         // $("#formSection p").fadeIn(300).html("Oops! There was an error.");
+        //     }
+        // },"json");
+
+        let jdata = {
+            "action" : p_action,
+            "name" : p_name,
+            "email" : p_email,
+            "msg" : p_msg
+        }
+
+        $.ajax({
+            type: "POST",
+            url: ajaxUrl,
+            async: true,
+            data: JSON.stringify(jdata),
+            cache: true,
+            processData: false,
+            contentType: "application/json; charset=UTF-8",
+        })
+        .done(function(result) {
             // let res = JSON.parse(result)
-            let res = result.status
-            console.log(res)
-
-
-            // let res = JSON.stringify(result)
-            // res = ajaxdecode(res)
+            // JSON.parse doesn't work; I think because the result is already
+            // a json object; JSON.parse is meant to turn a string into a json object;
+            // let res = result.status
+            console.log(result.status)
+            console.log(result.content)
             alert(result.content);
-            // alert(res[0]["status"])
 
-            if (result.status == "ok") {
-                alert("ok");
-                // $("#msgForm").slideUp(400, function() {
-                //     $("#formSection p").fadeIn(300).html("YOUR MESSAGE WAS SENT!");
-                // });
-            }
+        })
+        .fail(function(result){
+            alert("some problem");
+        });
 
-            else {
-                alert("some problem");
-                // $("#formSection p").fadeIn(300).html("Oops! There was an error.");
-            }
-        },
-        "json");
 
     });
 

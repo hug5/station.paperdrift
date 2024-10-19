@@ -212,6 +212,18 @@ class RouterCtl():
         # else:
         #     logger.info("---ajax GET")
 
+        # arg_value = request.args.get("action")
+          # use with url arguments
+        # arg_value = request.form.get("action")  ## Works
+          # Use with forms
+        arg_value = request.values.get("action")  ## Works
+          # A combinatio of form.get and args.get
+
+        # request_data = request.get_json(force=True)
+        # arg_value = request_data['action']
+
+        logger.info(f"---ajax value: {arg_value}")
+
 
         # self.response_obj = jsonify({'status': 'ok'})
         # self.response_obj = jsonify("{'status': 'ok'}"), 200
@@ -219,13 +231,14 @@ class RouterCtl():
 
         res = {
             "status": "ok",
-            "content": "something"
+            "content": "something%$<>"
         }
         # self.response_obj = jsonify(res, status=200, mimetype='application/json')
 
         # self.response_obj = jsonify("ok", status=200)
         self.response_obj = jsonify(res)
         # self.response_obj = "ok"
+
 
 
     def doHome(self):
