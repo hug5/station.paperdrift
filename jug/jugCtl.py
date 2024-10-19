@@ -7,21 +7,29 @@ class JugCtl():
 
     def __init__(self):
         logger.info('                          ')
+        logger.info('XXXXXXXXXXXXXXXXX')
+        logger.info('                          ')
+        logger.info('==== Begin JugCtl __init__ ===')
         logger.info('                          ')
         logger.info('XXXXXXXXXXXXXXXXX')
-        logger.info('XXXXXXXXXXXXXXXXX')
-        logger.info('==== Begin JugCtl __init__ ===')
+        logger.info('                          ')
 
         self.jug = Flask(
             __name__,
+
             template_folder="html",
-            # static_folder="www/static",
+
+            # custom static; static is default
+            # This lets flask serve static files using flask server
+            static_folder="www/static",
 
         )
 
+        # https://flask.palletsprojects.com/en/3.0.x/quickstart/#sessions
         # $ python -c 'import secrets; print(secrets.token_hex())'
         # cd97c91dae2d43a9b8fa3d3d6d5930bf1b1a5c59553a292b2b2c4edbf099fc3f
 
+        # https://flask.palletsprojects.com/en/3.0.x/web-security/#security-cookie
         self.jug.config.update(
             # TESTING=True,
             SECRET_KEY='cd97c91dae2d43a9b8fa3d3d6d5930bf1b1a5c59553a292b2b2c4edbf099fc3f',
@@ -29,6 +37,8 @@ class JugCtl():
             SESSION_COOKIE_SAMESITE = 'Lax'  # Strict, None
         )
 
+        # As an environment variable:
+        # FLASK_DEBUG=1
 
         # session["name"] = "Bob"
 
@@ -56,7 +66,7 @@ class JugCtl():
         # self.parseRoute()
         return self.jug
 
-
+# ---------------------------------------------------
 
 mug = JugCtl()
 jug = mug.doJug()

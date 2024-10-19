@@ -4,7 +4,12 @@ from jug.lib.logger import logger
 
 from flask import render_template
 from jug.lib.f import F
-from jug.dbo import homeDb
+
+try:
+    from jug.dbo import homeDb
+except Exception as e:
+    pass
+
 from jug.lib import news_scrape
 # from jug.start import jug
 import random
@@ -41,14 +46,15 @@ class HomeCtl():
 
     def get_breaking_news(self):
 
-
         # Get news items from MariaDB
         # F.uwsgi_log("Call HomeDb")
 
-        # logger.info('Call HomeDb')
-        homeO = homeDb.HomeDb()
-        result_list = homeO.start()
-        logger.info(f'reqs: {result_list}')
+        try:
+            homeO = homeDb.HomeDb()
+            result_list = homeO.start()
+            logger.info(f'reqs: {result_list}')
+        except Exception as e:
+            result_list = []
 
         # Get news item from Yahoo News with request
         news_scrapeO = news_scrape.News_Scrape()

@@ -13,6 +13,8 @@ class F():
 
     @staticmethod
     def uwsgi_log(msg):
+        # To use, you'd do:
+        # F.uwsgi_log("Call HomeDb")
 
         # log_path = os.getcwd() + "/etc/log/uwsgi.log"
         log_path = os.getcwd() + "/etc/log/debug.log"

@@ -2,7 +2,6 @@ from jug.lib.logger import logger
 
 from flask import redirect, request, jsonify, session
 
-# from jug.dbo import dbc
 from jug.lib.f import F
 from jug.lib.g import G
 from pathlib import Path
@@ -21,6 +20,7 @@ class RouterCtl():
 
     def router_init(self):
         logger.info('---router_init---')
+        if self.jug.debug: logger.info('---RUNNING DEBUG MODE')
 
         self.article = ''
         self.header = ''

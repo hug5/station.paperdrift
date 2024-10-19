@@ -52,7 +52,8 @@ header{
   --titlecolor: #D5883B;
 
   border:3px solid var(--titlecolor);
-  border-left: 8px solid var(--titlecolor);
+  border-left: 8px dashed var(--titlecolor);
+  border-right: 8px dashed var(--titlecolor);
 
   overflow: hidden;
   width: fit-content;
@@ -76,20 +77,22 @@ header{
   }
 
   a {
-    span {
+    span#site_icon {
       float: left;
-      margin: 7px;
+      padding: 7px;
 
       img{
         width: 27px;
         height:27px;
       }
+
     }
-    h3 {
+
+    h3#site_title {
       background-color: var(--titlecolor);
       padding: 8px;
       padding-left: 12px;
-      padding-right: 12px;
+      padding-right: 16px;
       width: fit-content;
       float: left;
       margin: 0;
