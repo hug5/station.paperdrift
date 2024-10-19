@@ -15,12 +15,15 @@ class G():
         # tagline
         # baseUrl
 
+    debug = False
+
     # Call at start to reset varables;
     @staticmethod
     def reset():
         G.db.clear()
         G.api.clear()
         G.site.clear()
+        G.debug = False
 
 
 # Problem with this format is that access is verbose;

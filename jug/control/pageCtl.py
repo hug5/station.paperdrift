@@ -46,15 +46,13 @@ class PageCtl():
 
         logger.info('DoHome')
         # F.uwsgi_log("doHome")
-
-
         self.doCommon()
 
-        ob = HomeCtl()
-        ob.doHome()
+        home_ob = HomeCtl()
+        home_ob.doHome()
 
-        self.article = ob.getHtml()
-        site_title = ob.getConfig()["site_title"]
+        self.article = home_ob.getHtml()
+        site_title = home_ob.getConfig()["site_title"]
 
         html = render_template(
             "pageHtml.jinja",
@@ -77,11 +75,11 @@ class PageCtl():
 
         self.doCommon()
 
-        ob = LocationCtl(url)
-        # self.article = ob.start()
-        ob.doLocation()
-        self.article = ob.getHtml()
-        site_title = ob.getConfig()["site_title"]
+        location_ob = LocationCtl(url)
+        # self.article = location_ob.start()
+        location_ob.doLocation()
+        self.article = location_ob.getHtml()
+        site_title = location_ob.getConfig()["site_title"]
 
         html = render_template(
             "pageHtml.jinja",

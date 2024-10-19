@@ -11,7 +11,8 @@ class HeaderCtl():
         return self.html
 
     def doHeader(self):
-        baseUrl = G.site["baseUrl"]
+        # baseUrl = G.site["baseUrl"]
+        baseUrl = "/"
         self.html = render_template(
             "headerHtml.jinja",
             baseUrl = baseUrl

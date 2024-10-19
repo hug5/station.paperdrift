@@ -1,8 +1,6 @@
 // submit_btn.addEventListener("click", myScript);
 // object.onclick = function(){myScript};
 
-
-
 // const submit_btn = document.getElementById("submit_btn");
 // submit_btn.addEventListener("click", function() {
 //     document.getElementById("demo").innerHTML = "Hello World";
@@ -11,181 +9,231 @@
 
 // });
 
-
 $(function() {
-
-    // Focus by default;
-    // $("#destination_input").focus();
-
-    gotoCity = function() {
-        let dest_val = $("#destination_input").val().toLowerCase();
-        //
-          // let dest_val = $("#destination_input").val();
-          // let dest_val = "Big City";
+// ----------------------------------------------------------
 
 
-          // Don't need to do this check anympore; just checking through python so can catch manual entry as well;
-          // if (dest_val == "home" || dest_val == "paperdrift") {
-          //     dest_val = "/";
-          // }
-          // else {
-          //   dest_val = "/" + dest_val;
-          // }
-            // window.location.href = dest_val;
+// Focus by default;
+// $("#destination_input").focus();
 
-        // remove non-alphanumeric characters, but allow for space
-        // all bad characters will be replaced with space;
-        // then later we'll remove redundant spaces;
-        // dest_val = dest_val.replace(/[^0-9a-z\- ]/gi, ' ')
+gotoCity = function() {
+    let dest_val = $("#destination_input").val().toLowerCase();
+    //
+      // let dest_val = $("#destination_input").val();
+      // let dest_val = "Big City";
 
 
-        dest_val = dest_val.replace(/[\[\]{}\\<>?@*~!#$%^&(),;+\.]/gi, ' ');
+      // Don't need to do this check anympore; just checking through python so can catch manual entry as well;
+      // if (dest_val == "home" || dest_val == "paperdrift") {
+      //     dest_val = "/";
+      // }
+      // else {
+      //   dest_val = "/" + dest_val;
+      // }
+        // window.location.href = dest_val;
 
-        // remove redundant spaces
-        // dest_val = dest_val.replace(/\s\s+/g, ' ')
-        dest_val = dest_val.replace(/ +/g, " ") // this should also work;
-        dest_val = dest_val.trim();
-
-        // encode
-        dest_val = encodeURIComponent(dest_val);
-        // replace %20 with +
-        dest_val = dest_val.replace(/%20/gi, '+');
-
-        window.location.href = "/" + dest_val + "/";
+    // remove non-alphanumeric characters, but allow for space
+    // all bad characters will be replaced with space;
+    // then later we'll remove redundant spaces;
+    // dest_val = dest_val.replace(/[^0-9a-z\- ]/gi, ' ')
 
 
-        // return decodeURIComponent(str);
+    dest_val = dest_val.replace(/[\[\]{}\\<>?@*~!#$%^&(),;+\.]/gi, ' ');
+
+    // remove redundant spaces
+    // dest_val = dest_val.replace(/\s\s+/g, ' ')
+    dest_val = dest_val.replace(/ +/g, " ") // this should also work;
+    dest_val = dest_val.trim();
+
+    // encode
+    dest_val = encodeURIComponent(dest_val);
+    // replace %20 with +
+    dest_val = dest_val.replace(/%20/gi, '+');
+
+    window.location.href = "/" + dest_val + "/";
+
+
+    // return decodeURIComponent(str);
+}
+
+$("#submit_btn").on("click", gotoCity);
+$("#destination_input").on("keypress", function(event) {
+
+    // press enter;
+    if (event.which == 13)  {
+        // $(this).val();
+        gotoCity();
     }
+});
 
-    $("#submit_btn").on("click", gotoCity);
-    $("#destination_input").on("keypress", function(event) {
+$("#more_btn").on("click", function(event) {
 
-        // press enter;
-        if (event.which == 13)  {
-            // $(this).val();
-            gotoCity();
-        }
-    });
-
-    $("#more_btn").on("click", function(event) {
-
-        let btn_type = $(this).html();
+    let btn_type = $(this).html();
 
 
-        $(".news_hide").slideToggle(150);
-        // $(".news_hide").fadeToggle(150);
-        // $(".news_hide").show();
-        // $(".news_hide").hide();
+    $(".news_hide").slideToggle(150);
+    // $(".news_hide").fadeToggle(150);
+    // $(".news_hide").show();
+    // $(".news_hide").hide();
 
-        if (btn_type == "+MORE"){
-            $(this).html("-LESS");
-        }
-        else {
-            $(this).html("+MORE")
-        }
-
-    });
-
-
-
-    let ajaxencode = (str) => encodeURIComponent(str);
-    let ajaxdecode = (str) => decodeURIComponent(str);
-    let ajaxUrl = "https://station.paperdrift.com/ajax/";
-
-    let p_action  = "contact",
-        p_name    = ajaxencode("Bob"),
-        p_email   = ajaxencode("bob@gmail.com"),
-        p_msg     = ajaxencode("This is my message")
-
-    //     param     = "action=" + p_action +
-    //                 "&name=" + p_name +
-    //                 "&email=" + p_email +
-    //                 "&msg=" + p_msg;
-
-    $("h3").on("click", function(event) {
-
-        // $.post(ajaxUrl, param, function(result) {
-
-        //     // let res = JSON.parse(result)
-        //     // JSON.parse doesn't work; I think because the result is already
-        //     // a json object; JSON.parse is meant to turn a string into a json object;
-        //     // let res = result.status
-        //     console.log(result.status)
-        //     console.log(result.content)
-
-
-        //     // let res = JSON.stringify(result)
-        //     // res = ajaxdecode(res)
-        //     alert(result.content);
-        //     // alert(res[0]["status"])
-
-        //     if (result.status == "ok") {
-        //         alert("ok");
-        //         // $("#msgForm").slideUp(400, function() {
-        //         //     $("#formSection p").fadeIn(300).html("YOUR MESSAGE WAS SENT!");
-        //         // });
-        //     }
-        //     else {
-        //         alert("some problem");
-        //         // $("#formSection p").fadeIn(300).html("Oops! There was an error.");
-        //     }
-        // },"json");
-
-        let jdata = {
-            "action" : p_action,
-            "name" : p_name,
-            "email" : p_email,
-            "msg" : p_msg
-        }
-
-        $.ajax({
-            type: "POST",
-            url: ajaxUrl,
-            async: true,
-            data: JSON.stringify(jdata),
-            cache: true,
-            processData: false,
-            contentType: "application/json; charset=UTF-8",
-        })
-        .done(function(result) {
-            // let res = JSON.parse(result)
-            // JSON.parse doesn't work; I think because the result is already
-            // a json object; JSON.parse is meant to turn a string into a json object;
-            // let res = result.status
-            console.log(result.status)
-            console.log(result.content)
-            alert(result.content);
-
-        })
-        .fail(function(result){
-            alert("some problem");
-        });
-
-
-    });
-
-
-    // $("#submit").click(function (e) {
-    //     $.post("result.php",
-    //     {
-    //         firstName: $("#firstName").val(),
-    //         lastName: $("#lastName").val()
-    //     })
-
-    //     .done(function (result, status, xhr) {
-    //         $("#message").html(result)
-    //     })
-    //     .fail(function (xhr, status, error) {
-    //         $("#message").html("Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText)
-    //     });
-    // });
-
-
-
+    if (btn_type == "+MORE"){
+        $(this).html("-LESS");
+    }
+    else {
+        $(this).html("+MORE")
+    }
 
 });
 
- // { a: "bc", d: "e,f" } is converted to the string "a=bc&d=e%2Cf"
+
+
+let ajaxencode = (str) => encodeURIComponent(str);
+let ajaxdecode = (str) => decodeURIComponent(str);
+let ajaxUrl = "https://station.paperdrift.com/ajax/";
+
+$("h3").on("click", function(event) {
+    return false;
+
+    // let p_action  = "contact",
+    //     p_name    = ajaxencode("Bob"),
+    //     p_email   = ajaxencode("bob@gmail.com"),
+    //     p_msg     = ajaxencode("This is my message")
+
+    // //     param     = "action=" + p_action +
+    // //                 "&name=" + p_name +
+    // //                 "&email=" + p_email +
+    // //                 "&msg=" + p_msg;
+
+
+    // $.post(ajaxUrl, param, function(result) {
+
+    //     // let res = JSON.parse(result)
+    //     // JSON.parse doesn't work; I think because the result is already
+    //     // a json object; JSON.parse is meant to turn a string into a json object;
+    //     // let res = result.status
+    //     console.log(result.status)
+    //     console.log(result.content)
+
+
+    //     // let res = JSON.stringify(result)
+    //     // res = ajaxdecode(res)
+    //     alert(result.content);
+    //     // alert(res[0]["status"])
+
+    //     if (result.status == "ok") {
+    //         alert("ok");
+    //         // $("#msgForm").slideUp(400, function() {
+    //         //     $("#formSection p").fadeIn(300).html("YOUR MESSAGE WAS SENT!");
+    //         // });
+    //     }
+    //     else {
+    //         alert("some problem");
+    //         // $("#formSection p").fadeIn(300).html("Oops! There was an error.");
+    //     }
+    // },"json");
+
+    let jdata = {
+        "action" : p_action,
+        "name" : p_name,
+        "email" : p_email,
+        "msg" : p_msg
+    }
+
+    $.ajax({
+        type: "POST",
+        url: ajaxUrl,
+        async: true,
+        data: JSON.stringify(jdata),
+        cache: true,
+        processData: false,
+        contentType: "application/json; charset=UTF-8",
+    })
+    .done(function(result) {
+        // let res = JSON.parse(result)
+        // JSON.parse doesn't work; I think because the result is already
+        // a json object; JSON.parse is meant to turn a string into a json object;
+        // let res = result.status
+        console.log(result.status)
+        console.log(result.content)
+        alert(result.content);
+
+    })
+    .fail(function(result){
+        alert("some problem");
+    });
+
+});
+
+function set_location_box() {
+    if ( $("#location_box").length < 1 ) return false;
+
+    let city = $("#location_box_city").html()
+    // alert(city)
+    let data = {
+        "action" : "get_location",
+        "city" : ajaxencode(city),
+    }
+
+    $.ajax({
+        type: "POST",
+        url: ajaxUrl,
+        async: true,
+        data: JSON.stringify(data),
+        cache: true,
+        processData: false,
+        contentType: "application/json; charset=UTF-8",
+    })
+    .done(function(result) {
+
+        let status = result["status"];
+        if (status != "ok") {
+            msg = result["message"]
+            console.log("200, but not ok; failed: " + msg);
+            return
+        }
+
+        let location = result["title"];
+        let url = result["url"];
+        let description = result["description"];
+        let imageUrl = result["imageUrl"];
+
+
+        $("#location_img").attr("src", imageUrl);
+        $("#location_description_box a").each(function(){
+            $(this).attr("href", url);
+        })
+        $("#location_description span:first-child").html(description);
+
+        $("#location_box").fadeIn(350)
+
+    })
+    .fail(function(result){
+        console.log("Ooops! #location_box ajax error.");
+    });
+
+}
+
+
+
+
+
+(function start() {
+    // initVars();     // initialize global variables
+    // initEvents();   // initialize events
+    // setGreeting();
+    // checkUser();
+    set_location_box()
+
+})();
+
+
+
+// ----------------------------------------------------------
+});
+
+
+
+// { a: "bc", d: "e,f" } is converted to the string "a=bc&d=e%2Cf"
 
 // data
 // Type: PlainObject or String or Array

@@ -20,16 +20,12 @@ class RouterCtl():
 
     def router_init(self):
         logger.info('---router_init---')
-        if self.jug.debug: logger.info('---RUNNING DEBUG MODE')
 
-        self.article = ''
-        self.header = ''
-        self.footer = ''
         # self.retry_counter = 0
           # This isn't going to work when the variable is here;
           # On each request, will get reset to 0;
 
-        self.response_obj = False
+        self.response_obj = None
         self.redirect = [False, '']
 
         logger.info(f'---In G BEFORE?: [{G.api}][{G.db}][{G.site}]')
@@ -38,7 +34,9 @@ class RouterCtl():
 
         self.setConfig_toml()
 
-
+        if self.jug.debug:
+            logger.info('---RUNNING DEBUG MODE')
+            G.debug = True
 
     def getResponse_obj(self):
         return self.response_obj
@@ -205,8 +203,10 @@ class RouterCtl():
 
 
     # def doAjax(self, param):
-    def doAjax(self):
+    def doAjaxPost(self):
+        from jug.control.ajaxCtl import AjaxCtl
         logger.info("---ajax POST")
+
         # if param == "POST":
         #     logger.info("---ajax POST")
         # else:
@@ -229,25 +229,21 @@ class RouterCtl():
         # request_data = request.get_json(force=True)
         # https://flask.palletsprojects.com/en/3.0.x/api/#flask.Request.get_json
         request_data = request.get_json()
-        arg_value = request_data['action']
+        # ajax_action = request_data['action']
+        # ajax_city = request_data['city']
 
-        logger.info(f"---ajax value: {arg_value}")
+        # logger.info(f"---ajax value: {ajax_action} {ajax_city}")
+
+        # if not ajax_city or ajax_action != "get_location":
+        #     self.response_obj = jsonify(result)
+        #     return
 
 
-        # self.response_obj = jsonify({'status': 'ok'})
-        # self.response_obj = jsonify("{'status': 'ok'}"), 200
-        # self.response_obj = "ok", 200
+        ajax_obj = AjaxCtl(request_data)
+        ajax_obj.doAjax()
+        result = ajax_obj.getResult()
 
-        res = {
-            "status": "ok",
-            "content": "something%$<>"
-        }
-        # self.response_obj = jsonify(res, status=200, mimetype='application/json')
-
-        # self.response_obj = jsonify("ok", status=200)
-        self.response_obj = jsonify(res)
-        # self.response_obj = "ok"
-
+        self.response_obj = jsonify(result)
 
 
     def doHome(self):
@@ -317,10 +313,10 @@ class RouterCtl():
 
         # @self.jug.route('/ajax/', methods=['GET', 'POST'])
         @self.jug.route('/ajax/', methods=['POST'])
-        def ajaxUrl():
+        def ajaxPost():
             logger.info("---in path: ajax")
             # self.doAjax(request.method)
-            self.doAjax()
+            self.doAjaxPost()
             return self.doRoute()
 
 

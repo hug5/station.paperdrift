@@ -1,18 +1,18 @@
 from jug.lib.logger import logger
-
 from flask import Flask
 from jug.control.routerCtl import RouterCtl
+
 
 class JugCtl():
 
     def __init__(self):
-        logger.info('                          ')
-        logger.info('XXXXXXXXXXXXXXXXX')
-        logger.info('                          ')
-        logger.info('==== Begin JugCtl __init__ ===')
-        logger.info('                          ')
-        logger.info('XXXXXXXXXXXXXXXXX')
-        logger.info('                          ')
+        logger.info('                                ')
+        logger.info('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX')
+        logger.info('X                              X')
+        logger.info('X==== Begin JugCtl __init__ ===X')
+        logger.info('X                              X')
+        logger.info('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX')
+        logger.info('                                ')
 
         self.jug = Flask(
             __name__,
@@ -39,9 +39,7 @@ class JugCtl():
 
         # As an environment variable:
         # FLASK_DEBUG=1
-
         # session["name"] = "Bob"
-
         # self.jug.debug = True
 
         logger.info(f'====root_path: {self.jug.root_path}')
