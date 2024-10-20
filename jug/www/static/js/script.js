@@ -185,13 +185,14 @@ function set_location_box() {
         contentType: "application/json; charset=UTF-8",
     })
     // .done(function(result, textStatus, errorThrown, xhr) {
-    .done(function(result, textStatus, xhrxxx) {
+    .done(function(result, textStatus, xhr) {
 
         // alert(result)        // [object Object]
         // alert(result)        // success
         // alert(errorThrown)   // [object Object]
 
-        console.log("Status Code: " + xhrxxx.status);
+        console.log("Status Code: " + xhr.status + ", textStatus: " + textStatus);
+
         let rstatus = result["rstatus"];
         if (rstatus != "ok") {
             msg = result["message"]
