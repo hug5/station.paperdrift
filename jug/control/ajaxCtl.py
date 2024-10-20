@@ -49,12 +49,11 @@ class AjaxCtl:
         json_result["description"] = scrape_result.get("description", description)
         json_result["imageUrl"] = scrape_result.get("imageUrl", imageUrl)
 
-        json_result["rstatus"] = "ok"
+        json_result["status"] = "ok"
 
         self.result = json_result
 
     def doAjax(self):
-
 
         if self.action == "get_location":
             city = self.data.get("city", False)

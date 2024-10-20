@@ -91,80 +91,6 @@ let ajaxencode = (str) => encodeURIComponent(str);
 let ajaxdecode = (str) => decodeURIComponent(str);
 let ajaxUrl = "https://station.paperdrift.com/ajax/";
 
-$("h3").on("click", function(event) {
-    return false;
-
-    // let p_action  = "contact",
-    //     p_name    = ajaxencode("Bob"),
-    //     p_email   = ajaxencode("bob@gmail.com"),
-    //     p_msg     = ajaxencode("This is my message")
-
-    // //     param     = "action=" + p_action +
-    // //                 "&name=" + p_name +
-    // //                 "&email=" + p_email +
-    // //                 "&msg=" + p_msg;
-
-
-    // $.post(ajaxUrl, param, function(result) {
-
-    //     // let res = JSON.parse(result)
-    //     // JSON.parse doesn't work; I think because the result is already
-    //     // a json object; JSON.parse is meant to turn a string into a json object;
-    //     // let res = result.status
-    //     console.log(result.status)
-    //     console.log(result.content)
-
-
-    //     // let res = JSON.stringify(result)
-    //     // res = ajaxdecode(res)
-    //     alert(result.content);
-    //     // alert(res[0]["status"])
-
-    //     if (result.status == "ok") {
-    //         alert("ok");
-    //         // $("#msgForm").slideUp(400, function() {
-    //         //     $("#formSection p").fadeIn(300).html("YOUR MESSAGE WAS SENT!");
-    //         // });
-    //     }
-    //     else {
-    //         alert("some problem");
-    //         // $("#formSection p").fadeIn(300).html("Oops! There was an error.");
-    //     }
-    // },"json");
-
-    let jdata = {
-        "action" : p_action,
-        "name" : p_name,
-        "email" : p_email,
-        "msg" : p_msg
-    }
-
-    $.ajax({
-        type: "POST",
-        url: ajaxUrl,
-        async: true,
-        data: JSON.stringify(jdata),
-        cache: true,
-        processData: false,
-        contentType: "application/json; charset=UTF-8",
-    })
-    .done(function(result) {
-        // let res = JSON.parse(result)
-        // JSON.parse doesn't work; I think because the result is already
-        // a json object; JSON.parse is meant to turn a string into a json object;
-        // let res = result.status
-        console.log(result.status)
-        console.log(result.content)
-        alert(result.content);
-
-    })
-    .fail(function(result){
-        alert("some problem");
-    });
-
-});
-
-
 function set_location_box() {
     if ( $("#location_box").length < 1 ) return false;
 
@@ -183,27 +109,28 @@ function set_location_box() {
         cache: true,
         processData: false,
         contentType: "application/json; charset=UTF-8",
+        // most settings above are the default;
     })
-    // .done(function(result, textStatus, errorThrown, xhr) {
-    .done(function(result, textStatus, xhr) {
+    // .done(function(data, textStatus, errorThrown, xhr) {
+    .done(function(data, textStatus, jqXHR) {
+        // data: This is the data returned from the server
+        // textStatus: A string describing the status of the response (e.g., "success").
+        // jqXHR: The jQuery XMLHttpRequest (jqXHR) object, which contains
+        // information about the request and response.
 
-        // alert(result)        // [object Object]
-        // alert(result)        // success
-        // alert(errorThrown)   // [object Object]
+        console.log("Status Code: " + jqXHR.status + ", textStatus: " + textStatus);
 
-        console.log("Status Code: " + xhr.status + ", textStatus: " + textStatus);
-
-        let rstatus = result["rstatus"];
-        if (rstatus != "ok") {
-            msg = result["message"]
-            console.log("200, but failed: " + msg);
+        let status = data["status"];
+        if (status != "ok") {
+            msg = data["message"]
+            console.log("200, but failed request: " + msg);
             return
         }
 
-        let location = result["title"];
-        let url = result["url"];
-        let description = result["description"];
-        let imageUrl = result["imageUrl"];
+        let location = data["title"];
+        let url = data["url"];
+        let description = data["description"];
+        let imageUrl = data["imageUrl"];
 
         $("#location_img").attr("src", imageUrl);
         $("#location_description_box a").each(function(){
@@ -214,8 +141,13 @@ function set_location_box() {
         $("#location_box").fadeIn(350)
 
     })
-    .fail(function(jqXHR, textStatus, errorThrown){
-        console.log("xhr: " + jqXHR + ", TextStatus: " + textStatus + ', errorThrown: ' + errorThrown);
+
+    .fail(function(jqXHR, textStatus, errorThrown) {
+        console.log("Status Code: " + jqXHR.status + ", textStatus: " + textStatus + ", errorThrown: " + errorThrown);
+        // jqXHR: The jqXHR object representing the failed request.
+        // textStatus: A string categorizing the type of error that occurred
+        // (e.g., "timeout", "error", "abort", or "parsererror").
+        // errorThrown: An optional exception object, if one occurred.
     });
 
 }
