@@ -260,6 +260,7 @@ class RouterCtl():
         # if self.redirect[0] is True:
         #     return self.redirect[1]
 
+
         rock = request.cookies.get('rock')
         logger.info(f'rock: {rock}')
 
@@ -276,14 +277,22 @@ class RouterCtl():
             return redirect(self.redirect[1], code=301)
 
         if sender is True:
-
             resp = make_response(self.response_obj)
             resp.set_cookie('paper', '1234', samesite='Lax', secure=True)
-            resp.set_cookie('rock', '1234', samesite='Lax', secure=True)
+            resp.set_cookie('rock', '1234', samesite='Lax', secure=True, max_age=7776000)
+            resp.set_cookie('scissor', '1234')
             return resp
 
             # return self.getResponse_obj()
         # if here, then will implicitly return None
+
+# const jsonData = { name: "John", age: 32 };
+# document.cookie = "userData=" + encodeURIComponent(JSON.stringify(jsonData));
+# const cookies = document.cookie.split('; ');
+# const userDataCookie = cookies.find(row => row.startsWith('userData='));
+# const userData = userDataCookie ? JSON.parse(decodeURIComponent(userDataCookie.split('=')[1])) : null;
+
+
 
 
     def doBeforeRequest(self):
@@ -299,6 +308,8 @@ class RouterCtl():
             logger.info("---parseRoute: before_request---")
             self.doBeforeRequest()
             session["name"] = "Bob"
+            session.permanent = True
+
 
 
         @self.jug.route("/")

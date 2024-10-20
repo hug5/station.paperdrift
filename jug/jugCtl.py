@@ -1,7 +1,8 @@
 from jug.lib.logger import logger
 from flask import Flask
 from jug.control.routerCtl import RouterCtl
-from datetime import timedelta
+# from datetime import timedelta
+import datetime
 
 class JugCtl():
 
@@ -35,7 +36,8 @@ class JugCtl():
             SECRET_KEY='cd97c91dae2d43a9b8fa3d3d6d5930bf1b1a5c59553a292b2b2c4edbf099fc3f',
             SESSION_COOKIE_SECURE = True,
             SESSION_COOKIE_SAMESITE = 'Lax',  # Strict, None
-            PERMANENT_SESSION_LIFETIME = timedelta(minutes=60)
+            # SESSION_PERMANENT = True,
+            PERMANENT_SESSION_LIFETIME = datetime.timedelta(minutes=60)
         )
 
         # As an environment variable:
