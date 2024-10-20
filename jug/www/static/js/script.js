@@ -58,10 +58,8 @@ gotoCity = function() {
 
 $("#submit_btn").on("click", gotoCity);
 $("#destination_input").on("keypress", function(event) {
-
     // press enter;
     if (event.which == 13)  {
-        // $(this).val();
         gotoCity();
     }
 });
@@ -84,7 +82,6 @@ $("#more_btn").on("click", function(event) {
     }
 
 });
-
 
 
 let ajaxencode = (str) => encodeURIComponent(str);

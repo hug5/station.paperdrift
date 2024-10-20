@@ -3553,3 +3553,201 @@ if ( $("#browseSection #articleSection").length > 0 ) {
 
 
 /////////////////////////////////////////////////////////////////
+
+
+
+
+
+    data: The data returned from the server.
+    textStatus: A string describing the status of the request (e.g., "success").
+    jqXHR: The jQuery XMLHttpRequest object that contains information about the request.
+
+For example:
+
+javascript
+$.ajax({
+    url: "/api/data",
+    type: "GET"
+}).done(function(data, textStatus, jqXHR) {
+    console.log("Success:", data);
+});
+
+$.ajax({
+    url: "/api/data",
+    type: "GET"
+}).fail(function(jqXHR, textStatus, errorThrown) {
+    console.error("Error:", textStatus, errorThrown);
+});
+
+-------------------
+
+.done(function(result, textStatus, xhr) {
+    // not sure what parameters are exactly available...
+    // The canonical may be: (data, textstatus, jqXHR)
+    // data: This is the data returned from the server, which is automatically parsed based on the dataType specified in the AJAX request.
+    // textStatus: A string describing the status of the response (e.g., "success").
+    // jqXHR: The jQuery XMLHttpRequest (jqXHR) object, which contains information about the request and response.
+
+
+The .fail() method also takes a callback function with three parameters:
+
+    jqXHR: The jqXHR object representing the failed request.
+    textStatus: A string categorizing the type of error that occurred (e.g., "timeout", "error", "abort", or "parsererror").
+    errorThrown: An optional exception object, if one occurred.
+
+Example usage:
+
+javascript
+$.ajax({
+    url: "example.com/api",
+    method: "GET"
+}).fail(function(jqXHR, textStatus, errorThrown) {
+    console.error("Error:", textStatus, errorThrown);
+});
+
+
+
+    .fail(function(jqXHR, textStatus, errorThrown) {
+    // jqXHR: The jqXHR object representing the failed request.
+    // textStatus: A string categorizing the type of error that occurred (e.g., "timeout", "error", "abort", or "parsererror").
+    // errorThrown: An optional exception object, if one occurred.
+        console.log("Status Code: " + jqXHR.status + ", textStatus: " + textStatus + ", errorThrown: " + errorThrown);
+    });
+
+
+
+
+
+/////////////////////////////////////////////////////////////////
+
+
+https://stackoverflow.com/questions/12693947/how-to-send-json-instead-of-a-query-string-with-ajax
+
+
+$.ajax({
+    url: url,
+    type: "POST",
+    data: JSON.stringify(data),
+    contentType: "application/json",
+    complete: callback
+});
+
+
+$.ajax({
+    url: url,
+    type: "POST",
+    data: JSON.stringify(data),
+    processData: false,
+    contentType: "application/json; charset=UTF-8",
+    complete: callback
+});
+
+contentType (default: 'application/x-www-form-urlencoded; charset=UTF-8')
+  Type: Boolean or String
+  When sending data to the server, use this content type. Default is "application/x-www-form-urlencoded; charset=UTF-8", which is fine for most cases. If you explicitly pass in a content-type to $.ajax(), then it is always sent to the server (even if no data is sent). As of jQuery 1.6 you can pass false to tell jQuery to not set any content type header. Note: The W3C XMLHttpRequest specification dictates that the charset is always UTF-8; specifying another charset will not force the browser to change the encoding. Note: For cross-domain requests, setting the content type to anything other than application/x-www-form-urlencoded, multipart/form-data, or text/plain will trigger the browser to send a preflight OPTIONS request to the server.
+  # Denoting UTF-8 is generally not necessary;
+
+processData (default: true)
+  Type: Boolean
+  By default, data passed in to the data option as an object (technically, anything other than a string) will be processed and transformed into a query string, fitting to the default content-type "application/x-www-form-urlencoded". If you want to send a DOMDocument, or other non-processed data, set this option to false.
+  # True : make into query string
+  # False : Do not make into query string;
+  # But generally not necessary;
+  # Setting processData to false isn't necessary since JSON.stringify already returns a string. – mekwall Commented Oct 2, 2012 at 16:10
+
+async (default: true)
+  Type: Boolean
+  By default, all requests are sent asynchronously (i.e. this is set to true by default). If you need synchronous requests, set this option to false. Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation. Note that synchronous requests may temporarily lock the browser, disabling any actions while the request is active. As of jQuery 1.8, the use of async: false with jqXHR ($.Deferred) is deprecated; you must use the success/error/complete callback options instead of the corresponding methods of the jqXHR object such as jqXHR.done().
+
+cache (default: true, false for dataType 'script' and 'jsonp')
+  Type: Boolean
+  If set to false, it will force requested pages not to be cached by the browser. Note: Setting cache to false will only work correctly with HEAD and GET requests. It works by appending "_={timestamp}" to the GET parameters. The parameter is not needed for other types of requests, except in IE8 when a POST is made to a URL that has already been requested by a GET.
+
+jqXHR
+  As of jQuery 1.5, the $.ajax() method returns the jqXHR object, which is a superset of the XMLHTTPRequest object. For more information, see the jqXHR section of the $.ajax entry
+  The jQuery XMLHttpRequest (jqXHR) object returned by $.ajax() as of jQuery 1.5 is a superset of the browser's native XMLHttpRequest object. For example, it contains responseText and responseXML properties, as well as a getResponseHeader() method. When the transport mechanism is something other than XMLHttpRequest (for example, a script tag for a JSONP request) the jqXHR object simulates native XHR functionality where possible.
+  The jqXHR objects returned by $.ajax() as of jQuery 1.5 implement the Promise interface, giving them all the properties, methods, and behavior of a Promise (see Deferred object for more information). These methods take one or more function arguments that are called when the $.ajax() request terminates. This allows you to assign multiple callbacks on a single request, and even to assign callbacks after the request may have completed. (If the request is already complete, the callback is fired immediately.) Available Promise methods of the jqXHR object include:
+
+
+cache (default: true, false for dataType 'script' and 'jsonp')
+  Type: Boolean
+  If set to false, it will force requested pages not to be cached by the browser. Note: Setting cache to false will only work correctly with HEAD and GET requests. It works by appending "_={timestamp}" to the GET parameters. The parameter is not needed for other types of requests, except in IE8 when a POST is made to a URL that has already been requested by a GET.
+
+
+
+$.ajax({
+    type: "POST",
+    url: url,
+    async: true,
+    data: JSON.stringify(data),
+    cache: true,
+    processData: false,
+    contentType: "application/json; charset=UTF-8",
+    complete: callback
+});
+
+
+$.ajax({ cache: false,
+    url: "/Admin/Contents/GetData",
+    data: { accountID: AccountID },
+    success: function (data) {
+        $('#CityID').html(data);
+    },
+    error: function (ajaxContext) {
+        alert(ajaxContext.responseText)
+    }
+});
+
+
+ .done(), .fail() and .always() instead of
+
+  $.ajax({
+      type: "POST",
+      url: url,
+      data: '{"name" :"sheo"}',
+      contentType: "application/json; charset=utf-8",
+      async: false,
+      cache: false
+  })
+  .done(function (Response) {
+      //do something when get response
+  })
+  .fail(function (Response) {
+      //do something when any error occurs.
+  });
+
+
+
+
+// Assign handlers immediately after making the request,
+// and remember the jqxhr object for this request
+var jqxhr = $.post( "example.php", function() {
+  alert( "success" );
+})
+  .done(function() {
+    alert( "second success" );
+  })
+  .fail(function() {
+    alert( "error" );
+  })
+  .always(function() {
+    alert( "finished" );
+  });
+
+// Perform other work here ...
+
+// Set another completion function for the request above
+jqxhr.always(function() {
+  alert( "second finished" );
+});
+
+The jqXHR.success(), jqXHR.error(), and jqXHR.complete() callback methods are removed as of jQuery 3.0. You can use jqXHR.done(), jqXHR.fail(), and jqXHR.always() instead.
+
+
+
+
+
+/////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+

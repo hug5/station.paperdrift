@@ -1,6 +1,6 @@
 from jug.lib.logger import logger
 
-from flask import redirect, request, jsonify, session
+from flask import redirect, request, jsonify, session, make_response
 
 from jug.lib.fLib import F
 from jug.lib.gLib import G
@@ -260,6 +260,9 @@ class RouterCtl():
         # if self.redirect[0] is True:
         #     return self.redirect[1]
 
+        rock = request.cookies.get('rock')
+        logger.info(f'rock: {rock}')
+
         page_obj = PageCtl()
         page_obj.doLocationUrl(url)
         self.response_obj = page_obj.getHtml()
@@ -273,7 +276,13 @@ class RouterCtl():
             return redirect(self.redirect[1], code=301)
 
         if sender is True:
-            return self.getResponse_obj()
+
+            resp = make_response(self.response_obj)
+            resp.set_cookie('paper', '1234', samesite='Lax', secure=True)
+            resp.set_cookie('rock', '1234', samesite='Lax', secure=True)
+            return resp
+
+            # return self.getResponse_obj()
         # if here, then will implicitly return None
 
 
