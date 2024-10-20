@@ -1,4 +1,4 @@
-from jug.lib.logger import logger
+# from jug.lib.logger import logger
 # from flask import render_template
 # from jug.lib.f import F
 # from jug.lib.weather_api import Weather_api
@@ -49,7 +49,7 @@ class AjaxCtl:
         json_result["description"] = scrape_result.get("description", description)
         json_result["imageUrl"] = scrape_result.get("imageUrl", imageUrl)
 
-        json_result["status"] = "ok"
+        json_result["rstatus"] = "ok"
 
         self.result = json_result
 

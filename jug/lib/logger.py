@@ -94,6 +94,13 @@ dictConfig({
     },
 })
 
+# When importing, have to do like so:
+# from from jug.lib.logger import logger
+# Do logger twice; one to refer to the file; the 2nd to refer to the variable;
+# To use the root logger, you woul do:
+# from jug.lib.logger import root
+
+
 root = logging.getLogger("root")
 logger = logging.getLogger("logger1")
 

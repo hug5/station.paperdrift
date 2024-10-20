@@ -1,10 +1,6 @@
-# from jug.lib.logger import logger
-# import logging
-# logger = logging.getLogger(__name__)
-
+from jug.lib.logger import logger
 import random
 from jug.dbo import dbc
-from jug.lib.logger import logger
 
 # from jug.lib.f import F
 

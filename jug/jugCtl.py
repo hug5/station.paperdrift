@@ -57,6 +57,8 @@ class JugCtl():
         # root_path
         # template_folder
 
+        # To run in debug mode on the commandline:
+        # $ flask -A jug.jugCtl:jug run
 
     def doJug(self):
         ro = RouterCtl(self.jug)

@@ -183,12 +183,17 @@ function set_location_box() {
         processData: false,
         contentType: "application/json; charset=UTF-8",
     })
-    .done(function(result) {
+    .done(function(result, textStatus, errorThrown) {
 
-        let status = result["status"];
-        if (status != "ok") {
+        // alert(result)        // [object Object]
+        // alert(result)        // success
+        // alert(errorThrown)   // [object Object]
+
+        console.log(result["status"]);
+        let rstatus = result["rstatus"];
+        if (rstatus != "ok") {
             msg = result["message"]
-            console.log("200, but not ok; failed: " + msg);
+            console.log("200, but failed: " + msg);
             return
         }
 
@@ -196,7 +201,6 @@ function set_location_box() {
         let url = result["url"];
         let description = result["description"];
         let imageUrl = result["imageUrl"];
-
 
         $("#location_img").attr("src", imageUrl);
         $("#location_description_box a").each(function(){
@@ -207,8 +211,8 @@ function set_location_box() {
         $("#location_box").fadeIn(350)
 
     })
-    .fail(function(result){
-        console.log("Ooops! #location_box ajax error.");
+    .fail(function(result, result, errorThrown){
+        console.log("Server/internet error: TextStatus: " + textStatus + ', errorThrown: ' + errorThrown);
     });
 
 }

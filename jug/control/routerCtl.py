@@ -2,11 +2,11 @@ from jug.lib.logger import logger
 
 from flask import redirect, request, jsonify, session
 
-from jug.lib.f import F
-from jug.lib.g import G
+from jug.lib.fLib import F
+from jug.lib.gLib import G
 from pathlib import Path
 import tomli
-import re
+# import re
 from urllib import parse
 from jug.control.pageCtl import PageCtl
 

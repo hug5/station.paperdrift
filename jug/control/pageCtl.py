@@ -1,6 +1,6 @@
 from jug.lib.logger import logger
 from flask import render_template
-from jug.lib.f import F
+from jug.lib.fLib import F
 from jug.control.headerCtl import HeaderCtl
 from jug.control.footerCtl import FooterCtl
 
