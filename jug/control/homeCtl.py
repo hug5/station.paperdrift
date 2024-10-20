@@ -14,7 +14,7 @@ from jug.lib import news_scrape
 # from jug.start import jug
 import random
 from jug.lib.weather_api import Weather_api
-from jug.lib.g import G
+from jug.lib.gLib import G
 
 
 class HomeCtl():

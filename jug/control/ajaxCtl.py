@@ -2,7 +2,7 @@
 # from flask import render_template
 # from jug.lib.f import F
 # from jug.lib.weather_api import Weather_api
-# from jug.lib.g import G
+# from jug.lib.gLib import G
 # import random
 # from jug.lib import news_scrape
 from jug.lib import news_scrape

@@ -4,7 +4,7 @@ import requests
 import json
 import random
 import tomli
-from jug.lib.g import G
+from jug.lib.gLib import G
 
 
 

@@ -164,6 +164,7 @@ $("h3").on("click", function(event) {
 
 });
 
+
 function set_location_box() {
     if ( $("#location_box").length < 1 ) return false;
 
@@ -183,13 +184,14 @@ function set_location_box() {
         processData: false,
         contentType: "application/json; charset=UTF-8",
     })
-    .done(function(result, textStatus, errorThrown) {
+    // .done(function(result, textStatus, errorThrown, xhr) {
+    .done(function(result, textStatus, xhrxxx) {
 
         // alert(result)        // [object Object]
         // alert(result)        // success
         // alert(errorThrown)   // [object Object]
 
-        console.log(result["status"]);
+        console.log("Status Code: " + xhrxxx.status);
         let rstatus = result["rstatus"];
         if (rstatus != "ok") {
             msg = result["message"]
@@ -211,14 +213,11 @@ function set_location_box() {
         $("#location_box").fadeIn(350)
 
     })
-    .fail(function(result, result, errorThrown){
-        console.log("Server/internet error: TextStatus: " + textStatus + ', errorThrown: ' + errorThrown);
+    .fail(function(jqXHR, textStatus, errorThrown){
+        console.log("xhr: " + jqXHR + ", TextStatus: " + textStatus + ', errorThrown: ' + errorThrown);
     });
 
 }
-
-
-
 
 
 (function start() {

@@ -1,5 +1,5 @@
 from flask import render_template
-from jug.lib.g import G
+from jug.lib.gLib import G
 
 class HeaderCtl():
 
