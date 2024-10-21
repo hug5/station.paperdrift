@@ -52,12 +52,13 @@ class AjaxCtl:
 
         self.result = json_result
 
-    def get_news_result(self):
-
+    def get_news_db(self):
+        # Get news items from MariaDB
+        # F.uwsgi_log("Call HomeDb")
         try:
             from jug.dbo.homeDb import HomeDb
             home_obj = HomeDb()
-            result_list = home_obj.start()
+            result_list = home_obj.doHomeDb()
             logger.info(f'reqs: {result_list}')
 
         except Exception as e:
@@ -67,34 +68,49 @@ class AjaxCtl:
 
         logger.info(f'HomeDb result list: {result_list}')
 
-        # Get news items from MariaDB
-        # F.uwsgi_log("Call HomeDb")
+        return result_list
+
+
+    def get_news_scrape(self):
 
         try:
             # Get news item from Yahoo News with request
             news_scrapeO = News_Scrape()
-            result_list2 = news_scrapeO.get_yahoo_news()[0]
+            # result_list = news_scrapeO.get_news()[0]
+            result_list = news_scrapeO.get_news()
+            # returning multiarray;
+            # first is the headline; 2nd the link;
+            # [0]: get back just the headlines
         except Exception as e:
             logger.info(f'News_Scrape exception: {e}')
-            result_list2 = ["Citrus fruits are considered a superfood. But can they also help you sleep or avoid motion sickness?"]
+            result_list = []
 
-        logger.info(f'News_Scrape result list: {result_list2}')
+        return result_list
 
-        # returning multiarray;
-        # first is the headline; 2nd the link;
-        # [0]: get back just the headlines
+
+    def get_news_result(self):
+
+        result_list = self.get_news_scrape()
+        # result_list2 = self.get_news_db
+
+        logger.info(f'99999999999 -- News_Scrape result list: {result_list}')
 
         # Combine 2 lists:
-        result_list.extend(result_list2)
-        # news_list = result_list2 + result_list
+        # result_list.extend(result_list2)
 
-        # Randomize the list
+        # If no news, then make up fake ones:
+        if len(result_list) < 1:
+            link = "https://news.yahoo.com/"
+            result_list = [
+                ["Walking After Eating Is a Science-Backed Way To Lose Weight, but Experts Say Timing Is Crucial.", link],
+                ["Citrus fruits are considered a superfood. But can they also help you sleep or avoid motion sickness?", link],
+                ["Could fungi actually cause a zombie apocalypse?", link]
+            ]
+
+        # randomize list
         random.shuffle(result_list)
-        logger.info(f'reqs: {result_list}')
 
-        # self.result = result_list
 
-        # In case any values are missing, replace with fiction:
         json_result = {}
         json_result["status"] = "ok"
 
@@ -103,6 +119,8 @@ class AjaxCtl:
         logger.info(f'json reqs: {json_result}')
 
         self.result = json_result
+
+
 
     def doAjax(self):
 

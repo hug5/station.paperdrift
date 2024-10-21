@@ -29,7 +29,7 @@ class News_Scrape():
         return response
 
 
-    def get_yahoo_news(self):
+    def get_news(self):
 
         url = "https://news.yahoo.com/rss/world"
 
@@ -47,14 +47,23 @@ class News_Scrape():
         soup1_link = soup.find_all('link')
 
         soup2 = []
-        soup2L = []
+        # soup2L = []
 
         # first 2 titles are yahoo site titles;
         for idx in range(2, len(soup1)):
-            soup2.append(soup1[idx].text)
-            soup2L.append(soup1_link[idx].text)
+            # soup2.append(soup1[idx].text)
+            # soup2L.append(soup1_link[idx].text)
 
-        return [soup2, soup2L]
+            # Conventional format now:
+            soup2.append([soup1[idx].text, soup1_link[idx].text])
+
+        # return [soup2, soup2L]
+        return soup2
+
+        # Format: So not what you might expect;
+        # This gives us flexibility if we only want to grab the headlines;
+        # [ ["h1", "h2", "h3"], ["url1", "url2", "url3"] ]
+
 
         # print(soup2)
         # print(soup2L)

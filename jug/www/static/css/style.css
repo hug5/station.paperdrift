@@ -383,18 +383,24 @@ article {
     display: none;
   }
 
+  span a:hover{
+    border-bottom: 1px solid #D1B561;
+  }
+
 
   #more_btn_box #more_btn{
-    color: #FFE228;
     display: block;
     clear: both;
     float: right;
-    margin-right: 15px;
-    /* margin-bottom: 6px; */
+    margin: 5px 15px 0 0;
+    /*
+    color: #FFE228;
+    margin-bottom: 6px;
+    background-color: #3B3F60;
+    */
     font-size: .70em;
     cursor: pointer;
     border: 1px solid #362D0A;
-    background-color: #3B3F60;
     padding-left: 4px;
     padding-right: 4px;
     border-radius: 5px;

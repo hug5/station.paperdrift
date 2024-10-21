@@ -42,47 +42,50 @@ class HomeCtl():
         # logger.info(f'weather: {weatherDict}')
         return weatherDict
 
-    def get_breaking_news(self):
+    # # Doing ajax now;
+    # def get_breaking_news(self):
 
-        try:
-            from jug.dbo.homeDb import HomeDb
-            home_obj = HomeDb()
-            result_list = home_obj.start()
-            logger.info(f'reqs: {result_list}')
+        # # Get news items from MariaDB
+        # # F.uwsgi_log("Call HomeDb")
 
-        except Exception as e:
-            result_list = ["Walking After Eating Is a Science-Backed Way To Lose Weight, but Experts Say Timing Is Crucial."]
-            pass
+        # try:
+        #     from jug.dbo.homeDb import HomeDb
+        #     home_obj = HomeDb()
+        #     result_list = home_obj.start()
+        #     logger.info(f'reqs: {result_list}')
 
-        logger.info(f'HomeDb result list: {result_list}')
+        # except Exception as e:
+        #     result_list = ["Walking After Eating Is a Science-Backed Way To Lose Weight, but Experts Say Timing Is Crucial."]
+        #     pass
 
-        # Get news items from MariaDB
-        # F.uwsgi_log("Call HomeDb")
+        # logger.info(f'HomeDb result list: {result_list}')
 
 
-        try:
-            # Get news item from Yahoo News with request
-            news_scrapeO = news_scrape.News_Scrape()
-            result_list2 = news_scrapeO.get_yahoo_news()[0]
-        except Exception as e:
-            result_list2 = ["Citrus fruits are considered a superfood. But can they also help you sleep or avoid motion sickness?"]
-            pass
 
-        logger.info(f'News_Scrape result list: {result_list2}')
+        # try:
+        #     # Get news item from Yahoo News with request
+        #     news_scrapeO = news_scrape.News_Scrape()
+        #     result_list2 = news_scrapeO.get_yahoo_news()[0]
+        # except Exception as e:
+        #     result_list2 = ["Citrus fruits are considered a superfood. But can they also help you sleep or avoid motion sickness?"]
+        #     pass
 
-        # returning multiarray;
-        # first is the headline; 2nd the link;
-        # [0]: get back just the headlines
+        # logger.info(f'News_Scrape result list: {result_list2}')
 
-        # Combine 2 lists:
-        result_list.extend(result_list2)
-        # news_list = result_list2 + result_list
+        # # returning multiarray;
+        # # first is the headline; 2nd the link;
+        # # [0]: get back just the headlines
 
-        # Randomize the list
-        random.shuffle(result_list)
-        logger.info(f'reqs: {result_list}')
+        # # Combine 2 lists:
+        # result_list.extend(result_list2)
+        # # news_list = result_list2 + result_list
 
-        return result_list
+        # # Randomize the list
+        # random.shuffle(result_list)
+        # logger.info(f'reqs: {result_list}')
+
+        # return result_list
+
 
     def getMoon(self, moon_phase):
         return F.getMoon(moon_phase)
