@@ -120,7 +120,7 @@ class F():
         # return math.ceil(pop)
         # return randrange(101, 100000)
           # Return a randomly selected element from range(start, stop, step).
-        return f"{random.randint(1000, 8000000):,d}"
+        return f"{random.randint(500, 5000000):,d}"
           # Return a random integer N such that a <= N <= b.
           # Alias for randrange(a, b+1).
           # Also add thousand separator;

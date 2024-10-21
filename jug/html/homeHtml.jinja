@@ -35,19 +35,8 @@
   <p>Today is: {{dog.dayName}}, ##{{dog.now}}</p>
   <p>My calculation: {{dog.mult(2)}}</p>
     <h4>Moon Phase: {{moon_phase[1]}} {{ moon_phase[0]}}</h4>
-  -------------------------------------------------------#}
 
-<article>
-    <h3>Welcome to Paperdrift.</h3>
-    <h4>Population: {{population}} est.</h4>
-    <h4>Country: {{country}}</h4>
-    <h4>Local Time: {{local_datetime}}</h4>
-
-    {% include 'weatherHtml.jinja' %}
-
-    <section id="destinations">
-        <h4>Popular Destinations:</h4>
-        <p><a href="/chihuahua/">Yap to Chihuahua</a></p>
+            <p><a href="/chihuahua/">Yap to Chihuahua</a></p>
         <p><a href="/anchorage/">Sled to Anchorage</a></p>
         <p><a href="/chicago/">Trading Chicago</a></p>
         <p><a href="/atlantic+city/">Roll to Atlantic City</a></p>
@@ -65,6 +54,24 @@
         <p><a href="/barcelona/">Flamingo to Barcelona</a></p>
         <p><a href="/casablanca/">Round up Casablanca</a></p>
         <p><a href="/shanghai/">Abscond to Shanghai</a></p>
+
+  -------------------------------------------------------#}
+
+<article>
+    <h3>Welcome to Paperdrift.</h3>
+    <h4>Population: {{population}} est.</h4>
+    <h4>Country: {{country}}</h4>
+    <h4>Local Time: {{local_datetime}}</h4>
+
+    {% include 'weatherHtml.jinja' %}
+
+    <section id="destinations">
+        <h4>Popular Destinations:</h4>
+
+        {% for key in locations %}
+          <p><a href="/{{key}}/" tabindex=-1>{{locations[key]}}</a></p>
+        {% endfor %}
+
     </section>
 
     <div id="news_result">

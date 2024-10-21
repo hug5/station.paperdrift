@@ -2,7 +2,8 @@
 # logger = logging.getLogger(__name__)
 from jug.lib.logger import logger
 
-from flask import render_template
+from flask import render_template, session
+
 from jug.lib.fLib import F
 
 try:
@@ -23,6 +24,7 @@ class HomeCtl():
         logger.info('HomeCtl __init__')
         self.config = {}
         self.html = ''
+        self.locations = {}
 
 
     def getHtml(self):
@@ -78,13 +80,73 @@ class HomeCtl():
     def getAdverb(self):
         return F.getAdverb()
 
+    def getLocations(self):
+
+        verb_list = [
+            "Barrel",
+            "Crawl",
+            "Cruise",
+            "Dart",
+            "Drive",
+            "Float",
+            "Gallop",
+            "Hasten",
+            "Hustle",
+            "Jog",
+            "Lumber",
+            "Moonwalk",
+            "Sail",
+            "Scoot",
+            "Scram",
+            "Scurry",
+            "Skedaddle",
+            "Sleepwalk",
+            "Sprint",
+            "Swim",
+        ]
+
+        def get_verb():
+            return verb_list[random.randrange(0, len(verb_list))]
+
+
+        self.locations = {
+            "chihuahua" : "Yap to Chihuahua",
+            "anchorage" : "Sled to Anchorage",
+            "chicago" : "Trading Chicago",
+            "phoenix" : "Soar to Phoenix",
+            "bangkok" : "Sawadee Bangkok",
+            "atlantic+city" : "Roll to Atlantic City",
+            "mumbai" : "Flying Mumbai",
+            "manila" : "Jungle in Manila",
+            "the+hague" : "Charge to The Hague",
+            "samarkand" : "Ride to Samarkand",
+            "beirut" : "Bunker to Beirut",
+            "goleta" : "Surf to Goleta",
+            "topeka" : "Twisting Topeka",
+            "hanoi" : "Helicopter to Hanoi",
+            "cairo" : "Float to Cairo",
+            "barcelona" : "Flamingo to Barcelona",
+            "casablanca" : "Round Up Casablanca",
+            "shanghai" : "Abscond to Shanghai",
+        }
+
+        for i in session["location"]:
+            if not self.locations.get(i):
+                self.locations[i] = f"{get_verb()} to {i.replace('+', ' ').title()}"
+
+        return self.locations
+
+
     def doHome(self):
 
         weatherDict = self.getWeather()
         self.doConfig()
 
+        locations = self.getLocations()
+
         self.html = render_template(
             "homeHtml.jinja",
+            locations = locations,
             population = F.getPop(),
             adv = self.getAdverb(),
             moon_phase = weatherDict["moon_phase"],

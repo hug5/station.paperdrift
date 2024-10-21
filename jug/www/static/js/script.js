@@ -50,7 +50,15 @@ gotoCity = function() {
     // replace %20 with +
     dest_val = dest_val.replace(/%20/gi, '+');
 
-    window.location.href = "/" + dest_val + "/";
+    if (dest_val == "home" || dest_val == "paperdrift" || dest_val == "station paperdrift") {
+        window.location.href = "/";
+    }
+    else if (dest_val) {
+        window.location.href = "/" + dest_val + "/";
+    }
+    else {
+        $("#destination_input").val('');
+    }
 
 
     // return decodeURIComponent(str);
@@ -149,13 +157,17 @@ function set_location_box() {
 
 }
 
+function clear_search() {
+    $("#destination_input").val('');
+}
 
 (function start() {
     // initVars();     // initialize global variables
     // initEvents();   // initialize events
     // setGreeting();
     // checkUser();
-    set_location_box()
+    set_location_box();
+    clear_search();
 
 })();
 

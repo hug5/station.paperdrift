@@ -1,4 +1,5 @@
 from jug.lib.logger import logger
+from flask import session
 from flask import render_template
 from jug.lib.fLib import F
 from jug.lib.weather_api import Weather_api
@@ -118,6 +119,18 @@ class LocationCtl:
         location_info = {}
         # location_info = self.get_Britannica_Location(location)
         self.doConfig(location)
+
+        location_set = set(session["location"])
+        location_set.add(location.lower().replace(" ", "+"))
+
+        session["location"] = list(location_set)
+
+
+        logger.info(f'@@@@@ session location: {session["location"]}')
+
+
+
+        # logger.info(f'session location: {session["location"]}')
 
 
         self.html = render_template(

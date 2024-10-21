@@ -37,7 +37,8 @@ class JugCtl():
         # https://flask.palletsprojects.com/en/3.0.x/web-security/#security-cookie
         self.jug.config.update(
             # TESTING=True,
-            SECRET_KEY= secret_key,
+            SESSION_COOKIE_NAME = "yummies",
+            SECRET_KEY = secret_key,
             SESSION_COOKIE_SECURE = True,
             SESSION_COOKIE_SAMESITE = 'Lax',  # Strict, None
             # SESSION_PERMANENT = True,

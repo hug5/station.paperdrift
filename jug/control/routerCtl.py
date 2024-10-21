@@ -22,18 +22,31 @@ class RouterCtl():
     def router_init(self):
         logger.info('---router_init---')
 
-        # self.retry_counter = 0
-          # This isn't going to work when the variable is here;
-          # On each request, will get reset to 0;
-
         self.response_obj = None
         self.redirect = [False, '']
-
         logger.info(f'---In G BEFORE?: [{G.api}][{G.db}][{G.site}]')
         G.reset()
         logger.info(f'---In G AFTER?: [{G.api}][{G.db}][{G.site}]')
 
         self.setConfig_toml()
+
+
+        # This makes the session last as per PERMANENT_SESSION_LIFETIME
+        session.permanent = True
+
+        session["user"] = "Phoebe"
+
+        if not session.get("location"):
+            session["location"] = []
+
+
+
+        # session["location"] = ["los angeles", "fresno"]
+        # session.pop('username', None)
+        # if "user" in session:                         # user in session
+        # user = session["user"]
+        # session["user"] = user                      # init session
+
 
         if self.jug.debug:
             logger.info('---RUNNING DEBUG MODE')
@@ -149,6 +162,9 @@ class RouterCtl():
                 if r_url != url:
                     logger.info(f'***checkUrl, badurl: "{r_url}"')
                     self.redirect = [True, r_url]
+
+        #/favicon.ico
+
 
         logger.info(f'End. state self.redirect: {self.redirect}')
 
@@ -312,11 +328,6 @@ class RouterCtl():
         def before_request_route():
             logger.info("---parseRoute: before_request---")
             self.doBeforeRequest()
-            # This makes the session last as per PERMANENT_SESSION_LIFETIME
-            session.permanent = True
-            session["un"] = "Phoebe"
-
-
 
 
         @self.jug.route("/")
