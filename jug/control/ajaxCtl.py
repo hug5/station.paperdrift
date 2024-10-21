@@ -4,7 +4,7 @@ from jug.lib.logger import logger
 # from jug.lib.weather_api import Weather_api
 # from jug.lib.gLib import G
 # import random
-# from jug.lib import news_scrape
+from jug.lib.news_scrape import News_Scrape
 import random
 
 
@@ -25,7 +25,7 @@ class AjaxCtl:
 
 
     def get_Britannica_Location(self, location):
-        news_scrapeO = news_scrape.News_Scrape()
+        news_scrapeO = News_Scrape()
         scrape_result = news_scrapeO.get_britannica(location)
 
         # if not json_result:
@@ -53,8 +53,6 @@ class AjaxCtl:
         self.result = json_result
 
     def get_news_result(self):
-
-        from jug.lib.news_scrape import News_Scrape
 
         try:
             from jug.dbo.homeDb import HomeDb
@@ -101,6 +99,8 @@ class AjaxCtl:
         json_result["status"] = "ok"
 
         json_result["news_result"] = result_list
+
+        logger.info(f'json reqs: {json_result}')
 
         self.result = json_result
 

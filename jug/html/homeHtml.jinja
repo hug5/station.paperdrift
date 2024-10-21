@@ -55,6 +55,15 @@
         <p><a href="/casablanca/">Round up Casablanca</a></p>
         <p><a href="/shanghai/">Abscond to Shanghai</a></p>
 
+
+        {% for result in news_result %}
+            {% if loop.index == 1 %}
+                <span>{{ result }}</span>
+            {% else %}
+                <span class="news_hide">{{ result }}</span>
+            {% endif %}
+        {% endfor %}
+
   -------------------------------------------------------#}
 
 <article>
@@ -75,17 +84,12 @@
     </section>
 
     <div id="news_result_box">
-        <span><b>BREAKING NEWS :</b></span>
+        <span id="news_headline_title"><b>BREAKING NEWS :</b></span>
 
-        {% for result in news_result %}
-            {% if loop.index == 1 %}
-                <span>{{ result }}</span>
-            {% else %}
-                <span class="news_hide">{{ result }}</span>
-            {% endif %}
-        {% endfor %}
+        <div id="more_btn_box">
+          <div id="more_btn">+MORE</div>
+        </div>
 
-        <div id="more_btn_box"><div id="more_btn">+MORE</div></div>
     </div>
 
 </article>

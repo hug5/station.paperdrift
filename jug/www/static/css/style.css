@@ -366,21 +366,25 @@ article {
     float: left;
     clear: both;
   }
-  span:nth-child(2){
-    float: none;
-  }
-  span:first-child{
+
+  #news_headline_title{
     background-color: #F3EDC9;
     float: none;
     margin-left: -10px;
     margin-right: 10px;
   }
 
+  span.news_first {
+    float: none;
+    clear: right;
+  }
+
   span.news_hide{
     display: none;
   }
 
-  #more_btn{
+
+  #more_btn_box #more_btn{
     color: #FFE228;
     display: block;
     clear: both;

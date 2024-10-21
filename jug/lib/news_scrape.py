@@ -24,7 +24,7 @@ class News_Scrape():
         # Cookies and sessions?
         # response = requests.Session()
 
-        response = requests.get(url, headers=headers, timeout=3)
+        response = requests.get(url, headers=headers, timeout=6)
         response.encoding = "utf-8"
         return response
 
@@ -35,7 +35,7 @@ class News_Scrape():
 
         response = self.send_req(url)
 
-        # logger.info(f'reqs: {response.text}')
+        logger.info(f'Yahoo reqs: {response.text}')
 
         soup = BeautifulSoup(response.text, 'xml')
           # Must have lxml to make this work:

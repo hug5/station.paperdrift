@@ -17,6 +17,16 @@
 
   <base href="https://station.paperdrift.com" />
   <title>Station Paperdrift{{location_divider}}{{city}}</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js" defer></script>
+
+  defer vs async
+
+  styylesheet preloading:
+https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel/preload
+  <link rel="stylesheet" href="/static/css/style.css" type="text/css" />
+  <link rel="preload" href="/static/css/style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  # the onload="this.onload=null;this.rel='stylesheet' is apparenty js code to switch the rel to styleshee;
+  # onload=null prevents loading multiple times;
 -------------------------------------------------#}
 
 <!doctype html>
@@ -27,19 +37,19 @@
   <title>{{title}}</title>
 
   <link rel="shortcut icon" href="/static/img/favicon.png"/>
-
+  <link rel="preload" href="/static/css/style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Moderustic:wght@300..800&display=swap" rel="stylesheet">
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
-  <script src="/static/js/script.js"></script>
+  <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script defer src="/static/js/script.js"></script>
 
-  <link rel="stylesheet" href="/static/css/style.css" type="text/css" />
 
 </head>
-<html>
+
+<html lang="en">
 <body>
     <div id="pageDiv">
         <div class="flexBox">

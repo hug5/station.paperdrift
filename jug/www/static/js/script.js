@@ -72,25 +72,6 @@ $("#destination_input").on("keypress", function(event) {
     }
 });
 
-$("#more_btn").on("click", function(event) {
-
-    let btn_type = $(this).html();
-
-
-    $(".news_hide").slideToggle(150);
-    // $(".news_hide").fadeToggle(150);
-    // $(".news_hide").show();
-    // $(".news_hide").hide();
-
-    if (btn_type == "+MORE"){
-        $(this).html("-LESS");
-    }
-    else {
-        $(this).html("+MORE")
-    }
-
-});
-
 
 let ajaxencode = (str) => encodeURIComponent(str);
 let ajaxdecode = (str) => decodeURIComponent(str);
@@ -143,7 +124,7 @@ function set_location_box() {
         })
         $("#location_description span:first-child").html(description);
 
-        $("#location_box").fadeIn(350)
+        $("#location_box").fadeIn(500)
 
     })
 
@@ -189,18 +170,25 @@ function set_news_result_box() {
             return
         }
 
-        let result_list = data["result_list"];
+        // let news_result_arr = ajaxdecode( data["news_result"] );  // this results in plain string
+        let news_result_arr = data["news_result"];                   // This results in array
 
-        if (result_list.length = 0) {
+        if (news_result_arr.length == 0) {
             return
         }
 
-        alert(result_list)
+        let news_headlines = ""
+        for (let i = 0; i < news_result_arr.length; i++) {
+            if (i == 0) {
+                news_headlines += "<span class='news_first'>" + news_result_arr[i] + "</span>";
+            } else {
+                news_headlines += "<span class='news_hide'>" + news_result_arr[i] + "</span>";
+            }
+        }
 
-
-
-
-        $("#news_result_box").fadeIn(350)
+        // append headlines after news_headline_title, but before the button;
+        $("#news_headline_title").after(news_headlines)
+        $("#news_result_box").slideDown(400, "linear")
 
     })
 
@@ -213,6 +201,24 @@ function set_news_result_box() {
     });
 
 }
+
+$("#more_btn").on("click", function(event) {
+
+    let btn_type = $(this).html();
+
+    $(".news_hide").slideToggle(150);
+    // $(".news_hide").fadeToggle(150);
+    // $(".news_hide").show();
+    // $(".news_hide").hide();
+
+    if (btn_type == "+MORE"){
+        $(this).html("-LESS");
+    }
+    else {
+        $(this).html("+MORE")
+    }
+
+});
 
 
 function clear_search() {
