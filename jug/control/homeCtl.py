@@ -6,11 +6,6 @@ from flask import render_template, session
 
 from jug.lib.fLib import F
 
-try:
-    from jug.dbo import homeDb
-except Exception as e:
-    pass
-
 from jug.lib import news_scrape
 # from jug.start import jug
 import random
@@ -40,6 +35,7 @@ class HomeCtl():
         }
 
     def getWeather(self):
+
         location = "Santa Barbara" # for home page, default to Santa Barbara
         weather_obj = Weather_api()
         weatherDict = weather_obj.do_weather(location)
@@ -48,19 +44,32 @@ class HomeCtl():
 
     def get_breaking_news(self):
 
+        try:
+            from jug.dbo.homeDb import HomeDb
+            home_obj = HomeDb()
+            result_list = home_obj.start()
+            logger.info(f'reqs: {result_list}')
+
+        except Exception as e:
+            result_list = ["Two women get into a food fight at a posh Beverly Hills restaurant."]
+            pass
+
+        logger.info(f'HomeDb result list: {result_list}')
+
         # Get news items from MariaDB
         # F.uwsgi_log("Call HomeDb")
 
-        try:
-            homeO = homeDb.HomeDb()
-            result_list = homeO.start()
-            logger.info(f'reqs: {result_list}')
-        except Exception as e:
-            result_list = []
 
-        # Get news item from Yahoo News with request
-        news_scrapeO = news_scrape.News_Scrape()
-        result_list2 = news_scrapeO.get_yahoo_news()[0]
+        try:
+            # Get news item from Yahoo News with request
+            news_scrapeO = news_scrape.News_Scrape()
+            result_list2 = news_scrapeO.get_yahoo_news()[0]
+        except Exception as e:
+            result_list2 = ["Something seems to be amiss in the new global world order. No America."]
+            pass
+
+        logger.info(f'News_Scrape result list: {result_list2}')
+
         # returning multiarray;
         # first is the headline; 2nd the link;
         # [0]: get back just the headlines
@@ -107,7 +116,6 @@ class HomeCtl():
 
         def get_verb():
             return verb_list[random.randrange(0, len(verb_list))]
-
 
         self.locations = {
             "chihuahua" : "Yap to Chihuahua",
