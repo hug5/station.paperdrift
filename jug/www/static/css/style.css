@@ -416,6 +416,9 @@ article {
 
 footer{
   margin-top: 15px;
+  padding-bottom: 100px;
+  border: 1px solid;
+  overflow: hidden;
 }
 
 
