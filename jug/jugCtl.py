@@ -3,6 +3,8 @@ from flask import Flask
 from jug.control.routerCtl import RouterCtl
 # from datetime import timedelta
 import datetime
+from jug.lib.fLib import F
+
 
 class JugCtl():
 
@@ -17,9 +19,7 @@ class JugCtl():
 
         self.jug = Flask(
             __name__,
-
             template_folder="html",
-
             # custom static; static is default
             # This lets flask serve static files using flask server
             static_folder="www/static",
@@ -29,16 +29,21 @@ class JugCtl():
         # https://flask.palletsprojects.com/en/3.0.x/quickstart/#sessions
         # $ python -c 'import secrets; print(secrets.token_hex())'
         # cd97c91dae2d43a9b8fa3d3d6d5930bf1b1a5c59553a292b2b2c4edbf099fc3f
+        # secret_key = "cd97c91dae2d43a9b8fa3d3d6d5930bf1b1a5c59553a292b2b2c4edbf099fc3f"
+        secret_key = F.load_config_toml().get("site", {}).get("secret_key")
+        logger.debug(f"secret_key: {secret_key}")
 
         # https://flask.palletsprojects.com/en/3.0.x/web-security/#security-cookie
         self.jug.config.update(
             # TESTING=True,
-            SECRET_KEY='cd97c91dae2d43a9b8fa3d3d6d5930bf1b1a5c59553a292b2b2c4edbf099fc3f',
+            SECRET_KEY= secret_key,
             SESSION_COOKIE_SECURE = True,
             SESSION_COOKIE_SAMESITE = 'Lax',  # Strict, None
             # SESSION_PERMANENT = True,
             PERMANENT_SESSION_LIFETIME = datetime.timedelta(minutes=60)
         )
+        # This makes the session last as per PERMANENT_SESSION_LIFETIME
+        session.permanent = True
 
         # As an environment variable:
         # FLASK_DEBUG=1
@@ -71,5 +76,8 @@ class JugCtl():
 
 # ---------------------------------------------------
 
-mug = JugCtl()
-jug = mug.doJug()
+# jar = JugCtl()
+# jug = jar.doJug()
+jug = JugCtl().doJug()
+
+

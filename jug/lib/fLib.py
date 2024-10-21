@@ -8,8 +8,31 @@ from jug.lib.logger import logger
 from markupsafe import escape
 import random
 import os
+import tomli
+from pathlib import Path
+
 
 class F():
+
+    @staticmethod
+    def load_config_toml():
+
+        try:
+            config_toml_path = Path("jug/conf/config.toml")
+            if not Path(config_toml_path).is_file():
+                raise FileNotFoundError(f"File Not Found: {config_toml_path}.")
+
+            with config_toml_path.open(mode='rb') as file_toml:
+                config_toml = tomli.load(file_toml)
+
+            return config_toml
+
+        except FileNotFoundError as e:
+            logger.exception(f"config.toml Load Error: {e}")
+        except Exception as e:
+            logger.exception(f"load_config_toml: {e}")
+        finally:
+            pass
 
     @staticmethod
     def uwsgi_log(msg):

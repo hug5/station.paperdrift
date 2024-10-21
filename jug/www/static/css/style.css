@@ -36,7 +36,8 @@ a:visited{
     left: 2px;
   }
   100% {
-    left: 39px;
+    /*left: 39px;*/
+    left: 41px;
   }
 
 }
@@ -64,6 +65,7 @@ header{
     width: 1px;
     height: 100%;
     background-color: #8D561E;
+    background-color: #646161;
     opacity: .8;
     float: left;
     position: relative;
@@ -80,11 +82,15 @@ header{
   a {
     span#site_icon {
       float: left;
-      padding: 7px;
+/*       padding: 7px; */
+      padding: 5px 8px 0 5px;
 
       img{
-        width: 27px;
-        height:27px;
+        /*width: 27px;
+        height:27px;*/
+
+        width: 30px;
+        height:30px;
       }
 
     }

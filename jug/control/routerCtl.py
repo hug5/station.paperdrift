@@ -4,8 +4,8 @@ from flask import redirect, request, jsonify, session, make_response
 
 from jug.lib.fLib import F
 from jug.lib.gLib import G
-from pathlib import Path
-import tomli
+# from pathlib import Path
+# import tomli
 # import re
 from urllib import parse
 from jug.control.pageCtl import PageCtl
@@ -44,13 +44,16 @@ class RouterCtl():
     def setConfig_toml(self):
 
         try:
-            config_toml_path = Path("jug/conf/config.toml")
-            if not Path(config_toml_path).is_file():
-                raise FileNotFoundError(f"File Not Found: {config_toml_path}.")
+            # config_toml_path = Path("jug/conf/config.toml")
+            # if not Path(config_toml_path).is_file():
+            #     raise FileNotFoundError(f"File Not Found: {config_toml_path}.")
 
-            with config_toml_path.open(mode='rb') as file_toml:
-                config_toml = tomli.load(file_toml)
-                # If bad, should give FileNotFoundError
+            # with config_toml_path.open(mode='rb') as file_toml:
+            #     config_toml = tomli.load(file_toml)
+            #     # If bad, should give FileNotFoundError
+
+
+            config_toml = F.load_config_toml()
 
             G.api["weatherAPI_key"] = config_toml.get("api", {}).get("weatherAPI_key")
 
@@ -60,17 +63,17 @@ class RouterCtl():
             G.db["port"] = config_toml["db"]["port"]
             G.db["database"] = config_toml["db"]["database"]
 
+            G.site["secret_key"] = config_toml["site"]["secret_key"]
             G.site["name"] = config_toml["site"]["name"]
             G.site["tagline"] = config_toml["site"]["tagline"]
             G.site["baseUrl"] = config_toml["site"]["baseUrl"]
 
-        except FileNotFoundError as e:
-            logger.exception(f"config.toml Load Error: {e}")
         except Exception as e:
             logger.exception(f"setConfig_toml Error: {e}")
         finally:
+            pass
             # logger.info(f'weatherAPI_key: {G["weatherAPI_key"]}')
-            logger.info(f'weatherAPI_key: {G.api["weatherAPI_key"]}')
+            # logger.info(f'weatherAPI_key: {G.api["weatherAPI_key"]}')
             # logger.info(f'Anything in G AFTER?: [{G.api}][{G.db}][{G.site}]')
 
 
@@ -261,8 +264,8 @@ class RouterCtl():
         #     return self.redirect[1]
 
 
-        rock = request.cookies.get('rock')
-        logger.info(f'rock: {rock}')
+        # rock = request.cookies.get('rock')
+        # logger.info(f'rock: {rock}')
 
         page_obj = PageCtl()
         page_obj.doLocationUrl(url)
@@ -277,10 +280,11 @@ class RouterCtl():
             return redirect(self.redirect[1], code=301)
 
         if sender is True:
-            resp = make_response(self.response_obj)
-            resp.set_cookie('paper', '1234', samesite='Lax', secure=True)
-            resp.set_cookie('rock', '1234', samesite='Lax', secure=True, max_age=7776000)
-            resp.set_cookie('scissor', '1234')
+            # resp = make_response(self.response_obj)
+            # resp.set_cookie('paper', '1234', samesite='Lax', secure=True)
+            # resp.set_cookie('rock', '1234', samesite='Lax', secure=True, max_age=7776000)
+            # resp.set_cookie('scissor', '1234')
+            resp = self.response_obj
             return resp
 
             # return self.getResponse_obj()
@@ -307,8 +311,10 @@ class RouterCtl():
         def before_request_route():
             logger.info("---parseRoute: before_request---")
             self.doBeforeRequest()
-            session["name"] = "Bob"
-            session.permanent = True
+            session["un"] = "Phoebe"
+            # This makes the session last as per PERMANENT_SESSION_LIFETIME
+            # session.permanent = True
+
 
 
 
