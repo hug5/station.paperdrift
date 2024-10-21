@@ -366,21 +366,29 @@ article {
     float: left;
     clear: both;
   }
-  span:nth-child(2){
-    float: none;
-  }
-  span:first-child{
+
+  span#news_headline_intro{
     background-color: #F3EDC9;
     float: none;
     margin-left: -10px;
     margin-right: 10px;
   }
 
-  span.news_hide{
-    display: none;
+  #news_result_headlines{
+
+    overflow: hidden;
+    span {
+      float: none;
+      clear: both;
+    }
+
+    span.news_hide{
+      display: none;
+    }
   }
 
-  #more_btn{
+
+  #more_btn_box #more_btn{
     color: #FFE228;
     display: block;
     clear: both;

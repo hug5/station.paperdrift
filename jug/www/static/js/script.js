@@ -72,25 +72,6 @@ $("#destination_input").on("keypress", function(event) {
     }
 });
 
-$("#more_btn").on("click", function(event) {
-
-    let btn_type = $(this).html();
-
-
-    $(".news_hide").slideToggle(150);
-    // $(".news_hide").fadeToggle(150);
-    // $(".news_hide").show();
-    // $(".news_hide").hide();
-
-    if (btn_type == "+MORE"){
-        $(this).html("-LESS");
-    }
-    else {
-        $(this).html("+MORE")
-    }
-
-});
-
 
 let ajaxencode = (str) => encodeURIComponent(str);
 let ajaxdecode = (str) => decodeURIComponent(str);
@@ -189,15 +170,37 @@ function set_news_result_box() {
             return
         }
 
-        let result_list = data["result_list"];
+        // let news_result_arr = ajaxdecode( data["news_result"] );  // this results in not array
+        let news_result_arr = data["news_result"];                   // This results in array
 
-        if (result_list.length = 0) {
+        // alert( Array.isArray(news_result_arr) );
+        // alert(news_result_arr.length);
+        // alert(news_result_arr[0]);
+
+        if (news_result_arr.length == 0) {
             return
         }
 
-        alert(result_list)
+        // alert(news_result_arr)
+        // console.log(news_result_arr);
 
+        let news_headlines = ""
+        for (let i = 0; i < news_result_arr.length; i++) {
+            if (i == 0) {
+                news_headlines = news_headlines + "<span>" + news_result_arr[i] + "</span>";
+            } else {
+                news_headlines = news_headlines + "<span class=\"news_hide\">" + news_result_arr[i] + "</span>";
+            }
+        }
 
+        // alert(news_headlines);
+
+        $("#news_result_headlines").append(news_headlines)
+        // alert($("#news_result_headlines").html());
+        // alert($("#news_result_box").html());
+
+        // var tempHtml = $("<input id=\"tempInput\" type=\"text\">").val(linkVal).appendTo("#contentDiv").select();
+        // $("#articleSection #listwrapper").append(listHtml);
 
 
         $("#news_result_box").fadeIn(350)
@@ -213,6 +216,24 @@ function set_news_result_box() {
     });
 
 }
+
+$("#more_btn").on("click", function(event) {
+
+    let btn_type = $(this).html();
+
+    $(".news_hide").slideToggle(150);
+    // $(".news_hide").fadeToggle(150);
+    // $(".news_hide").show();
+    // $(".news_hide").hide();
+
+    if (btn_type == "+MORE"){
+        $(this).html("-LESS");
+    }
+    else {
+        $(this).html("+MORE")
+    }
+
+});
 
 
 function clear_search() {
