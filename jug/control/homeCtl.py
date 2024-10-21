@@ -51,7 +51,7 @@ class HomeCtl():
             logger.info(f'reqs: {result_list}')
 
         except Exception as e:
-            result_list = ["Two women get into a food fight at a posh Beverly Hills restaurant."]
+            result_list = ["Walking After Eating Is a Science-Backed Way To Lose Weight, but Experts Say Timing Is Crucial."]
             pass
 
         logger.info(f'HomeDb result list: {result_list}')
@@ -65,7 +65,7 @@ class HomeCtl():
             news_scrapeO = news_scrape.News_Scrape()
             result_list2 = news_scrapeO.get_yahoo_news()[0]
         except Exception as e:
-            result_list2 = ["Something seems to be amiss in the new global world order. No America."]
+            result_list2 = ["Citrus fruits are considered a superfood. But can they also help you sleep or avoid motion sickness?"]
             pass
 
         logger.info(f'News_Scrape result list: {result_list2}')
@@ -83,6 +83,7 @@ class HomeCtl():
         logger.info(f'reqs: {result_list}')
 
         return result_list
+
     def getMoon(self, moon_phase):
         return F.getMoon(moon_phase)
 
@@ -158,7 +159,8 @@ class HomeCtl():
             population = F.getPop(),
             adv = self.getAdverb(),
             moon_phase = weatherDict["moon_phase"],
-            news_result = self.get_breaking_news(),
+            # news_result = self.get_breaking_news(),
+            news_result = [],
             weatherDict = weatherDict,
             local_datetime = weatherDict["datetime"],
             country = weatherDict["country"]

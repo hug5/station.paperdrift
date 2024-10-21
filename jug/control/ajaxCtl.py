@@ -1,11 +1,10 @@
-# from jug.lib.logger import logger
+from jug.lib.logger import logger
 # from flask import render_template
 # from jug.lib.f import F
 # from jug.lib.weather_api import Weather_api
 # from jug.lib.gLib import G
 # import random
 # from jug.lib import news_scrape
-from jug.lib import news_scrape
 import random
 
 
@@ -53,6 +52,58 @@ class AjaxCtl:
 
         self.result = json_result
 
+    def get_news_result(self):
+
+        from jug.lib.news_scrape import News_Scrape
+
+        try:
+            from jug.dbo.homeDb import HomeDb
+            home_obj = HomeDb()
+            result_list = home_obj.start()
+            logger.info(f'reqs: {result_list}')
+
+        except Exception as e:
+            logger.info(f'HomeDb exception: {e}')
+
+            result_list = ["Walking After Eating Is a Science-Backed Way To Lose Weight, but Experts Say Timing Is Crucial."]
+
+        logger.info(f'HomeDb result list: {result_list}')
+
+        # Get news items from MariaDB
+        # F.uwsgi_log("Call HomeDb")
+
+        try:
+            # Get news item from Yahoo News with request
+            news_scrapeO = News_Scrape()
+            result_list2 = news_scrapeO.get_yahoo_news()[0]
+        except Exception as e:
+            logger.info(f'News_Scrape exception: {e}')
+            result_list2 = ["Citrus fruits are considered a superfood. But can they also help you sleep or avoid motion sickness?"]
+
+        logger.info(f'News_Scrape result list: {result_list2}')
+
+        # returning multiarray;
+        # first is the headline; 2nd the link;
+        # [0]: get back just the headlines
+
+        # Combine 2 lists:
+        result_list.extend(result_list2)
+        # news_list = result_list2 + result_list
+
+        # Randomize the list
+        random.shuffle(result_list)
+        logger.info(f'reqs: {result_list}')
+
+        # self.result = result_list
+
+        # In case any values are missing, replace with fiction:
+        json_result = {}
+        json_result["status"] = "ok"
+
+        json_result["news_result"] = result_list
+
+        self.result = json_result
+
     def doAjax(self):
 
         if self.action == "get_location":
@@ -60,11 +111,13 @@ class AjaxCtl:
             if not city:
                 self.result = {
                     "status" : "bad",
-                    "message" : "No location."
+                    "error_message" : "No location."
                 }
                 return
 
             self.get_Britannica_Location(city)
 
+        elif self.action == "get_news_result":
+            self.get_news_result()
 
 

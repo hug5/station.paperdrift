@@ -351,7 +351,7 @@ article {
 /*---------------------------------------------*/
 
 
-#news_result{
+#news_result_box{
   margin-top: 10px;
   /* margin-bottom: 15px; */
   font-size: 16px;
@@ -359,6 +359,7 @@ article {
   /* height: 70px; */
   /* border: 1px solid #000; */
   overflow: hidden;
+  display: none;
 
   span{
     line-height: 1.5rem;

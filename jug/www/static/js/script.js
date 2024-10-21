@@ -157,6 +157,64 @@ function set_location_box() {
 
 }
 
+function set_news_result_box() {
+    if ( $("#news_result_box").length < 1 ) return false;
+
+    let data = {
+        "action" : "get_news_result"
+    }
+    $.ajax({
+        type: "POST",
+        url: ajaxUrl,
+        async: true,
+        data: JSON.stringify(data),
+        cache: true,
+        processData: false,
+        contentType: "application/json; charset=UTF-8",
+        // most settings above are the default;
+    })
+    // .done(function(data, textStatus, errorThrown, xhr) {
+    .done(function(data, textStatus, jqXHR) {
+        // data: This is the data returned from the server
+        // textStatus: A string describing the status of the response (e.g., "success").
+        // jqXHR: The jQuery XMLHttpRequest (jqXHR) object, which contains
+        // information about the request and response.
+
+        console.log("Status Code: " + jqXHR.status + ", textStatus: " + textStatus);
+
+        let status = data["status"];
+        if (status != "ok") {
+            msg = data["error_message"]
+            console.log("200, but failed request: " + msg);
+            return
+        }
+
+        let result_list = data["result_list"];
+
+        if (result_list.length = 0) {
+            return
+        }
+
+        alert(result_list)
+
+
+
+
+        $("#news_result_box").fadeIn(350)
+
+    })
+
+    .fail(function(jqXHR, textStatus, errorThrown) {
+        console.log("Status Code: " + jqXHR.status + ", textStatus: " + textStatus + ", errorThrown: " + errorThrown);
+        // jqXHR: The jqXHR object representing the failed request.
+        // textStatus: A string categorizing the type of error that occurred
+        // (e.g., "timeout", "error", "abort", or "parsererror").
+        // errorThrown: An optional exception object, if one occurred.
+    });
+
+}
+
+
 function clear_search() {
     $("#destination_input").val('');
 }
@@ -167,6 +225,7 @@ function clear_search() {
     // setGreeting();
     // checkUser();
     set_location_box();
+    set_news_result_box();
     clear_search();
 
 })();
