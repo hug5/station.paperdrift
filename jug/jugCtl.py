@@ -1,5 +1,6 @@
 from jug.lib.logger import logger
 from flask import Flask
+# , session
 from jug.control.routerCtl import RouterCtl
 # from datetime import timedelta
 import datetime
@@ -31,7 +32,7 @@ class JugCtl():
         # cd97c91dae2d43a9b8fa3d3d6d5930bf1b1a5c59553a292b2b2c4edbf099fc3f
         # secret_key = "cd97c91dae2d43a9b8fa3d3d6d5930bf1b1a5c59553a292b2b2c4edbf099fc3f"
         secret_key = F.load_config_toml().get("site", {}).get("secret_key")
-        logger.debug(f"secret_key: {secret_key}")
+        # logger.debug(f"secret_key: {secret_key}")
 
         # https://flask.palletsprojects.com/en/3.0.x/web-security/#security-cookie
         self.jug.config.update(
@@ -42,8 +43,6 @@ class JugCtl():
             # SESSION_PERMANENT = True,
             PERMANENT_SESSION_LIFETIME = datetime.timedelta(minutes=60)
         )
-        # This makes the session last as per PERMANENT_SESSION_LIFETIME
-        session.permanent = True
 
         # As an environment variable:
         # FLASK_DEBUG=1

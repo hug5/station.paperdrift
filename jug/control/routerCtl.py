@@ -1,6 +1,7 @@
 from jug.lib.logger import logger
 
-from flask import redirect, request, jsonify, session, make_response
+from flask import redirect, request, jsonify, session
+#, make_response
 
 from jug.lib.fLib import F
 from jug.lib.gLib import G
@@ -311,9 +312,9 @@ class RouterCtl():
         def before_request_route():
             logger.info("---parseRoute: before_request---")
             self.doBeforeRequest()
-            session["un"] = "Phoebe"
             # This makes the session last as per PERMANENT_SESSION_LIFETIME
-            # session.permanent = True
+            session.permanent = True
+            session["un"] = "Phoebe"
 
 
 
