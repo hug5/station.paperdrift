@@ -72,6 +72,7 @@ class LocationCtl:
         # This will error if weatherDict is not a dictionary
         # Should always return a dictionary;
         location = weatherDict.get("location", "")
+        logger.info(f'@@@@@ weatherDict location: {location}')
 
         location_info = {}
         # location_info = self.get_Britannica_Location(location)
@@ -82,7 +83,7 @@ class LocationCtl:
 
         session["location"] = list(location_set)
 
-        logger.info(f'@@@@@ session location: {session["location"]}')
+        # logger.info(f'@@@@@ session location: {session["location"]}')
 
 
         # logger.info(f'session location: {session["location"]}')

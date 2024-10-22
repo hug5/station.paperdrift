@@ -84,7 +84,8 @@ class Weather_api:
         return {
             "location": {
                 "name": location,
-                "country": "Atlantis",
+                # Aaru: Egyptian heavenly paradise
+                "country": "Aaru",
                 "localtime": F.getDateTime("basic")
             },
             "current": {
@@ -147,6 +148,7 @@ class Weather_api:
             # if error, return empty dictionary
             return {}
 
+        # return {}  # Test what happens if request fails; comment out above
 
 
     def getMoon_emoji(self, moon_phase=False):
