@@ -3,7 +3,7 @@ from jug.lib.logger import logger
 import requests
 import json
 import random
-import tomli
+# import tomli
 from jug.lib.gLib import G
 
 
@@ -132,6 +132,8 @@ class Weather_api:
         # location="Los Angeles"
         url = self.w_url + location
 
+        logger.info(f'---Call weather {jsonr}')
+
         # response = send_req(url)
         # print(response.text)
         jsonr = json.loads(self.send_req(url).text)
@@ -247,6 +249,9 @@ class Weather_api:
 
     def do_weather(self, location):
 
+        # if G.debug is True:
+        #     return {}
+
         jsonr = self.call_weather(location)
 
         # If bad location, then get will default to None
@@ -259,6 +264,8 @@ class Weather_api:
             logger.info('Weather None')
             # If bad location, then try random location:
             jsonr = self.call_weather(self.get_random_location())
+
+
             result = jsonr.get("location")
 
             if result:
@@ -275,6 +282,8 @@ class Weather_api:
                 logger.info('WeatherAPI: Get Fake')
                 jsonr = self.make_fake_weather(location)
 
+
+        logger.info(f'---End weather')
 
         return self.parse_weather_json(jsonr)
 

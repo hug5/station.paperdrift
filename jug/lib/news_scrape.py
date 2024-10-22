@@ -8,11 +8,15 @@ import json
 class News_Scrape():
 
     def __init__(self):
-        pass
 
         #self.word = "smart"
         # syn_list = set{} # set
         #self.syn_list = set() # To create, have to use (), not {}; confusing!
+        self.result = None
+
+    def getResult(self):
+        return self.result
+
 
     def send_req(self, url):
 
@@ -58,7 +62,9 @@ class News_Scrape():
             soup2.append([soup1[idx].text, soup1_link[idx].text])
 
         # return [soup2, soup2L]
-        return soup2
+        # return soup2
+        self.result = soup2
+
 
         # Format: So not what you might expect;
         # This gives us flexibility if we only want to grab the headlines;
@@ -98,7 +104,8 @@ class News_Scrape():
             result = script_tag.text[resultStart:resultEnd]
 
             json_result = json.loads(result)
-            return json_result
+            self.result = json_result
+            # return json_result
 
             # print(json_result["title"])
             # print(json_result["url"])
@@ -107,4 +114,4 @@ class News_Scrape():
 
         except Exception as e:
             logger.info(f"Britannica error: {e}")
-            return {}
+            self.result = {}

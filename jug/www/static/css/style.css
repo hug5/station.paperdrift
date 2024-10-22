@@ -2,16 +2,38 @@
     height:100%;
 } */
 
-html, body, #pageDiv {
+html, body {
   font-family: "Moderustic", sans-serif;
   font-optical-sizing: auto;
   font-weight: normal;
   font-style: normal;
   font-size: 18px;
   margin: 0;
-  height: 100vh;
-  overflow: hidden;
+}
 
+body{
+
+  /* this achievs putting footer at bottom without always
+  pushing it out of site; also have to set footer margin-top auto */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  --titleColor: #D5883B;
+  --borderColor: #9A9A9A;
+
+  background-color: #FFF;
+
+}
+
+#pageDiv {
+    /* Can also achieve footer at bottom this way;
+    But there will always be a scrollbar and footer
+    will always be hidden from initial view
+    height: 100vh;
+    min-height:100%;
+    */
+  background-color: #FFF;
 }
 
 a,
@@ -44,11 +66,10 @@ header{
 
 #titlebox{
 
-  --titlecolor: #D5883B;
 
-  border:3px solid var(--titlecolor);
-  border-left: 8px dashed var(--titlecolor);
-  border-right: 8px dashed var(--titlecolor);
+  border:3px solid var(--titleColor);
+  border-left: 8px dashed var(--titleColor);
+  border-right: 8px dashed var(--titleColor);
   /*border-radius: 0 4px 4px 0;*/
 
   overflow: hidden;
@@ -91,7 +112,7 @@ header{
 
     h1#site_title {
       font-size: 1.3em;
-      background-color: var(--titlecolor);
+      background-color: var(--titleColor);
       padding: 5px 16px 10px 12px;
 
       width: fit-content;
@@ -161,8 +182,10 @@ article {
   border: 0px solid;
   max-width: inherit;
   overflow: hidden;
-  border-top:  1px solid #9A9A9A;
-  /*border-bottom:  1px solid #9A9A9A; */
+  border-top: 1px solid var(--borderColor);
+  /*border-bottom:  1px solid #9A9A9A;
+
+  */
   padding-top: 10px;
 
   h3, h4 {
@@ -185,6 +208,7 @@ article {
   margin-top: 10px;
   padding-top: 10px; */
   padding-left: 10px;
+  border-bottom: 1px solid var(--borderColor);
 
 }
 
@@ -265,7 +289,7 @@ article {
 /*---------------------------------------------*/
 
 #location_box{
-  border-top:  1px solid #9A9A9A;
+  border-top:  1px solid var(--borderColor);
   overflow: hidden;
   padding-top: 15px;
   display: none;
@@ -309,8 +333,7 @@ article {
 
 
 #destinations{
-  border-top:  1px solid #9A9A9A;
-  border-bottom:  1px solid #9A9A9A;
+  border-bottom:  1px solid var(--borderColor);
   overflow: hidden;
   margin-top: 0px;
   padding-bottom: 15px;
@@ -355,7 +378,7 @@ article {
   /* border: 1px solid #000; */
   overflow: hidden;
   display: none;
-  border-bottom: 1px solid #9A9A9A ;
+  border-bottom: 1px solid var(--borderColor);
 
   span{
     line-height: 1.5rem;
@@ -414,6 +437,7 @@ article {
 #searchBox{
 
   padding: 3px;
+  margin: 20px 0 20px 0;
 
   /* overflow: hidden;
   float: left;
@@ -425,6 +449,7 @@ article {
     border: 1px solid #828282;
     font-size: 16px;
     background-color:#CBDBE3;
+    background-color:#9CB1BA;
     padding: 5px;
 
     font-family: inherit;
@@ -441,8 +466,13 @@ article {
     box-shadow: 2px 2px 2px#536C59;
     &:is(:hover, :focus-visible)
     */
+    &:hover {
+      background-color:#B2C5CF;
+
+    }
+
     &:focus {
-        background-color:#FFF;
+      background-color:#FFF;
     }
   }
 
@@ -455,13 +485,13 @@ article {
     padding-right: 8px;
     /*     margin-left: 4px; */
 
+    &:hover{
+      cursor: pointer;
+      background-color:#B2C5CF;
+
+    }
   }
 
-  #submit_btn:hover{
-    cursor: pointer;
-    background-color:#B2C5CF;
-
-  }
 
 }
 
@@ -471,9 +501,21 @@ article {
 
 footer{
   margin-top: auto;
-  padding-bottom: 100px;
-  border: 1px solid;
-  overflow: hidden;
+  /* margin-top:auto along with body flex seems to keep footer at bottom */
+  background-color: #444444;
+  height: 50px;
+  display: grid;
+
+
+  p{
+    margin: 10px 0 0 0;
+    color: #DCDCDC;
+    font-weight: 500;
+    font-size: 1.1em;
+    text-align: center;
+
+  }
+
 }
 
 

@@ -26,7 +26,8 @@ class AjaxCtl:
 
     def get_Britannica_Location(self, location):
         news_scrapeO = News_Scrape()
-        scrape_result = news_scrapeO.get_britannica(location)
+        news_scrapeO.get_britannica(location)
+        scrape_result = news_scrapeO.getResult()
 
         # if not json_result:
 
@@ -77,7 +78,8 @@ class AjaxCtl:
             # Get news item from Yahoo News with request
             news_scrapeO = News_Scrape()
             # result_list = news_scrapeO.get_news()[0]
-            result_list = news_scrapeO.get_news()
+            news_scrapeO.get_news()
+            result_list = news_scrapeO.getResult()
             # returning multiarray;
             # first is the headline; 2nd the link;
             # [0]: get back just the headlines

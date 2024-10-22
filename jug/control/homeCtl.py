@@ -152,6 +152,7 @@ class HomeCtl():
     def doHome(self):
 
         weatherDict = self.getWeather()
+
         self.doConfig()
 
         locations = self.getLocations()
@@ -161,11 +162,11 @@ class HomeCtl():
             locations = locations,
             population = F.getPop(),
             adv = self.getAdverb(),
-            moon_phase = weatherDict["moon_phase"],
+            moon_phase = weatherDict.get("moon_phase"),
             # news_result = self.get_breaking_news(),
             news_result = [],
             weatherDict = weatherDict,
-            local_datetime = weatherDict["datetime"],
-            country = weatherDict["country"]
+            local_datetime = weatherDict.get("datetime"),
+            country = weatherDict.get("country")
         )
 

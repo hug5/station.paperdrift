@@ -115,7 +115,7 @@ class LocationCtl:
           # This would be the safe way to do it... but so much trouble!!
           # how mnay times do I have to error check?!
 
-        location = weatherDict.get("location")
+        location = weatherDict.get("location", "")
         location_info = {}
         # location_info = self.get_Britannica_Location(location)
         self.doConfig(location)
@@ -138,15 +138,15 @@ class LocationCtl:
             city = location,
             location_info = location_info,
             population = self.getPop(),
-            moon_phase = weatherDict["moon_phase"],
+            moon_phase = weatherDict.get("moon_phase"),
             adv = self.getAdverb(),
             adj = self.getAdjective(),
             famousSyn = self.getFamousSyn(),
             famousFor = self.getFamousFor(),
             pronoun = self.getPronoun(),
             weatherDict = weatherDict,
-            local_datetime = weatherDict["datetime"],
-            country = weatherDict["country"]
+            local_datetime = weatherDict.get("datetime"),
+            country = weatherDict.get("country")
         )
 
 

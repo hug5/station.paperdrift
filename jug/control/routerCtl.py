@@ -6,7 +6,7 @@ from flask import redirect, request, jsonify, session
 from jug.lib.fLib import F
 from jug.lib.gLib import G
 # from pathlib import Path
-# import tomli
+import tomli
 # import re
 from urllib import parse
 from jug.control.pageCtl import PageCtl
@@ -47,7 +47,7 @@ class RouterCtl():
         # user = session["user"]
         # session["user"] = user                      # init session
 
-
+        G.debug = False
         if self.jug.debug:
             logger.info('---RUNNING DEBUG MODE')
             G.debug = True
@@ -317,9 +317,12 @@ class RouterCtl():
 
 
     def doBeforeRequest(self):
+        logger.info("---doBeforeRequest: Start")
+
         self.doRequestUrl()
         self.router_init()
         self.checkUrl()
+        logger.info("---doBeforeRequest: Finished")
 
 
     def parseRoute(self):

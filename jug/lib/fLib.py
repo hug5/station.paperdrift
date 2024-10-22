@@ -34,6 +34,9 @@ class F():
         finally:
             pass
 
+        return {}
+
+
     @staticmethod
     def uwsgi_log(msg):
         # To use, you'd do:
