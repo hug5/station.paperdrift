@@ -25,16 +25,10 @@ class Weather_api:
         # weather url, minus location:
         self.w_url = w_burl + w_key + "&q="
 
-        # url = w_url + location
+        self.result = {}
 
-
-        # with open(config_path, 'rb') as ftoml:
-        #     config = tomli.load(ftoml)
-        #   # If bad, should give FileNotFoundError
-
-        # self.filename = config['history_source_file']
-        # if self.filename == '': raise NameError("No history_source_file")
-
+    def getResult(self):
+        return self.result
 
     def send_req(self, url):
 
@@ -48,12 +42,12 @@ class Weather_api:
 
         try:
             response = requests.get(url, headers=headers, timeout=7)
+            logger.info(f'----response status code: {response.status_code}')
             response.encoding = "utf-8"
             return response
         except Exception as e:
-            logger.info(f'send_req error: {e}')
-
-        return False
+            logger.debug(f'!!! send_req error: {e}')
+            return {}
 
 
     def get_random_location(self):
@@ -146,10 +140,15 @@ class Weather_api:
         result = self.send_req(url)
         # if result is not False:
         # jsonr = json.loads(self.send_req(url).text)
-        jsonr = json.loads(result.text)
+
+        try:
+            jsonr = json.loads(result.text)
+        except Exception as e:
+            logger.debug(f'!!! json.loads error: {e}')
+
         return jsonr
 
-        # return None
+
 
     def getMoon_emoji(self, moon_phase=False):
         # moonArr = ['◐', '◑', '◒', '◓', '◔', '◕']
@@ -266,7 +265,7 @@ class Weather_api:
         jsonr = self.call_weather(location)
 
 
-        # logger.info(f"kkkkkkkkkkkkkkkkkkk: {json.dumps(jsonr)}")
+        # logger.info(f"---json dumps: {json.dumps(jsonr)}")
 
         # If bad location, then get will default to None
         # result = jsonr.get("location", "other_default_value")
@@ -299,5 +298,6 @@ class Weather_api:
                 break
 
 
-        return self.parse_weather_json(jsonr)
+        # return self.parse_weather_json(jsonr)
+        self.result = self.parse_weather_json(jsonr)
 

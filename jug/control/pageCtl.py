@@ -45,7 +45,7 @@ class PageCtl():
         # logger.info('DoCommon')
         self.doHeader()
         self.doFooter()
-        self.doAscii_art()
+        # self.doAscii_art()
         # pass
 
     def doHome(self):

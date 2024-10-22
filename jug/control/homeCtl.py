@@ -5,18 +5,18 @@ from jug.lib.logger import logger
 from flask import render_template, session
 
 from jug.lib.fLib import F
+from jug.lib.gLib import G
 
 # from jug.lib import news_scrape
 # from jug.start import jug
 import random
 from jug.lib.weather_api import Weather_api
-from jug.lib.gLib import G
 
 
 class HomeCtl():
 
     def __init__(self):
-        logger.info('HomeCtl __init__')
+        logger.info('---HomeCtl __init__')
         self.config = {}
         self.html = ''
         self.locations = {}
@@ -36,59 +36,17 @@ class HomeCtl():
 
     def getWeather(self):
 
+        logger.info('---getWeather: BEFORE')
+
         location = "Santa Barbara" # for home page, default to Santa Barbara
         weather_obj = Weather_api()
-        weatherDict = weather_obj.do_weather(location)
+        weather_obj.do_weather(location)
+        weatherDict = weather_obj.getResult()
         # logger.info(f'weather: {weatherDict}')
+
+        logger.info('---getWeather: AFTER')
+
         return weatherDict
-
-
-
-
-
-    # # Doing ajax now;
-    # def get_breaking_news(self):
-
-        # # Get news items from MariaDB
-        # # F.uwsgi_log("Call HomeDb")
-
-        # try:
-        #     from jug.dbo.homeDb import HomeDb
-        #     home_obj = HomeDb()
-        #     result_list = home_obj.start()
-        #     logger.info(f'reqs: {result_list}')
-
-        # except Exception as e:
-        #     result_list = ["Walking After Eating Is a Science-Backed Way To Lose Weight, but Experts Say Timing Is Crucial."]
-        #     pass
-
-        # logger.info(f'HomeDb result list: {result_list}')
-
-
-
-        # try:
-        #     # Get news item from Yahoo News with request
-        #     news_scrapeO = news_scrape.News_Scrape()
-        #     result_list2 = news_scrapeO.get_yahoo_news()[0]
-        # except Exception as e:
-        #     result_list2 = ["Citrus fruits are considered a superfood. But can they also help you sleep or avoid motion sickness?"]
-        #     pass
-
-        # logger.info(f'News_Scrape result list: {result_list2}')
-
-        # # returning multiarray;
-        # # first is the headline; 2nd the link;
-        # # [0]: get back just the headlines
-
-        # # Combine 2 lists:
-        # result_list.extend(result_list2)
-        # # news_list = result_list2 + result_list
-
-        # # Randomize the list
-        # random.shuffle(result_list)
-        # logger.info(f'reqs: {result_list}')
-
-        # return result_list
 
 
     def getMoon(self, moon_phase):
