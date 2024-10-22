@@ -44,9 +44,14 @@ class Weather_api:
         # Cookies and sessions?
         # response = requests.Session()
 
-        response = requests.get(url, headers=headers, timeout=7)
-        response.encoding = "utf-8"
-        return response
+        try:
+            response = requests.get(url, headers=headers, timeout=7)
+            response.encoding = "utf-8"
+            return response
+        except Exception as e:
+            logger.info(f'send_req error: {e}')
+
+
 
     def get_random_location(self):
 
@@ -132,7 +137,6 @@ class Weather_api:
         # location="Los Angeles"
         url = self.w_url + location
 
-        logger.info(f'---Call weather {jsonr}')
 
         # response = send_req(url)
         # print(response.text)
