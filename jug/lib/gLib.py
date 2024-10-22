@@ -14,6 +14,7 @@ class G():
         # name
         # tagline
         # baseUrl
+        # keywords
 
     debug = False
 

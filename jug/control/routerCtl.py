@@ -80,6 +80,7 @@ class RouterCtl():
             G.site["secret_key"] = config_toml["site"]["secret_key"]
             G.site["name"] = config_toml["site"]["name"]
             G.site["tagline"] = config_toml["site"]["tagline"]
+            G.site["keywords"] = config_toml["site"]["keywords"]
             G.site["baseUrl"] = config_toml["site"]["baseUrl"]
 
         except Exception as e:

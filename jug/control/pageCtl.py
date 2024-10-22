@@ -3,6 +3,7 @@ from flask import render_template
 from jug.lib.fLib import F
 from jug.control.headerCtl import HeaderCtl
 from jug.control.footerCtl import FooterCtl
+from jug.lib.gLib import G
 
 
 class PageCtl():
@@ -30,9 +31,15 @@ class PageCtl():
         self.footer = ob.getHtml()
 
     def doAscii_art(self):
-        self.ascii_art = render_template(
-            "ascii_art.jinja"
-        )
+        # self.ascii_art = render_template(
+        #     "ascii_art.jinja"
+        # )
+
+        # Have to wrap with () to use multiple lines, it seems:
+
+        self.ascii_art = ("<!-- \n" +
+        "// 👹 paperdrift //-->")
+
 
     def doCommon(self):
         # logger.info('DoCommon')
@@ -55,18 +62,20 @@ class PageCtl():
         self.article = home_ob.getHtml()
         site_title = home_ob.getConfig()["site_title"]
 
+        site_keywords = G.site["keywords"]
+
         html = render_template(
             "pageHtml.jinja",
             title = site_title,
             header = self.header,
             article = self.article,
             footer = self.footer,
-            # db = dbc
+            site_keywords = site_keywords
         )
 
         logger.info(f'---type info: {type(html)}')
+
         self.html = F.stripJinja(html) + self.ascii_art
-        # self.html = html + self.ascii_art
 
 
     def doLocationUrl(self, url):
@@ -82,12 +91,15 @@ class PageCtl():
         self.article = location_ob.getHtml()
         site_title = location_ob.getConfig()["site_title"]
 
+        site_keywords = G.site["keywords"]
+
         html = render_template(
             "pageHtml.jinja",
             title = site_title,
             header = self.header,
             article = self.article,
             footer = self.footer,
+            site_keywords = site_keywords
         )
 
         self.html = F.stripJinja(html) + self.ascii_art
