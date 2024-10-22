@@ -6,7 +6,7 @@ from flask import render_template, session
 
 from jug.lib.fLib import F
 
-from jug.lib import news_scrape
+# from jug.lib import news_scrape
 # from jug.start import jug
 import random
 from jug.lib.weather_api import Weather_api
@@ -41,6 +41,10 @@ class HomeCtl():
         weatherDict = weather_obj.do_weather(location)
         # logger.info(f'weather: {weatherDict}')
         return weatherDict
+
+
+
+
 
     # # Doing ajax now;
     # def get_breaking_news(self):
@@ -154,6 +158,7 @@ class HomeCtl():
         weatherDict = self.getWeather()
 
         self.doConfig()
+
 
         locations = self.getLocations()
 

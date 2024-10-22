@@ -51,6 +51,7 @@ class PageCtl():
         home_ob = HomeCtl()
         home_ob.doHome()
 
+
         self.article = home_ob.getHtml()
         site_title = home_ob.getConfig()["site_title"]
 

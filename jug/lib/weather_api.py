@@ -51,6 +51,7 @@ class Weather_api:
         except Exception as e:
             logger.info(f'send_req error: {e}')
 
+        return False
 
 
     def get_random_location(self):
@@ -137,12 +138,16 @@ class Weather_api:
         # location="Los Angeles"
         url = self.w_url + location
 
-
         # response = send_req(url)
         # print(response.text)
-        jsonr = json.loads(self.send_req(url).text)
 
+        result = self.send_req(url)
+        # if result is not False:
+        # jsonr = json.loads(self.send_req(url).text)
+        jsonr = json.loads(result.text)
         return jsonr
+
+        # return None
 
     def getMoon_emoji(self, moon_phase=False):
         # moonArr = ['◐', '◑', '◒', '◓', '◔', '◕']
@@ -258,36 +263,40 @@ class Weather_api:
 
         jsonr = self.call_weather(location)
 
+
+        # logger.info(f"kkkkkkkkkkkkkkkkkkk: {json.dumps(jsonr)}")
+
         # If bad location, then get will default to None
         # result = jsonr.get("location", "other_default_value")
         result = jsonr.get("location")
 
+        result = None
+
         # Let's put a cap on the number of retries in case weatherAPI is down or we can't get access; if down, we'll make up a fake weather dictionary;
         try_counter = 0
         while result is None:
-            logger.info('Weather None')
+            logger.info('---Weather None; try random location.')
             # If bad location, then try random location:
-            jsonr = self.call_weather(self.get_random_location())
+                    # jsonr = self.call_weather(self.get_random_location())
 
 
-            result = jsonr.get("location")
+                    # result = jsonr.get("location")
 
-            if result:
-                # logger.info('Weather found result')
-                # logger.info(json.dumps(jsonr))
-                # If a random location is good, then we want to put back the user's
-                # original location; not use the random location;
-                jsonr["location"]["name"] = location
-                break
+                    # if result:
+                    #     # logger.info('Weather found result')
+                    #     # logger.info(json.dumps(jsonr))
+                    #     # If a random location is good, then we want to put back the user's
+                    #     # original location; not use the random location;
+                    #     jsonr["location"]["name"] = location
+                    #     break
 
             try_counter += 1
-            if try_counter > 3:
+            if try_counter > 1:
                 # If random location fails, then just make up a completely fake one;
-                logger.info('WeatherAPI: Get Fake')
+                logger.info('---FFFFFFFFFF WeatherAPI: Get Fake')
                 jsonr = self.make_fake_weather(location)
+                break
 
-
-        logger.info(f'---End weather')
 
         return self.parse_weather_json(jsonr)
 
