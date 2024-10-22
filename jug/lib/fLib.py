@@ -18,13 +18,30 @@ class F():
     @staticmethod
     def getDateTime(param="basic"):
 
-        # if param == "basic":
-        # datetime object containing current date and time
         now = datetime.now()
-        # dd/mm/YY H:M:S
-        dt_string = now.strftime("%Y-%m-%d %H:%M")
+
+        # 2024-11-23 16:13, Mon
+        if param == "basic_dow":
+            dt_string = now.strftime("%Y-%m-%d %H:%M, %a")
+
+        # 2024-11-23 04:13 PM, Mon
+        elif param == "basic2_dow":
+            dt_string = now.strftime("%Y-%m-%d %I:%M %p, %a")
+
+        # 2024-11-23 16:13
+        else:
+            # if param == "basic":
+            # datetime object containing current date and time
+            dt_string = now.strftime("%Y-%m-%d %H:%M")
+
+
         # https://www.programiz.com/python-programming/datetime/strftime
         return dt_string
+
+        # If you want to convert a given date to another kind of date:
+        # x = datetime.strptime("2024-11-23 16:13", "%Y-%m-%d %H:%M")
+        # Then run x strftime:
+        # dt_string = x.strftime("%Y-%m-%d %I:%M %p, %a")
 
 
     @staticmethod
