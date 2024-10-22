@@ -186,7 +186,7 @@ function set_news_result_box() {
             url = news_result_arr[i][1];
 
             news_headlines += (i == 0) ? "<span class='news_first'>" : "<span class='news_hide'>";
-            news_headlines += "<a href=\"" + url + "\" target=\"_blank\">" + headline + "</a></span>";
+            news_headlines += "<a href=\"" + url + "\" tabindex=-1 target=\"_blank\">" + headline + "</a></span>";
         }
 
         // alert(news_headlines);
