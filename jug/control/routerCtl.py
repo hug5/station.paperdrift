@@ -70,6 +70,7 @@ class RouterCtl():
             config_toml = F.load_config_toml()
 
             G.api["weatherAPI_key"] = config_toml.get("api", {}).get("weatherAPI_key")
+            G.api["weatherAPI_url"] = config_toml.get("api", {}).get("weatherAPI_url")
 
             G.db["un"] = config_toml["db"]["un"]
             G.db["pw"] = config_toml["db"]["pw"]

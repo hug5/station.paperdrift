@@ -15,7 +15,7 @@ class Weather_api:
     def __init__(self):
 
         # Base url:
-        w_burl = "https://api.weatherapi.com/v1/forecast.json?aqi=no&alerts=no&days=1"
+        w_burl = G.api["weatherAPI_url"]
 
         # weatherAPI key; get key from key module;
         # w_key = "&key=" + weatherAPI_key.wkey
@@ -37,17 +37,15 @@ class Weather_api:
             (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36'
         }
 
-        # Cookies and sessions?
-        # response = requests.Session()
-
         try:
             response = requests.get(url, headers=headers, timeout=7)
-            logger.info(f'----response status code: {response.status_code}')
+            logger.info(f'---response status code: {response.status_code}')
             response.encoding = "utf-8"
             return response
         except Exception as e:
             logger.debug(f'!!! send_req error: {e}')
-            return {}
+            # convert dictionary to json string;
+            return json.dumps({})
 
 
     def get_random_location(self):
@@ -142,11 +140,12 @@ class Weather_api:
         # jsonr = json.loads(self.send_req(url).text)
 
         try:
-            jsonr = json.loads(result.text)
+            # json.loads: parse a JSON string and convert it into a Python Dictionary.
+            return json.loads(result.text)
         except Exception as e:
             logger.debug(f'!!! json.loads error: {e}')
-
-        return jsonr
+            # if error, return empty dictionary
+            return {}
 
 
 

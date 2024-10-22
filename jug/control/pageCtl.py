@@ -38,14 +38,14 @@ class PageCtl():
         # Have to wrap with () to use multiple lines, it seems:
 
         self.ascii_art = ("<!-- \n" +
-        "// 👹 paperdrift //-->")
+        "// [==]  👹 paperdrift  <o=o> //-->")
 
 
     def doCommon(self):
         # logger.info('DoCommon')
         self.doHeader()
         self.doFooter()
-        # self.doAscii_art()
+        self.doAscii_art()
         # pass
 
     def doHome(self):
@@ -103,4 +103,3 @@ class PageCtl():
         )
 
         self.html = F.stripJinja(html) + self.ascii_art
-        # self.html = html + self.ascii_art

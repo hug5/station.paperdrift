@@ -56,8 +56,10 @@ class LocationCtl:
     def getWeather(self):
         location = self.url
         weather_obj = Weather_api()
-        weatherDict = weather_obj.do_weather(location)
-        logger.info(f'weather: {weatherDict}')
+        weather_obj.do_weather(location)
+        weatherDict = weather_obj.getResult()
+
+        logger.info(f'---weather: {weatherDict}')
         return weatherDict
 
 
@@ -66,11 +68,11 @@ class LocationCtl:
         weatherDict = self.getWeather()
         # Let's always use canoncial name from weatherAPI, not name entered by user,
         # unless weatherapi couldn't find it; then the bad name is used;
-        # location = weatherDict.get("location")
-          # This would be the safe way to do it... but so much trouble!!
-          # how mnay times do I have to error check?!
 
+        # This will error if weatherDict is not a dictionary
+        # Should always return a dictionary;
         location = weatherDict.get("location", "")
+
         location_info = {}
         # location_info = self.get_Britannica_Location(location)
         self.doConfig(location)
@@ -80,7 +82,7 @@ class LocationCtl:
 
         session["location"] = list(location_set)
 
-        # logger.info(f'@@@@@ session location: {session["location"]}')
+        logger.info(f'@@@@@ session location: {session["location"]}')
 
 
         # logger.info(f'session location: {session["location"]}')
