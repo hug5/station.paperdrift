@@ -5,6 +5,8 @@ import json
 import random
 # import tomli
 from jug.lib.gLib import G
+from jug.lib.fLib import F
+
 
 
 
@@ -72,7 +74,7 @@ class Weather_api:
             "Munich",
             "Milan",
             "Kinshasa",
-            "lagos",
+            "Lagos",
             "Cairo",
             "Nairobi"
         ]
@@ -91,7 +93,7 @@ class Weather_api:
             "location": {
                 "name": location,
                 "country": "Atlantis",
-                "localtime": "15:42"
+                "localtime": F.getDateTime("basic")
             },
             "current": {
                 "temp_c": 25.6,
@@ -270,25 +272,24 @@ class Weather_api:
         # result = jsonr.get("location", "other_default_value")
         result = jsonr.get("location")
 
-        result = None
+        # result = None  # Test what happens if None;
 
         # Let's put a cap on the number of retries in case weatherAPI is down or we can't get access; if down, we'll make up a fake weather dictionary;
         try_counter = 0
         while result is None:
             logger.info('---Weather None; try random location.')
+
             # If bad location, then try random location:
-                    # jsonr = self.call_weather(self.get_random_location())
+            jsonr = self.call_weather(self.get_random_location())
+            result = jsonr.get("location")
 
-
-                    # result = jsonr.get("location")
-
-                    # if result:
-                    #     # logger.info('Weather found result')
-                    #     # logger.info(json.dumps(jsonr))
-                    #     # If a random location is good, then we want to put back the user's
-                    #     # original location; not use the random location;
-                    #     jsonr["location"]["name"] = location
-                    #     break
+            if result:
+                # logger.info('Weather found result')
+                # logger.info(json.dumps(jsonr))
+                # If a random location is good, then we want to put back the user's
+                # Make appear like the original location; not random location;
+                jsonr["location"]["name"] = location
+                break
 
             try_counter += 1
             if try_counter > 1:

@@ -10,9 +10,22 @@ import random
 import os
 import tomli
 from pathlib import Path
+from datetime import datetime
 
 
 class F():
+
+    @staticmethod
+    def getDateTime(param="basic"):
+
+        # if param == "basic":
+        # datetime object containing current date and time
+        now = datetime.now()
+        # dd/mm/YY H:M:S
+        dt_string = now.strftime("%Y-%m-%d %H:%M")
+        # https://www.programiz.com/python-programming/datetime/strftime
+        return dt_string
+
 
     @staticmethod
     def load_config_toml():

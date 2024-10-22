@@ -125,9 +125,7 @@ class LocationCtl:
 
         session["location"] = list(location_set)
 
-
-        logger.info(f'@@@@@ session location: {session["location"]}')
-
+        # logger.info(f'@@@@@ session location: {session["location"]}')
 
 
         # logger.info(f'session location: {session["location"]}')

@@ -95,7 +95,7 @@ class AjaxCtl:
         result_list = self.get_news_scrape()
         # result_list2 = self.get_news_db
 
-        logger.info(f'99999999999 -- News_Scrape result list: {result_list}')
+        # logger.info(f'99999999999 -- News_Scrape result list: {result_list}')
 
         # Combine 2 lists:
         # result_list.extend(result_list2)
@@ -112,16 +112,11 @@ class AjaxCtl:
         # randomize list
         random.shuffle(result_list)
 
-
         json_result = {}
         json_result["status"] = "ok"
-
         json_result["news_result"] = result_list
-
-        logger.info(f'json reqs: {json_result}')
-
+        # logger.info(f'json reqs: {json_result}')
         self.result = json_result
-
 
 
     def doAjax(self):
