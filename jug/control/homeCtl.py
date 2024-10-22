@@ -57,31 +57,9 @@ class HomeCtl():
 
     def getLocations(self):
 
-        verb_list = [
-            "Barrel",
-            "Crawl",
-            "Cruise",
-            "Dart",
-            "Drive",
-            "Float",
-            "Gallop",
-            "Hasten",
-            "Hustle",
-            "Jog",
-            "Lumber",
-            "Moonwalk",
-            "Sail",
-            "Scoot",
-            "Scram",
-            "Scurry",
-            "Skedaddle",
-            "Sleepwalk",
-            "Sprint",
-            "Swim",
-        ]
 
         def get_verb():
-            return verb_list[random.randrange(0, len(verb_list))]
+            return F.getVerb()
 
         self.locations = {
             "chihuahua" : "Yap to Chihuahua",

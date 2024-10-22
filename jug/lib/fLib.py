@@ -160,7 +160,7 @@ class F():
 
     @staticmethod
     def getAdverb():
-        adverbs_list = [
+        adverb_list = [
             "Turning",
             "Spinning",
             "Glowing",
@@ -176,8 +176,41 @@ class F():
             "Rolicking"
         ]
 
-        rnum = random.randint(0, len(adverbs_list)-1)
-        return adverbs_list[rnum]
+        rnum = random.randint(0, len(adverb_list)-1)
+        return adverb_list[rnum]
+
+    @staticmethod
+    def getVerb():
+
+        verb_list = [
+            "Barrel",
+            "Crawl",
+            "Cruise",
+            "Dart",
+            "Drive",
+            "Float",
+            "Gallop",
+            "Hasten",
+            "Hustle",
+            "Jog",
+            "Lumber",
+            "Meander",
+            "Moonwalk",
+            "Parachute",
+            "Sail",
+            "Scoot",
+            "Scram",
+            "Scurry",
+            "Skedaddle",
+            "Skip",
+            "Sleepwalk",
+            "Sprint",
+            "Swim",
+            "Waddle",
+        ]
+
+        return verb_list[random.randrange(0, len(verb_list))]
+
 
     @staticmethod
     def getAdjective():
