@@ -498,7 +498,6 @@ article {
 
 /*---------------------------------------------*/
 
-
 footer{
   margin-top: auto;
   /* margin-top:auto along with body flex seems to keep footer at bottom */
@@ -506,14 +505,19 @@ footer{
   height: 50px;
   display: grid;
 
-
-  p{
+  p {
+    text-align: center;
     margin: 12px 0 0 0;
+  }
+
+  a, a:visited {
     color: #DCDCDC;
     font-weight: 500;
     font-size: 1.1em;
-    text-align: center;
+  }
 
+  a:hover {
+    color: #D5883B;
   }
 
 }
