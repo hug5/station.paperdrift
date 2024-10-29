@@ -34,6 +34,8 @@ class News_Scrape():
 
 
     def get_news_rss(self):
+        # // 2024-10-29 Tue 03:25
+        # Yahoo rss suddenly stopped working!!!
 
         url = "https://news.yahoo.com/rss/world"
 
@@ -89,11 +91,14 @@ class News_Scrape():
         html_start = 0
         y = 0
 
-        for r in range(3):
+        for _ in range(7):
 
             html = html[html_start+y:]
             html_start = html.find("data-ylk=\"itc:0;elm:hdln;elmt:")
             html_end = html_start + 2000
+
+            if html_start < 0:
+                break
 
             section = html[html_start:html_end]
 
@@ -103,6 +108,9 @@ class News_Scrape():
 
             link = section[:x-1]
             if link.find("https://") == 0 and link.find(base_url) != 0:
+                # Sometimes, randomly, gets strange sports ad and screws up the parsing;
+                # But can't replicate it on demand; yahoo seems to insert it randomly;
+                # Its base url is not yahoo.news but sports something;
                 # print("bad news page")
                 # print(html)
                 self.get_news()
@@ -118,9 +126,11 @@ class News_Scrape():
 
 
             headline = section[:y]
-            # decode html characters back to normla;
+            # decode html characters back to normal;
+            # But this also seems to make headilne into type Beautifulsoup
+            # So have to convert back to text, or else get error when trying to jsonify later;
             headline = BeautifulSoup(headline, "html.parser")
-            headlineList.append(headline)
+            headlineList.append(headline.text)
 
         # print(headlineList)
         # print(linkList)

@@ -265,9 +265,14 @@ class RouterCtl():
         ajax_obj.doAjax()
         result = ajax_obj.getResult()
 
-        self.response_obj = jsonify(result)
+        # logger.info(f'---response object (1): {result}')
 
-        logger.info(self.response_obj)
+        try:
+            self.response_obj = jsonify(result)
+        except Exception as e:
+            logger.info(f'---jsonify sexception: {e}')
+
+        # logger.info(f'---response object (2): {self.response_obj}')
 
 
     def doHome(self):

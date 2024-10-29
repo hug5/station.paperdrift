@@ -115,7 +115,9 @@ class AjaxCtl:
         json_result = {}
         json_result["status"] = "ok"
         json_result["news_result"] = result_list
-        logger.info(f'json reqs: {json_result}')
+
+        # logger.info(f'json reqs: {json_result}')
+
         self.result = json_result
 
 
