@@ -267,6 +267,8 @@ class RouterCtl():
 
         self.response_obj = jsonify(result)
 
+        logger.info(self.response_obj)
+
 
     def doHome(self):
         # from jug.control.homeCtl import HomeCtl

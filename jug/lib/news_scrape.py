@@ -33,7 +33,7 @@ class News_Scrape():
         return response
 
 
-    def get_news(self):
+    def get_news_rss(self):
 
         url = "https://news.yahoo.com/rss/world"
 
@@ -73,6 +73,64 @@ class News_Scrape():
 
         # print(soup2)
         # print(soup2L)
+
+    def get_news(self):
+
+        url = "https://www.yahoo.com/news/world/"
+        base_url = "https://www.yahoo.com"
+
+        response = self.send_req(url)
+        # logger.info(f'Yahoo reqs: {response.text}')
+
+        html = response.text
+
+        linkList = []
+        headlineList = []
+        html_start = 0
+        y = 0
+
+        for r in range(3):
+
+            html = html[html_start+y:]
+            html_start = html.find("data-ylk=\"itc:0;elm:hdln;elmt:")
+            html_end = html_start + 2000
+
+            section = html[html_start:html_end]
+
+            x = section.find("href=")
+            section = section[x+6:]
+            x = section.find(">")
+
+            link = section[:x-1]
+            if link.find("https://") == 0 and link.find(base_url) != 0:
+                # print("bad news page")
+                # print(html)
+                self.get_news()
+                break
+
+            if link.find(base_url) != 0:
+                link = base_url + link
+
+            linkList.append(link)
+
+            section = section[x+1:]
+            y = section.find("<")
+
+
+            headline = section[:y]
+            # decode html characters back to normla;
+            headline = BeautifulSoup(headline, "html.parser")
+            headlineList.append(headline)
+
+        # print(headlineList)
+        # print(linkList)
+
+        soup2 = []
+        for idx in range(len(headlineList)):
+            soup2.append([headlineList[idx], linkList[idx]])
+
+        self.result = soup2
+
 
     def get_britannica(self, location):
 
