@@ -89,24 +89,25 @@ class News_Scrape():
         linkList = []
         headlineList = []
         html_start = 0
-        y = 0
+        yy = 0
 
         for _ in range(7):
 
-            html = html[html_start+y:]
+            html = html[html_start+yy:]
             html_start = html.find("data-ylk=\"itc:0;elm:hdln;elmt:")
             html_end = html_start + 2000
+              # 2000 is an arbitrary number; to capture the section but not too big;
 
             if html_start < 0:
                 break
 
             section = html[html_start:html_end]
 
-            x = section.find("href=")
-            section = section[x+6:]
-            x = section.find(">")
+            xx = section.find("href=")
+            section = section[xx+6:]
+            xx = section.find(">")
 
-            link = section[:x-1]
+            link = section[:xx-1]
             if link.find("https://") == 0 and link.find(base_url) != 0:
                 # Sometimes, randomly, gets strange sports ad and screws up the parsing;
                 # But can't replicate it on demand; yahoo seems to insert it randomly;
@@ -121,11 +122,11 @@ class News_Scrape():
 
             linkList.append(link)
 
-            section = section[x+1:]
-            y = section.find("<")
+            section = section[xx+1:]
+            yy = section.find("<")
 
 
-            headline = section[:y]
+            headline = section[:yy]
             # decode html characters back to normal;
             # But this also seems to make headilne into type Beautifulsoup
             # So have to convert back to text, or else get error when trying to jsonify later;
