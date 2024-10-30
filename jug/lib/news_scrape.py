@@ -90,8 +90,9 @@ class News_Scrape():
         headlineList = []
         html_start = 0
         yy = 0
+        num_results = 6   # number of results to get back
 
-        for _ in range(7):
+        for _ in range(num_results):
 
             html = html[html_start+yy:]
             html_start = html.find("data-ylk=\"itc:0;elm:hdln;elmt:")

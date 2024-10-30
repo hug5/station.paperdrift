@@ -501,9 +501,11 @@ article {
 @keyframes footer_logo {
   0% {
     border-bottom: 2px solid #DCDCDC;
+    font-weight: 400;
   }
   100% {
     border-bottom: 3px solid #C52929;
+    font-weight: 500;
   }
 
 }
@@ -514,34 +516,36 @@ footer{
   seems to keep footer at bottom*/
   background-color: #444444;
   height: 50px;
-  display: grid;
-  /* display: flex;
-  flex-direction: row; */
+  /* display: grid; */
+  display: flex;
+  flex-direction: row;
+
+  /* Using Flex, can use these settings to center vertically and horizontally */
+  align-items: center;     /* vertical center items */
+  justify-content: center; /* horizontal center items */
 
   p {
-    text-align: center;
+    /*text-align: center;*/
     /*
     // use this with flex
     margin-left: auto;
     margin-right: auto;
     */
-    margin: 12px 0 0 0;
+    /* margin: 12px 0 0 0; */
   }
 
   a, a:visited {
     color: #DCDCDC;
     font-weight: 500;
     font-size: 1.1em;
+    &:hover {
+      animation-name: footer_logo;
+      animation-duration: 1.3s;
+      animation-timing-function: linear;
+      animation-direction: normal;
+      animation-iteration-count: infinite;
+    }
   }
-
-  a:hover {
-    animation-name: footer_logo;
-    animation-duration: 1.3s;
-    animation-timing-function: linear;
-    animation-direction: normal;
-    animation-iteration-count: infinite;
-  }
-
 }
 
 
