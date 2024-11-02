@@ -34,7 +34,7 @@ class RouterCtl():
         # This makes the session last as per PERMANENT_SESSION_LIFETIME
         session.permanent = True
 
-        session["user"] = "Phoebe"
+        session["user"] = "Phoebe"  # Some misc user
 
         if not session.get("location"):
             session["location"] = []
@@ -223,7 +223,6 @@ class RouterCtl():
         # logger.debug, logger.info, logger.warning, logger.error, logger.critical
 
 
-
     # def doAjax(self, param):
     def doAjaxPost(self):
         from jug.control.ajaxCtl import AjaxCtl
@@ -323,8 +322,6 @@ class RouterCtl():
             # const userData = userDataCookie ? JSON.parse(decodeURIComponent(userDataCookie.split('=')[1])) : null;
 
 
-
-
     def doBeforeRequest(self):
         logger.info("---doBeforeRequest: Start")
 
@@ -386,11 +383,14 @@ class RouterCtl():
             # Not sure what teardown does;
 
 
-    # def doJug(self):
-    #     # ro = RouterCtl(self.jug)
-    #     # ro.parseRoute()
 
-    #     self.parseRoute()
-    #     return self.jug
+
+    ######################################
+      # def doJug(self):
+      #     # ro = RouterCtl(self.jug)
+      #     # ro.parseRoute()
+
+      #     self.parseRoute()
+      #     return self.jug
 
 

@@ -21,14 +21,14 @@ class PageCtl():
         return self.html
 
     def doHeader(self):
-        ob = HeaderCtl()
-        ob.start()
-        self.header = ob.getHtml()
+        header_ob = HeaderCtl()
+        header_ob.doHeader()
+        self.header = header_ob.getHtml()
 
     def doFooter(self):
-        ob = FooterCtl()
-        ob.start()
-        self.footer = ob.getHtml()
+        footer_ob = FooterCtl()
+        footer_ob.doFooter()
+        self.footer = footer_ob.getHtml()
 
     def doAscii_art(self):
         # self.ascii_art = render_template(
@@ -38,7 +38,7 @@ class PageCtl():
         # Have to wrap with () to use multiple lines, it seems:
 
         self.ascii_art = ("<!-- \n" +
-        "// [==]  👹 paperdrift  <o=o> //-->")
+        "// [==]  👹 " + G.site["name"] + " <o=o> //-->")
 
 
     def doCommon(self):

@@ -18,6 +18,3 @@ class HeaderCtl():
             baseUrl = baseUrl
         )
 
-    def start(self):
-        self.doHeader()
-

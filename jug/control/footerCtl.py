@@ -13,8 +13,3 @@ class FooterCtl():
         self.html = render_template(
             "footerHtml.jinja"
         )
-
-
-    def start(self):
-        self.doFooter()
-

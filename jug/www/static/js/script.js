@@ -207,6 +207,7 @@ function set_news_result_box() {
 
 }
 
+
 $("#more_btn").on("click", function(event) {
 
     let btn_type = $(this).html();
@@ -216,25 +217,32 @@ $("#more_btn").on("click", function(event) {
     // $(".news_hide").show();
     // $(".news_hide").hide();
 
-    if (btn_type == "+MORE"){
-        $(this).html("-LESS");
+
+    // get possible btn text values rather than duplicating
+    // and hardcoding here;
+    let more_btn = $("#more_btn").attr("more_btn");
+    let less_btn = $("#more_btn").attr("less_btn");
+
+    if (btn_type == more_btn){
+        $(this).html(less_btn);
     }
     else {
-        $(this).html("+MORE")
+        $(this).html(more_btn);
     }
 
 });
 
-
 function clear_search() {
     $("#destination_input").val('');
 }
+
 
 (function start() {
     // initVars();     // initialize global variables
     // initEvents();   // initialize events
     // setGreeting();
     // checkUser();
+
     set_location_box();
     set_news_result_box();
     clear_search();
