@@ -150,25 +150,7 @@ class Dbc():
 
     def getConfig(self):
 
-        # return {
-        #     "un"                 : "inkon",
-        #     "pw"                 : "J##Dd*(r9TZYKh$%",
-        #     "host"               : "localhost",    # localhost is default
-        #     "port"               : 3306,
-        #     "database"           : "inkonDb",
-        #     "autocommit"         : True,
-        #     "pool_name"          : "pool_1",
-        #     "pool_size"          : 64,             # The max should be 64
-        #     "pool_reset_connect" : False,
-        #     "pool_valid_int"     : 500,       # 500 is default
-        # }
-
         return {
-            # "un"                 : G["db"]["un"],
-            # "pw"                 : G["db"]["pw"],
-            # "host"               : G["db"]["host"],
-            # "port"               : G["db"]["port"],
-            # "database"           : G["db"]["database"],
             "un"                 : G.db["un"],
             "pw"                 : G.db["pw"],
             "host"               : G.db["host"],
@@ -192,12 +174,6 @@ class Dbc():
           worth the trouble we're seeing here;
 
         '''
-
-        # logger.info("Begin Connect")
-
-        # if self.pool is not None:
-        #     F.uwsgi_log("Already Connected")
-        #     return;
 
         pool_conf = self.getConfig()
 
@@ -228,11 +204,11 @@ class Dbc():
             self.pool.add_connection()
 
             # logger.info("end try connect")
+            logger.info("Connected")
 
         except mariadb.Error as e:
             # print(f"Error connecting to mariadb: {e}")
             # return e
             logger.exception(f"dbc Error: {e}")
         finally:
-            logger.info("Connected")
-
+            pass

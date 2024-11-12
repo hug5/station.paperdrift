@@ -98,7 +98,7 @@ class HomeDb():
             # Only appending like this will thus get rid of the strange formatting:
             # result_list.append(row[0])
 
-
+            # Shuffle the list
             db_result = result_list[ random.randrange( len(result_list) ) ]
             logger.info(f"db_result: {db_result}")
             # Result is a single dictionary:
