@@ -23,6 +23,7 @@ body{
 
   --titleColor: #D5883B;
   --borderColor: #9A9A9A;
+  --borderColor: #C8C3C3;
 
   /*
 
@@ -72,15 +73,19 @@ a:visited{
 
 }
 
+
+
 header{
   margin: 0;
-  padding: 25px 0 25px 0;
+  padding: 15px 0 15px 0;
   overflow: hidden;
-  border-bottom: 1px solid var(--borderColor);
+  border-bottom: 0px solid var(--borderColor);
 
 
   #titlebox{
 
+    margin-left: auto;
+    margin-right: auto;
     border:3px solid var(--titleColor);
     border-left: 8px dashed var(--titleColor);
     border-right: 8px dashed var(--titleColor);
@@ -465,6 +470,7 @@ article {
     font-size: 16px;
     background-color:#CBDBE3;
     background-color:#9CB1BA;
+    background-color:#CEDAE2;
     padding: 5px;
 
     font-family: inherit;
