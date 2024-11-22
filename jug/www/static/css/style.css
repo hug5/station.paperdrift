@@ -13,8 +13,10 @@ html, body {
 
 body{
 
-  /* this achievs putting footer at bottom without always
-  pushing it out of site; also have to set footer margin-top auto */
+  /*
+  this achievs putting footer at bottom without always
+  pushing it out of site; also have to set footer margin-top auto
+  */
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -22,18 +24,30 @@ body{
   --titleColor: #D5883B;
   --borderColor: #9A9A9A;
 
-  background-color: #FFF;
+  /*
+
+  background-image: url("/static/img/station_3951296-1.png");
+  background-repeat:no-repeat;
+  opacity: 1;
+  background-size: cover;
+  */
+  /*auto|length|cover|contain|initial|inherit; */
 
 }
 
+
 #pageDiv {
-    /* Can also achieve footer at bottom this way;
+  /*
+    Can also achieve footer at bottom this way;
     But there will always be a scrollbar and footer
     will always be hidden from initial view
     height: 100vh;
     min-height:100%;
-    */
+  min-height: 100vh;
+
   background-color: #FFF;
+  opacity: .95;
+  */
 }
 
 a,
