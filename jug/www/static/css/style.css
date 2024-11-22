@@ -74,68 +74,68 @@ a:visited{
 
 header{
   margin: 0;
-  padding: 15px 0 15px 0;
+  padding: 25px 0 25px 0;
   overflow: hidden;
-}
-
-#titlebox{
+  border-bottom: 1px solid var(--borderColor);
 
 
-  border:3px solid var(--titleColor);
-  border-left: 8px dashed var(--titleColor);
-  border-right: 8px dashed var(--titleColor);
-  /*border-radius: 0 4px 4px 0;*/
+  #titlebox{
 
-  overflow: hidden;
-  width: fit-content;
-  height: 40px;
+    border:3px solid var(--titleColor);
+    border-left: 8px dashed var(--titleColor);
+    border-right: 8px dashed var(--titleColor);
+    /*border-radius: 0 4px 4px 0;*/
 
-  #beam{
-    width: 1px;
-    height: 100%;
-    background-color: #8D561E;
-    background-color: #646161;
-    opacity: .8;
-    float: left;
-    position: relative;
-    /*animation: beam_move 2s infinite; */
-    /*animation-delay: 1s;*/
-    animation-name: beam_move;
-    animation-duration: 3s;
-    animation-timing-function: linear;
-    animation-direction: alternate;
-    animation-iteration-count: infinite;
+    overflow: hidden;
+    width: fit-content;
+    height: 40px;
 
-  }
-
-  a {
-    span#site_icon {
+    #beam{
+      width: 1px;
+      height: 100%;
+      background-color: #8D561E;
+      background-color: #646161;
+      opacity: .8;
       float: left;
-/*       padding: 7px; */
-      padding: 5px 8px 0 5px;
+      position: relative;
+      /*animation: beam_move 2s infinite; */
+      /*animation-delay: 1s;*/
+      animation-name: beam_move;
+      animation-duration: 3s;
+      animation-timing-function: linear;
+      animation-direction: alternate;
+      animation-iteration-count: infinite;
 
-      img{
-        /*width: 27px;
-        height:27px;*/
+    }
 
-        width: 30px;
-        height:30px;
+    a {
+      span#site_icon {
+        float: left;
+      /*       padding: 7px; */
+        padding: 5px 8px 0 5px;
+
+        img{
+          /*width: 27px;
+          height:27px;*/
+
+          width: 30px;
+          height:30px;
+        }
       }
 
-    }
+      h1#site_title {
+        font-size: 1.3em;
+        background-color: var(--titleColor);
+        padding: 5px 16px 10px 12px;
 
-    h1#site_title {
-      font-size: 1.3em;
-      background-color: var(--titleColor);
-      padding: 5px 16px 10px 12px;
-
-      width: fit-content;
-      float: left;
-      margin: 0;
+        width: fit-content;
+        float: left;
+        margin: 0;
+      }
     }
   }
-}
 
+}
 
 
 /*---------------------------------------------*/
@@ -196,8 +196,9 @@ article {
   border: 0px solid;
   max-width: inherit;
   overflow: hidden;
+  /*
   border-top: 1px solid var(--borderColor);
-  /*border-bottom:  1px solid #9A9A9A;
+  border-bottom:  1px solid #9A9A9A;
 
   */
   padding-top: 10px;
