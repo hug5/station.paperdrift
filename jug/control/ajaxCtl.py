@@ -29,7 +29,7 @@ class AjaxCtl:
         news_scrapeO.get_britannica(location)
         scrape_result = news_scrapeO.getResult()
 
-        logger.info(f"--location Brittanica: {location}")
+        # logger.info(f"--location Brittanica: {location}")
 
         # if not json_result:
 
@@ -134,7 +134,12 @@ class AjaxCtl:
                 }
                 return
 
+
             self.get_Britannica_Location(F.unhesc(city))
+            # escaping the city because when there's a space between words
+            # and Britannica can't find it, it results in Las%20Vegas; there's
+            # a %20 characters; but if Britcannia finds it, then it seems to
+            # remove it; The trouble are the instances when it doesn't find it;
 
         elif self.action == "get_news_result":
             self.get_news_result()
