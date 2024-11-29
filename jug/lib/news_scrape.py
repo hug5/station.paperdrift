@@ -147,6 +147,7 @@ class News_Scrape():
     def get_britannica(self, location):
 
         # location = "Miami"
+        logger.info(f"get_britannica: {location}")
 
         url = 'https://www.britannica.com/search?query='
         response = self.send_req(f'{url}{location}')

@@ -5,7 +5,7 @@
 # from markupsafe import Markup, escape
 from jug.lib.logger import logger
 
-from markupsafe import escape
+from markupsafe import escape, Markup
 import random
 import os
 import tomli
@@ -128,10 +128,12 @@ class F():
           # Not work
         # result = html.escape(str)
           # Works
-        result = escape(str)
+        return escape(str)
           # Works
-        # return str
-        return result
+
+    @staticmethod
+    def unhesc(str):
+        return unescape(str)
 
     @staticmethod
     def cd():

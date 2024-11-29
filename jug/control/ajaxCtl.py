@@ -1,6 +1,6 @@
 from jug.lib.logger import logger
 # from flask import render_template
-# from jug.lib.f import F
+from jug.lib.fLib import F
 # from jug.lib.weather_api import Weather_api
 # from jug.lib.gLib import G
 # import random
@@ -28,6 +28,8 @@ class AjaxCtl:
         news_scrapeO = News_Scrape()
         news_scrapeO.get_britannica(location)
         scrape_result = news_scrapeO.getResult()
+
+        logger.info(f"--location Brittanica: {location}")
 
         # if not json_result:
 
@@ -132,7 +134,7 @@ class AjaxCtl:
                 }
                 return
 
-            self.get_Britannica_Location(city)
+            self.get_Britannica_Location(F.unhesc(city))
 
         elif self.action == "get_news_result":
             self.get_news_result()
