@@ -103,6 +103,9 @@ class LocationCtl:
             weatherDict = weatherDict,
             local_datetime = weatherDict.get("datetime"),
             country = weatherDict.get("country")
+              # Getting country in upper box from weatherAPI;
+              # But the country in the description box below comes from Britannia;
+              # Could be different!
         )
 
 

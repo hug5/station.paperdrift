@@ -5,7 +5,14 @@
 # from markupsafe import Markup, escape
 from jug.lib.logger import logger
 
-from markupsafe import escape, Markup
+# from markupsafe import escape, unescape
+  # Can't import unescape, but can escape
+# from markupsafe.Markup import escape, unescape
+  # not sure why this doesn't work
+from markupsafe import Markup
+  # So just importing Markup;
+  # and doing long form Markup.escpae, Markup.unescape
+
 import random
 import os
 import tomli
@@ -128,12 +135,21 @@ class F():
           # Not work
         # result = html.escape(str)
           # Works
-        return escape(str)
+        return Markup.escape(str)
           # Works
+
+        # Can also use:
+        # import html
+        # and do html.escape, html.unescape;
+        # Not sure why I chose to use Markup;
+
 
     @staticmethod
     def unhesc(str):
-        return unescape(str)
+
+        escaped = Markup.unescape(str)
+        return escaped.replace("%20", " ")
+          # Doesn't seemt o conver %20 to space;
 
     @staticmethod
     def cd():
