@@ -130,15 +130,28 @@ class RouterCtl():
         # logger.info(f'***url_fragment: {parsed_url}')
         ##:: ParseResult(scheme='https', netloc='station.paperdrift.com', path='/first second/third fourth/', params='', query='hello=goodbye&ciao=buenes', fragmenurlurlt='marker')
 
+# /station.paperdrift.com/anchorage
+# ---url_list: "['', 'anchorage']"
+# /station.paperdrift.com/anchorage/
+# ---url_list: "['', 'anchorage', '']"
+# /station.paperdrift.com/ or /station.paperdrift.com
+# ---url_list: "['', '']"
+# /station.paperdrift.com/? or /station.paperdrift.com?
+# ---url_list: "['', '?']"
 
         url_list_len = len(url_list)
         logger.info(f'***checkUrl: {url_list} : {url_list_len}')
 
-        # We're at home page
+        # We're at home page; home  or location without /
         if url_list_len == 2 and url_list[1] != '':
-            # r_url = "/"
-            r_url = G.site["baseUrl"]
-            logger.info(f'***checkUrl, badurl: "{r_url}"')
+            if url_list[1] == "?":
+                # redirect to baseUrl
+                r_url = G.site["baseUrl"]
+            else:
+                # redirect to path with slash;
+                r_url = f'/{url_list[1]}/'
+
+            logger.info(f'***checkUrl, badurl1: "{r_url}"')
             self.redirect = [True, r_url]
 
         # If like this: ['', 'san%20diego', 'asdf', ''], or more;
@@ -146,7 +159,7 @@ class RouterCtl():
         if url_list_len >= 4:
             url = url_list[1]
             r_url = self.cleanUrl(url)
-            logger.info(f'***checkUrl, badurl: "{r_url}"')
+            logger.info(f'***checkUrl, badurl2: "{r_url}"')
             self.redirect = [True, r_url]
 
         # if like this: ['', 'san%20diego', '?',]
@@ -155,14 +168,14 @@ class RouterCtl():
             if url_list[2] != '':
                 url = url_list[1]
                 r_url = self.cleanUrl(url)
-                logger.info(f'***checkUrl, badurl: "{r_url}"')
+                logger.info(f'***checkUrl, badurl3: "{r_url}"')
                 self.redirect = [True, r_url]
 
             else:
                 r_url = self.cleanUrl(url_list[1])
                 url = f'/{url_list[1]}/'
                 if r_url != url:
-                    logger.info(f'***checkUrl, badurl: "{r_url}"')
+                    logger.info(f'***checkUrl, badurl4: "{r_url}"')
                     self.redirect = [True, r_url]
 
         #/favicon.ico
@@ -288,7 +301,6 @@ class RouterCtl():
         # if self.redirect[0] is True:
         #     return self.redirect[1]
 
-
         # rock = request.cookies.get('rock')
         # logger.info(f'rock: {rock}')
 
@@ -300,6 +312,8 @@ class RouterCtl():
     def doRoute(self, sender=True):
         # Using True/False to denote whether we want to return a result to close out; or whether this is just an intermediary check;
 
+        logger.info(f'doRoute: {self.redirect}')
+
         if self.redirect[0] is True:
             logger.info(f'--redirecting: {self.redirect[1]}')
             return redirect(self.redirect[1], code=301)
@@ -309,17 +323,22 @@ class RouterCtl():
             # resp.set_cookie('paper', '1234', samesite='Lax', secure=True)
             # resp.set_cookie('rock', '1234', samesite='Lax', secure=True, max_age=7776000)
             # resp.set_cookie('scissor', '1234')
+            logger.info(f'sender is true: {self.redirect}')
             resp = self.response_obj
             return resp
 
-            # return self.getResponse_obj()
-            # if here, then will implicitly return None
 
-            # const jsonData = { name: "John", age: 32 };
-            # document.cookie = "userData=" + encodeURIComponent(JSON.stringify(jsonData));
-            # const cookies = document.cookie.split('; ');
-            # const userDataCookie = cookies.find(row => row.startsWith('userData='));
-            # const userData = userDataCookie ? JSON.parse(decodeURIComponent(userDataCookie.split('=')[1])) : null;
+
+        logger.info(f'sender is NOT True: {self.redirect}')
+
+        # return self.getResponse_obj()
+        # if here, then will implicitly return None
+
+        # const jsonData = { name: "John", age: 32 };
+        # document.cookie = "userData=" + encodeURIComponent(JSON.stringify(jsonData));
+        # const cookies = document.cookie.split('; ');
+        # const userDataCookie = cookies.find(row => row.startsWith('userData='));
+        # const userData = userDataCookie ? JSON.parse(decodeURIComponent(userDataCookie.split('=')[1])) : null;
 
 
     def doBeforeRequest(self):
@@ -338,6 +357,13 @@ class RouterCtl():
             logger.info("---parseRoute: before_request---")
             self.doBeforeRequest()
 
+            result = self.doRoute(False)
+            if result is not None:
+                return result
+
+            # // 2025-02-22 Sat 01:07
+            # Appears that the routs will catch urls without slash suffix;
+            # But doesn't catch /?, /city/? or /city/xyx
 
         @self.jug.route("/")
         def home():
@@ -381,7 +407,6 @@ class RouterCtl():
             logger.info("############ teardown ############")
             logger.info("##################################")
             # Not sure what teardown does;
-
 
 
 

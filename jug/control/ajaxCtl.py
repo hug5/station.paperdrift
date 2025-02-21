@@ -122,24 +122,43 @@ class AjaxCtl:
 
         self.result = json_result
 
+    def get_location(self):
+        city = self.data.get("city", False)
+        if not city:
+            self.result = {
+                "status" : "bad",
+                "error_message" : "No location."
+            }
+            return
+
+        self.get_Britannica_Location(F.unhesc(city))
+        # escaping the city because when there's a space between words
+        # and Britannica can't find it, it results in Las%20Vegas; there's
+        # a %20 characters; but if Britcannia finds it, then it seems to
+        # remove it; The trouble are the instances when it doesn't find it;
+
+
 
     def doAjax(self):
 
         if self.action == "get_location":
-            city = self.data.get("city", False)
-            if not city:
-                self.result = {
-                    "status" : "bad",
-                    "error_message" : "No location."
-                }
-                return
+            self.get_location()
+        ###
+          # if self.action == "get_location":
+          #     city = self.data.get("city", False)
+          #     if not city:
+          #         self.result = {
+          #             "status" : "bad",
+          #             "error_message" : "No location."
+          #         }
+          #         return
 
 
-            self.get_Britannica_Location(F.unhesc(city))
-            # escaping the city because when there's a space between words
-            # and Britannica can't find it, it results in Las%20Vegas; there's
-            # a %20 characters; but if Britcannia finds it, then it seems to
-            # remove it; The trouble are the instances when it doesn't find it;
+          #     self.get_Britannica_Location(F.unhesc(city))
+          #     # escaping the city because when there's a space between words
+          #     # and Britannica can't find it, it results in Las%20Vegas; there's
+          #     # a %20 characters; but if Britcannia finds it, then it seems to
+          #     # remove it; The trouble are the instances when it doesn't find it;
 
         elif self.action == "get_news_result":
             self.get_news_result()
