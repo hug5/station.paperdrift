@@ -169,10 +169,15 @@ class News_Scrape():
             resultStart = script_tag.text.find("topicInfo")
             resultStart += 11
 
-            resultEnd = script_tag.text.find("toc", resultStart)
-            resultEnd -= 2
+
+            # resultEnd = script_tag.text.find("toc", resultStart)
+            # resultEnd -= 2
+            resultEnd = script_tag.text.find("GA", resultStart)
+            resultEnd -= 3
 
             result = script_tag.text[resultStart:resultEnd]
+
+            logger.info(f"Britannica result: {result}")
 
             json_result = json.loads(result)
             self.result = json_result
@@ -184,5 +189,8 @@ class News_Scrape():
             # print(json_result["imageUrl"])
 
         except Exception as e:
-            logger.info(f"Britannica error: {e}")
+            logger.exception(f"Britannica error: {e}")
             self.result = {}
+
+
+# INFO : Britannica result: {"topicId":254479,"imageId":150905,"imageUrl":"https://cdn.britannica.com/01/97401-0 04-9DAA04EB/Central-Hanoi.jpg?w=300&h=1000","imageAltText":"Hanoi","title":"Hanoi","identifier":"national capi tal, Vietnam","description":"Hanoi, city, capital of Vietnam. The city is situated in northern Vietnam on the western bank of the Red River, about 85 miles (140 km) inland from the South China Sea. In addition to being t he national capital, Hanoi is also a province-level municipality (thanh pho), administered by the central...", "url":"https://www.britannica.com/place/Hanoi"}} }, "GA": {"leg":"A","adLeg":"A","userType":"ANONYMOUS","pageType":"Search","gisted":false,"pageNumber":1, "hasSummarizeButton":false,"hasAskButton":false} };

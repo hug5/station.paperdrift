@@ -144,15 +144,21 @@ class RouterCtl():
 
         # We're at home page; home  or location without /
         if url_list_len == 2 and url_list[1] != '':
-            if url_list[1] == "?":
-                # redirect to baseUrl
-                r_url = G.site["baseUrl"]
-            else:
-                # redirect to path with slash;
-                r_url = f'/{url_list[1]}/'
+            r_url = (f'/{url_list[1]}/', G.site["baseUrl"])[url_list[1] == "?"]
+            # Do one of python's fake ternary operators;
+            # This is equivalent to: res = ("false", "true")[n % 2 == 0]
+            # If ? or /?, then redirect to baseUrl; or else append slash
+            # Above replaces this longer if/else:
+              # if url_list[1] == "?":
+              #     # redirect to baseUrl
+              #     r_url = G.site["baseUrl"]
+              # else:
+              #     # redirect to path with slash;
+              #     r_url = f'/{url_list[1]}/'
 
             logger.info(f'***checkUrl, badurl1: "{r_url}"')
             self.redirect = [True, r_url]
+
 
         # If like this: ['', 'san%20diego', 'asdf', ''], or more;
         # Then too many paths; redirect to index 1
