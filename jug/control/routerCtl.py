@@ -334,7 +334,6 @@ class RouterCtl():
             return resp
 
 
-
         logger.info(f'sender is NOT True: {self.redirect}')
 
         # return self.getResponse_obj()

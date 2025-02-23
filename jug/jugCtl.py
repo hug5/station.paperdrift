@@ -68,6 +68,8 @@ class JugCtl():
         # To run in debug mode on the commandline:
         # $ flask -A jug.jugCtl:jug run --debug
 
+
+        # Make ending slases in url optional; by default, supposed to be True;
         self.jug.url_map.strict_slashes = False
 
     def doJug(self):
