@@ -172,8 +172,10 @@ class News_Scrape():
 
             # resultEnd = script_tag.text.find("toc", resultStart)
             # resultEnd -= 2
-            resultEnd = script_tag.text.find("GA", resultStart)
-            resultEnd -= 3
+            # // 2025-02-22 Sat 19:18
+            # Appears the html has changed; have to fix:
+            resultEnd = script_tag.text.find("}}", resultStart)
+            resultEnd += 1
 
             result = script_tag.text[resultStart:resultEnd]
 
@@ -181,8 +183,8 @@ class News_Scrape():
 
             json_result = json.loads(result)
             self.result = json_result
-            # return json_result
 
+            # return json_result
             # print(json_result["title"])
             # print(json_result["url"])
             # print(json_result["description"])

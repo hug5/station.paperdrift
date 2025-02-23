@@ -352,7 +352,7 @@ class RouterCtl():
 
         self.doRequestUrl()
         self.router_init()
-        self.checkUrl()
+        # self.checkUrl()
         logger.info("---doBeforeRequest: Finished")
 
 
